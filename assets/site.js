@@ -5,7 +5,6 @@
   const media = window.matchMedia("(max-width: 980px)");
   const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
   const disclosure = document.querySelector(".toc-disclosure");
-  const summary = disclosure.querySelector("summary");
   const themeButton = document.querySelector('[data-action="theme"]');
   const toast = document.querySelector(".toast");
   let savedTheme;
@@ -29,6 +28,51 @@
     try { localStorage.setItem("adam-blog-theme", savedTheme); } catch { /* 无持久存储时保留本次选择。 */ }
   });
   systemTheme.addEventListener("change", () => { if (!savedTheme) setTheme(systemTheme.matches ? "dark" : "light"); });
+
+  const legacyArticle = document.querySelector("[data-legacy-article]")?.dataset.legacyArticle;
+  if (legacyArticle && /^#(?:section-\d+|source-s\d+)$/.test(location.hash)) {
+    location.replace(legacyArticle + location.hash);
+    return;
+  }
+
+  const searchForm = document.querySelector(".post-search");
+  if (searchForm) {
+    const input = searchForm.querySelector("input");
+    const reset = searchForm.querySelector('[type="reset"]');
+    const entries = [...document.querySelectorAll(".post-entry")];
+    const empty = document.querySelector(".search-empty");
+    const status = document.querySelector(".search-status");
+    function filterPosts() {
+      const query = input.value.trim().toLocaleLowerCase();
+      const terms = query.split(/\s+/).filter(Boolean);
+      let count = 0;
+      entries.forEach((entry) => {
+        entry.hidden = !terms.every(term => entry.dataset.search.toLocaleLowerCase().includes(term));
+        if (!entry.hidden) count += 1;
+      });
+      empty.hidden = count !== 0;
+      reset.hidden = !query;
+      status.hidden = !query;
+      status.textContent = query ? `找到 ${count} 篇文章` : "";
+      const url = new URL(location.href);
+      if (query) url.searchParams.set("q", input.value.trim());
+      else url.searchParams.delete("q");
+      try { history.replaceState(null, "", url); } catch { /* file:// 下保留搜索，不强制修改地址。 */ }
+    }
+    input.value = new URLSearchParams(location.search).get("q") || "";
+    input.addEventListener("input", filterPosts);
+    searchForm.addEventListener("submit", (event) => { event.preventDefault(); filterPosts(); });
+    searchForm.addEventListener("reset", () => {
+      input.value = "";
+      filterPosts();
+      input.focus();
+    });
+    document.querySelector('[data-action="reset-search"]').addEventListener("click", () => searchForm.reset());
+    filterPosts();
+  }
+
+  if (!disclosure) return;
+  const summary = disclosure.querySelector("summary");
 
   function responsiveToc() {
     disclosure.open = !media.matches;

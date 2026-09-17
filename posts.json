@@ -1,0 +1,17 @@
+[
+  {
+    "slug": "open-source-agent-sandbox",
+    "title": "开源 Agent 沙箱的设计：如何复用环境，又让任务彼此独立",
+    "date": "2026-09-17",
+    "category": "开源系统",
+    "tags": ["Agent 沙箱", "系统设计", "运行时"],
+    "description": "从重复的环境准备出发，理解开源沙箱如何保存运行状态、创建独立分支，以及如何组织存储、回收、预热池与编排。结合 E2B、Daytona、AgentENV 等项目的一手实现，讨论每种设计的适用条件与代价。",
+    "deck": "一次准备，如何成为一百个彼此独立的起点？",
+    "closing": "独立运行，不必从零开始。",
+    "word_count": 40598,
+    "source": "article.md",
+    "source_manifest": "source-manifest.json",
+    "legacy_home": true,
+    "toc_labels": ["阅读主线", "装好软件，为什么还不够", "一份环境，一百个独立起点", "保存现场，不必保留机器", "延续现场，还是重新开始", "恢复之外，还需要什么", "结语", "参考资料"]
+  }
+]

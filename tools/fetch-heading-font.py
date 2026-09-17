@@ -3,16 +3,19 @@
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
+import json
 import re
 
 from markdown_it import MarkdownIt
 
 root = Path(__file__).resolve().parent.parent
-tokens = MarkdownIt().parse((root / "article.md").read_text())
-headings = "独立运行，不必从零开始。"
-for index, token in enumerate(tokens):
-    if token.type == "heading_open" and token.tag in {"h1", "h2"}:
-        headings += tokens[index + 1].content
+posts = json.loads((root / "posts.json").read_text())
+headings = "文章归档关于 Adam 独立运行，不必从零开始。"
+for post in posts:
+    tokens = MarkdownIt().parse((root / post["source"]).read_text())
+    for index, token in enumerate(tokens):
+        if token.type == "heading_open" and token.tag in {"h1", "h2"}:
+            headings += tokens[index + 1].content
 text = "".join(sorted(set(headings)))
 query = urlencode({"family": "Noto Serif SC:wght@600", "display": "swap", "text": text})
 request = Request("https://fonts.googleapis.com/css2?" + query, headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"})
