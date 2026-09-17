@@ -1,0 +1,62 @@
+{
+  "checkedAt": "2026-09-17",
+  "window": {
+    "start": "2026-09-10",
+    "end": "2026-09-17"
+  },
+  "verification": "Codex 原文审稿、单独事实复核与短引用匹配；不是独立实验复现",
+  "sources": [
+    {
+      "id": "S01",
+      "title": "Fabrication After Tool Failure: Tool-Augmented Agents Assert Values Their Tools Did Not Return",
+      "url": "https://arxiv.org/pdf/2609.14758v1",
+      "published_at": null,
+      "sha256": "1e787c3783ee856a4e4b258f271c001ef34bfe0f75f7aa28a1877ddaf525da07",
+      "retrieved_at": "2026-09-17T07:48:40+00:00",
+      "reading_coverage": {
+        "shown_blocks": 76,
+        "total_blocks": 76,
+        "shown_chars": 42166
+      }
+    },
+    {
+      "id": "S02",
+      "title": "AgentGuard: Learning Execution Guardrails from Anomalous Coding-Agent Trajectories",
+      "url": "https://arxiv.org/abs/2609.16287",
+      "published_at": "2026-09-14",
+      "sha256": "3fa7bb351c17e1dedf53f702cdefb65f5fc1e77cae61a91137fcfbbec72dfd5c",
+      "retrieved_at": "2026-09-17T08:07:04+00:00",
+      "reading_coverage": {
+        "shown_blocks": 341,
+        "total_blocks": 341,
+        "shown_chars": 40839
+      }
+    },
+    {
+      "id": "S03",
+      "title": "DeepSeek-V4.1-Flash Technical Report",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/53e70b17d9acb8e0c423f0e4fe5702f25562b63d/DeepSeek_V41_Tech_Report.pdf",
+      "published_at": null,
+      "sha256": "ba68e2e40408125ae6d2f63a9a241b61c73910691c74ec1a2a7023c851eac08d",
+      "retrieved_at": "2026-09-17T07:45:14+00:00",
+      "reading_coverage": {
+        "shown_blocks": 182,
+        "total_blocks": 420,
+        "shown_chars": 85000
+      }
+    },
+    {
+      "id": "S04",
+      "title": "Ecdysis: Efficient and Effective Training of Runtime Harnesses for LLM Agents",
+      "url": "https://arxiv.org/abs/2609.11677",
+      "published_at": "2026-09-10",
+      "sha256": "ad7fd501b902ddd25a423720acfc6181e2671adbac8ba804be472f4b622d158b",
+      "retrieved_at": "2026-09-17T07:51:35+00:00",
+      "reading_coverage": {
+        "shown_blocks": 543,
+        "total_blocks": 543,
+        "shown_chars": 71638
+      }
+    }
+  ]
+}

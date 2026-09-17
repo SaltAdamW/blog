@@ -13,5 +13,17 @@
     "source_manifest": "source-manifest.json",
     "legacy_home": true,
     "toc_labels": ["阅读主线", "装好软件，为什么还不够", "一份环境，一百个独立起点", "保存现场，不必保留机器", "延续现场，还是重新开始", "恢复之外，还需要什么", "结语", "参考资料"]
+  },
+  {
+    "slug": "weekly-agent-research-2026-09-17",
+    "title": "Agent 研究周报：2026 年 9 月 17 日",
+    "date": "2026-09-17",
+    "category": "研究周报",
+    "tags": ["Agent", "上下文工程", "多 Agent", "评测"],
+    "description": "从 148 条去重候选中分配精读预算，记录 5 条经原文核验的具体发现，分别说明机制、对照条件、负结果和工程启示。",
+    "deck": "从原文中的机制、对照与负结果，检查 Agent 系统的设计判断。",
+    "word_count": 7222,
+    "source": "agent-research-weekly-2026-09-17.md",
+    "source_manifest": "agent-research-weekly-2026-09-17.sources.json"
   }
 ]

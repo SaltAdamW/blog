@@ -51,7 +51,11 @@ class BlogBuildTest(unittest.TestCase):
     def setUp(self):
         self.directory = TemporaryDirectory()
         self.root = Path(self.directory.name)
-        for name in ("posts.json", "article.md", "source-manifest.json"):
+        files = {"posts.json"}
+        for post in build.load_posts():
+            files.update(post[key] for key in ("source", "source_manifest") if post.get(key))
+        for name in files:
+            (self.root / name).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy(build.ROOT / name, self.root / name)
         shutil.copytree(build.ROOT / "assets", self.root / "assets")
         self.root_patch = patch.object(build, "ROOT", self.root)
@@ -105,19 +109,20 @@ class BlogBuildTest(unittest.TestCase):
 
     def test_a_second_post_updates_all_collections(self):
         posts = json.loads((self.root / "posts.json").read_text())
+        expected_count = len(posts) + 1
         (self.root / "second.md").write_text("# 构建测试文章\n\n正文。\n\n## 问题\n\n示例。\n")
         posts.append({"slug": "build-test", "title": "构建测试文章", "date": "2025-12-01", "category": "工程实践", "tags": ["测试"], "description": "构建验证。", "deck": "测试导语", "word_count": 10, "source": "second.md"})
         (self.root / "posts.json").write_text(json.dumps(posts, ensure_ascii=False))
         self.build()
         home = (self.root / "index.html").read_text()
-        self.assertEqual(home.count('class="post-entry"'), 2)
+        self.assertEqual(home.count('class="post-entry"'), expected_count)
         self.assertLess(home.index('datetime="2026-09-17"'), home.index('datetime="2025-12-01"'))
         archive = (self.root / "archive/index.html").read_text()
         self.assertIn('id="year-2026"', archive)
         self.assertIn('id="year-2025"', archive)
         self.assertTrue((self.root / "posts/build-test/index.html").is_file())
         feed = ET.parse(self.root / "feed.xml")
-        self.assertEqual(len(feed.findall("channel/item")), 2)
+        self.assertEqual(len(feed.findall("channel/item")), expected_count)
         self.assertEqual(feed.findtext("channel/title"), build.BRAND)
 
     def test_invalid_paths_and_duplicate_slugs_are_rejected(self):
