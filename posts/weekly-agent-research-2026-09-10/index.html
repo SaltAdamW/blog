@@ -3,11 +3,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="Harvey 的并购尽调分工实验，DeepSeek 对全局与持久 KV 缓存的不同取舍，以及 AlphaGenome Atlas 从变异预测到实验筛选的过程。">
+<meta name="description" content="Harvey、DeepSeek 与 AlphaGenome Atlas，补读多 Agent 上下文与行为评测，追踪 Agents API、调用方身份、ToolGrad 和 DSH 原始安全披露。">
 <meta name="author" content="Adam">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Research 周报：2026 年 9 月 4 日至 9 月 10 日 | Adam‘s blog">
-<meta property="og:description" content="Harvey 的并购尽调分工实验，DeepSeek 对全局与持久 KV 缓存的不同取舍，以及 AlphaGenome Atlas 从变异预测到实验筛选的过程。">
+<meta property="og:description" content="Harvey、DeepSeek 与 AlphaGenome Atlas，补读多 Agent 上下文与行为评测，追踪 Agents API、调用方身份、ToolGrad 和 DSH 原始安全披露。">
 <meta property="og:url" content="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-10/">
 <meta property="og:site_name" content="Adam‘s blog">
 <link rel="canonical" href="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-10/">
@@ -39,7 +39,7 @@
   <path d="M8 19h13" />
 </svg><span>本篇目录</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-chevron-down" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m6 9 6 6 6-6" />
-</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>Harvey：多 Agent 做不好，先检查谁在分工</span></a></li><li><a href="#section-27" data-section="section-27"><span class="toc-number">02</span><span>DeepSeek：长上下文的成本，还在缓存的存储和恢复里</span></a></li><li><a href="#section-51" data-section="section-51"><span class="toc-number">03</span><span>AlphaGenome Atlas：先把变异预测算好，再让研究者筛选和验证</span></a></li></ol></nav></details>
+</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>Harvey：多 Agent 做不好，先检查谁在分工</span></a></li><li><a href="#section-27" data-section="section-27"><span class="toc-number">02</span><span>DeepSeek：长上下文的成本，还在缓存的存储和恢复里</span></a></li><li><a href="#section-51" data-section="section-51"><span class="toc-number">03</span><span>AlphaGenome Atlas：先把变异预测算好，再让研究者筛选和验证</span></a></li><li><a href="#section-72" data-section="section-72"><span class="toc-number">04</span><span>LangChain：子 Agent 要不要继承主管的上下文</span></a></li><li><a href="#section-87" data-section="section-87"><span class="toc-number">05</span><span>Google：总分降了，怎样找到 harness 的具体退步</span></a></li><li><a href="#section-102" data-section="section-102"><span class="toc-number">06</span><span>本周简讯</span></a></li><li><a href="#section-153" data-section="section-153"><span class="toc-number">07</span><span>更多原文</span></a></li></ol></nav></details>
         <div class="sidebar-bottom"><p>研究周报 / 架构与实现</p><a class="download-link" href="../../agent-research-weekly-2026-09-10.md" download><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -52,8 +52,8 @@
       <main id="main-content">
         <header class="article-header">
           <nav class="breadcrumbs" aria-label="面包屑导航"><a href="../../index.html">文章</a><span aria-hidden="true">/</span><span>研究周报</span></nav>
-          <h1>Research 周报<span class="subtitle">2026 年 9 月 4 日至 9 月 10 日</span></h1><p class="article-deck">并购尽调、缓存压缩与基因变异预测，三篇当周选读。</p>
-          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-10">2026 年 9 月 10 日</time><span>1,724 字 · 3 项一手资料</span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <h1>Research 周报<span class="subtitle">2026 年 9 月 4 日至 9 月 10 日</span></h1><p class="article-deck">尽调、缓存与基因图谱，延伸到上下文分工、工具、身份与安全。</p>
+          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-10">2026 年 9 月 10 日</time><span>3,215 字 · 11 项一手资料</span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
 </svg><span class="tooltip" role="tooltip">复制文章链接</span></button><a class="icon-button" href="../../agent-research-weekly-2026-09-10.md" download aria-label="下载 Markdown 原稿"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -62,7 +62,7 @@
   <path d="m7 10 5 5 5-5" />
 </svg><span class="tooltip" role="tooltip">下载原稿</span></a></div></div>
         </header>
-        <article id="article-content" class="prose" tabindex="-1"><p>本期选读 Harvey 的并购尽调实验、DeepSeek 的缓存压缩技术报告，以及 Google DeepMind 发布的基因变异预测图谱。</p>
+        <article id="article-content" class="prose" tabindex="-1"><p>本期选读并购尽调、缓存压缩、基因变异预测，以及多 Agent 上下文和行为评测。简讯补入托管 harness、调用方身份、工具训练数据与沙箱安全披露。</p>
 <h2 id="section-3">Harvey：多 Agent 做不好，先检查谁在分工</h2>
 <p>原文：<a href="https://www.harvey.ai/blog/post-training-rlm-agents-for-m-and-a-diligence">Post-Training RLM Agents for End-to-End M&amp;A Diligence</a> · 2026-09-08</p>
 <p>并购尽调可能要检查数千份文件。风险线索散落在不同材料里，一份看起来完整的报告，可能只覆盖了容易搜到的部分。Harvey 在自己的 LAB Diligence 合成任务中观察到，基线 Agent 往往选择性地搜索和阅读，大量材料没有进入分析。</p>
@@ -86,6 +86,39 @@
 <p>配套的 AVI 分数结合 AlphaGenome 对调控效应的预测和 AlphaMissense 对蛋白改变的预测，帮助排序。图谱同时提供分数的特征归因，指出可能受影响的是剪接、基因表达或其他过程。只有排名还不够：机制线索决定下一步应该怎样设计实验。</p>
 <p>团队给出的一个合作案例涉及 DNM1 基因。研究者通过排序找到了此前被忽略的候选变异，底层预测提示它会产生错误剪接位点，造成蛋白异常延长；后续实验筛查支持了这一预测，也发现了附近具有类似效应的变异。这个例子展示了从候选筛选到机制解释、再到实验检验的过程。</p>
 <p>90 亿描述的是预测覆盖范围，不是已经完成的实验验证数量。图谱也只针对这里定义的单碱基变异，不能代表所有遗传变化都已被解释。它的价值在于帮助研究者决定先验证什么；个别案例获得实验支持，不等于整个图谱可以直接用于诊断或治疗判断。</p>
+<h2 id="section-72">LangChain：子 Agent 要不要继承主管的上下文</h2>
+<p>原文：<a href="https://www.langchain.com/blog/organizing-context-in-a-multi-agent-harness">Organizing Context in a Multi-Agent Harness</a> · 2026-09-08</p>
+<p>主管已经查完日志、定位到函数，再让一个空上下文的 worker 去实现修复，可能把调查又做一遍。但把全部对话交给 reviewer，也可能让它沿着主管的判断检查，遗漏其他解释。子 Agent 的工作不同，合适的上下文起点也不同。</p>
+<p>Deep Agents 将这一区别显式做成两种模式。<code>isolated</code> 只接收任务说明，从新上下文开始；<code>fork</code> 接收主管的状态与会话历史，移除末尾的委派工具调用，再加入自己的任务。完成后，主管接收最终结果，不把子 Agent 的全部中间过程搬回来。</p>
+<p>继续已有调查的实现工作，可以利用继承的证据，减少重复读取；需要独立判断的审查，或能独立研究的问题，则未必需要主管历史。继承上下文也有缓存复用的机会，但不应预设一定更便宜：要看 worker 是否真需要那些材料，以及前缀缓存是否命中。文章提供的是分工时选择信息边界的方法，没有证明某种模式对所有任务更好。</p>
+<h2 id="section-87">Google：总分降了，怎样找到 harness 的具体退步</h2>
+<p>原文：<a href="https://developers.googleblog.com/the-anatomy-of-harness-engineering-how-to-evaluate-iterate-and-guard-ai-coding-agents/">The Anatomy of Harness Engineering: How to Evaluate, Iterate, and Guard AI Coding Agents</a> · 2026-09-09</p>
+<p>一次端到端评测下降，可能是模型误解了要求，也可能只是修改构建文件后忘了运行验证。只有总分，开发者很难知道应该改提示、工具定义还是流程。</p>
+<p>Google 的工程文章建议从真实失败中提取可观察行为：面对含糊要求是否澄清，修改后是否执行相应检查，文档是否给出仓库原始链接。断言关注工具调用、文件变化和执行证据，让一次流程修改能够对应到具体回归，而不是只看最后那段回答写得像不像完成。</p>
+<p>简单任务可以严格检查必要动作，复杂任务则不能锁死工具顺序，否则另一条正确路径也会被判失败。模型执行有随机性，文章建议批量观察通过率，而非用单次运行决定成败。行为评测负责定位和防回归，端到端评测仍负责确认任务是否完成；两者不能互相替代。</p>
+<h2 id="section-102">本周简讯</h2>
+<h3 id="section-105">OpenAI Agents API：托管 harness，与执行环境分开选择</h3>
+<p>原文：<a href="https://openai.com/index/introducing-the-agents-api/">Introducing the Agents API</a> · 2026-09-10，public beta</p>
+<p>团队搭建长任务 Agent 时，除了工具和业务规则，还得维护上下文压缩、工具发现与子 Agent 协调。Agents API 将 Codex harness 作为托管服务提供，包含这些执行机制；代码运行环境可以选 OpenAI 托管沙箱、自有基础设施或合作方环境。</p>
+<p>这让“谁维护 Agent 循环”和“任务在哪里运行”成为两个选择，但并不自动解决业务授权、工具质量和任务验收。公告中的客户提速与降本数字是客户陈述，不是统一条件下的对照实验；本条仅介绍发布范围，不据此判断迁移收益。</p>
+<h3 id="section-117">LangChain Connections：同一个 Agent，替谁操作</h3>
+<p>原文：<a href="https://www.langchain.com/blog/connections-managed-credentials-and-per-caller-identity-for-managed-deep-agents">Connections: Managed Credentials and Per-Caller Identity for Managed Deep Agents</a> · 2026-09-09</p>
+<p>多人共用一个 Agent 时，共享服务账号会掩盖实际调用者，也可能让查询看到本不属于该用户的数据。Connections 将凭据所有者与凭据类型分开：Agent 或用户可以各自持有静态秘密或 OAuth 授权，工具运行时再按调用者解析凭据。缺少授权时暂停任务，完成授权后继续。</p>
+<p>凭据由工作区管理，轮换无需重新打包项目；按用户解析也使查询范围和写操作身份随调用者变化。不过，用户身份不等于每项动作已经获批，业务审批与最小权限仍需单独设计。公告对应 Managed Deep Agents 的预发布能力，不能当作所有 LangChain 部署的默认行为。</p>
+<h3 id="section-129">ToolGrad：先跑通工具链，再生成训练问题</h3>
+<p>原文：<a href="https://research.google/blog/toolgrad-efficient-tool-use-dataset-generation-with-textual-gradients/">ToolGrad: Efficient Tool-Use Dataset Generation with Textual “Gradients”</a> · 2026-09-10，研究介绍</p>
+<p>先编一个用户问题，再搜索能回答它的 API 路径，会产生大量失败尝试。ToolGrad 反过来扩展可执行的工具链：提出候选调用、并行执行、依据执行报告选择下一步，再更新与这条链对应的用户问题和回答。训练样本先有实际可用的执行依据，再补自然语言任务。</p>
+<p>Google 的介绍还报告了用这批数据微调模型后的函数调用评测。需要分清两个环节：数据生成阶段的执行通过率，不等于模型部署后面对真实请求的完成率；合成问题能覆盖多少真实需求，也仍需另外检查。本周是博客介绍，不据此认定方法首次提出于本周。</p>
+<h3 id="section-141">DSH 安全披露：沙箱内的任务不应能改自己的权限</h3>
+<p>原文：<a href="https://www.ox.security/blog/cve-2026-82533-deepseek-harness-ai-agent-sandbox-escape/">CVE-2026-82533: DeepSeek Harness AI Agent Sandbox Escape</a> · 原始披露为 2026-09-08</p>
+<p>OX Research 报告的漏洞发生在文件限制与本地管理 API 之间：任务虽然受文件写入约束，仍可访问 loopback；管理接口缺少鉴权，并依赖客户端可控制的 <code>Host</code> 头判断信任，导致任务能接触修改自身策略的接口。防守上需要检查的不只是文件路径，还包括任务能否访问控制它的管理面。</p>
+<p>按披露者的记录，受影响范围为 <code>0.1.1-rc.2</code> 及更早，修复版本为 <code>0.1.2-alpha.1</code>，修复于 8 月 27 日发布、8 月 30 日复测通过。9 月 16 日的转载不应被当作首次披露，也不能据此声称后续版本仍受同一漏洞影响。此处仅核对披露材料，未运行攻击验证。</p>
+<h2 id="section-153">更多原文</h2>
+<p>以下仅核对题名与提交日期，尚未精读，不据此转述实验结论。</p>
+<ul>
+<li>2026-09-04：<a href="https://arxiv.org/abs/2609.04678">Train What You Deploy: Token-Faithful Post-Training of a Production Coding</a>。训练与部署的一致性；题名按原页面保留。</li>
+<li>2026-09-09：<a href="https://arxiv.org/abs/2609.09875">AgentAudit: An Open, Extensible Framework for Full-Lifecycle Trust Evaluation of AI Agents</a>。Agent 全生命周期信任评估。</li>
+</ul>
 </article>
         <footer class="article-footer"><span class="end-mark" aria-hidden="true">∎</span><div><a href="../../index.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m12 19-7-7 7-7" />

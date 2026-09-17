@@ -3,11 +3,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="Requesty 的缓存与故障切换观察，GigaPath-Flash 的病理模型压缩，以及 Lemmalog 在前提撤回后维护推导状态的实验。">
+<meta name="description" content="Requesty、GigaPath-Flash 与 Lemmalog，补读 HarnessDev、Harness-of-Harness 和工作记忆测量，以及 LangChain 的 MCP 适配更新。">
 <meta name="author" content="Adam">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Research 周报：2026 年 8 月 28 日至 9 月 3 日 | Adam‘s blog">
-<meta property="og:description" content="Requesty 的缓存与故障切换观察，GigaPath-Flash 的病理模型压缩，以及 Lemmalog 在前提撤回后维护推导状态的实验。">
+<meta property="og:description" content="Requesty、GigaPath-Flash 与 Lemmalog，补读 HarnessDev、Harness-of-Harness 和工作记忆测量，以及 LangChain 的 MCP 适配更新。">
 <meta property="og:url" content="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-03/">
 <meta property="og:site_name" content="Adam‘s blog">
 <link rel="canonical" href="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-03/">
@@ -39,7 +39,7 @@
   <path d="M8 19h13" />
 </svg><span>本篇目录</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-chevron-down" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m6 9 6 6 6-6" />
-</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>Requesty：模型路由要同时算缓存损失和故障等待</span></a></li><li><a href="#section-24" data-section="section-24"><span class="toc-number">02</span><span>GigaPath-Flash：模型变小之后，能否多做几轮病理研究</span></a></li><li><a href="#section-45" data-section="section-45"><span class="toc-number">03</span><span>Lemmalog：错误前提被撤回后，依赖它的结论怎么办</span></a></li></ol></nav></details>
+</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>Requesty：模型路由要同时算缓存损失和故障等待</span></a></li><li><a href="#section-24" data-section="section-24"><span class="toc-number">02</span><span>GigaPath-Flash：模型变小之后，能否多做几轮病理研究</span></a></li><li><a href="#section-45" data-section="section-45"><span class="toc-number">03</span><span>Lemmalog：错误前提被撤回后，依赖它的结论怎么办</span></a></li><li><a href="#section-66" data-section="section-66"><span class="toc-number">04</span><span>HarnessDev：自动改出的 harness，能换一批任务继续用吗</span></a></li><li><a href="#section-81" data-section="section-81"><span class="toc-number">05</span><span>Harness-of-Harness：多日开发怎样接住上一轮的失败</span></a></li><li><a href="#section-96" data-section="section-96"><span class="toc-number">06</span><span>工作记忆：存了多少，不等于模型实际读到了多少</span></a></li><li><a href="#section-111" data-section="section-111"><span class="toc-number">07</span><span>本周简讯</span></a></li><li><a href="#section-126" data-section="section-126"><span class="toc-number">08</span><span>更多原文</span></a></li></ol></nav></details>
         <div class="sidebar-bottom"><p>研究周报 / 架构与实现</p><a class="download-link" href="../../agent-research-weekly-2026-09-03.md" download><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -52,8 +52,8 @@
       <main id="main-content">
         <header class="article-header">
           <nav class="breadcrumbs" aria-label="面包屑导航"><a href="../../index.html">文章</a><span aria-hidden="true">/</span><span>研究周报</span></nav>
-          <h1>Research 周报<span class="subtitle">2026 年 8 月 28 日至 9 月 3 日</span></h1><p class="article-deck">生产流量、病理研究与逻辑记忆，三篇当周选读。</p>
-          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-03">2026 年 9 月 3 日</time><span>1,671 字 · 3 项一手资料</span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <h1>Research 周报<span class="subtitle">2026 年 8 月 28 日至 9 月 3 日</span></h1><p class="article-deck">生产流量与记忆实践，多日开发与 harness 评测，还有 MCP 更新。</p>
+          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-03">2026 年 9 月 3 日</time><span>2,840 字 · 9 项一手资料</span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
 </svg><span class="tooltip" role="tooltip">复制文章链接</span></button><a class="icon-button" href="../../agent-research-weekly-2026-09-03.md" download aria-label="下载 Markdown 原稿"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -62,7 +62,7 @@
   <path d="m7 10 5 5 5-5" />
 </svg><span class="tooltip" role="tooltip">下载原稿</span></a></div></div>
         </header>
-        <article id="article-content" class="prose" tabindex="-1"><p>本期选读 AI 网关的生产流量观察、面向大规模病理研究的轻量模型，以及一位开发者用逻辑推导维护 Agent 记忆的实验。</p>
+        <article id="article-content" class="prose" tabindex="-1"><p>本期从生产流量、病理研究与逻辑记忆，扩展到 harness 开发评测、多日软件迭代和工作记忆测量；简讯关注 LangChain 的 MCP 适配更新，文末保留待精读原文。</p>
 <h2 id="section-3">Requesty：模型路由要同时算缓存损失和故障等待</h2>
 <p>原文：<a href="https://huggingface.co/blog/Thibault-Requesty/requesty">What is an AI Gateway? The View from Trillions of Production Tokens</a> · 2026-08-29</p>
 <p>同一模型可以由多家服务商提供。直觉上，每次选择单价最低的一家就能省钱，但长任务往往反复提交已有对话，上一轮留下的缓存也会影响这一轮成本。Requesty 的运营者用自己的生产流量说明了这种差异。</p>
@@ -84,6 +84,32 @@
 <p>删除结论不能简单地沿依赖关系一删到底。假如 A 和 B 各自都能支持 C，撤回 A 后，C 仍有 B 支撑；只有支撑都消失，C 才应被移除。对随时间改变的事实，系统还保留有效区间，区分“现在成立”和“当时为什么这样判断”。这些信息也让人能追问结论究竟从哪里来。</p>
 <p>确定性推导没有消除信息入口的错误。作者发现，某些跨会话问题答不出来，是因为事实根本没有被抽取；同一辆车在不同会话中被当成不同实体，也会让关系断开。系统因此保留原始片段，并结合实体归并与语义检索。自然语言中的条件和细微差别，不能都压成无条件事实后就丢掉原文。</p>
 <p>在其 LongMemEval 设置中，回答模型每题看到的上下文从约 10.4 万 token 缩到约 2700，但前面还有一次抽取成本，不能写成总费用降低约 38 倍。另一项 LoCoMo 评测中，总体表现也没有超过完整上下文基线。更重要的是，两者都是对话记忆评测，作者最初关心的长时间漏洞调查仍待验证。现阶段可借鉴的是怎样维护依据、撤回和时间状态，而非“符号记忆已经胜出”的结论。</p>
+<h2 id="section-66">HarnessDev：自动改出的 harness，能换一批任务继续用吗</h2>
+<p>原文：<a href="https://arxiv.org/html/2609.01437v1">HarnessDev 论文，arXiv v1</a> · 2026-09-01</p>
+<p>让模型写一个 Agent 循环并不难。难的是判断它写出的上下文管理、工具调用和控制流程，能否在没见过的任务上继续工作。如果反复根据同一批失败案例改代码，反馈集上的进步也可能只是对这批案例的适应。</p>
+<p>HarnessDev 把开发 harness 的 creator 和运行任务的 executor 分开。前者交付可执行程序，后者在这套程序里处理任务，评测对象因此从一份答案变成了组织执行的代码。创建实验覆盖六个 creator、四类领域和五个 benchmark，另设迭代实验，检查收到执行反馈后能否改进。</p>
+<p>论文观察到，反馈集中的提升不一定延续到留出任务，换一个 executor 后，收益也可能改变。这个结果不能概括为“自动改 harness 没用”，它指出了验收时必须分开的条件：在哪批任务上修改，用什么模型执行，又在哪批独立任务上验证。部署时才付出的执行 token，也不能代表前面开发和试错的总成本。</p>
+<h2 id="section-81">Harness-of-Harness：多日开发怎样接住上一轮的失败</h2>
+<p>原文：<a href="https://arxiv.org/html/2609.01481v1">Harness-of-Harness: Multi-Day Autonomous Software Development with Continual Improvement，arXiv v1</a> · 2026-09-01</p>
+<p>软件项目跨多轮开发后，下一轮如果只读到“上一轮基本完成”的总结，就很难知道还缺什么。Harness-of-Harness 把规划、编码和独立测试组织成循环，每轮留下版本化的软件产物、测试证据和下一轮需要处理的问题；材料按当前阶段逐步提供，不要求每个角色重读全部历史。</p>
+<p>独立测试的作用在于让失败进入后续开发。规划者据此调整待办，编码者修改项目，测试者再检查修改是否真正生效。这里持续变化的是被开发的软件项目；实验固定了模型和基础 harness，不能因为标题带有 Harness，就说系统在自行训练模型或重写自身运行框架。</p>
+<p>多轮最终表现还包含更多开发投入。论文另有固定开发轮次的对照，但不能把它与三轮累计结果混成同一个等预算结论。读这项工作时，可以先沿着一条失败追踪：证据写在哪里，谁把它变成下一轮任务，修复后怎样确认没有遗失原需求。</p>
+<h2 id="section-96">工作记忆：存了多少，不等于模型实际读到了多少</h2>
+<p>原文：<a href="https://arxiv.org/html/2608.31057v1">Measure Before You Manage: Evaluating Agent Working Memory in Coding Agents，arXiv v1</a> · 2026-08-31</p>
+<p>两套 Agent 都限制在同样的上下文预算内，仍可能看到完全不同的材料。一套保存了很多记忆却没检索到关键片段，另一套把片段送进上下文，却花了更多调用来整理它。只比较存储量或预算上限，看不出差异发生在哪里。</p>
+<p>这篇工作先描述 55 条执行轨迹，再把记忆策略的校准、留出验证和检索实验分开。它强调同时记录持久保存的内容、实际送达模型的内容、管理记忆的开销和任务结果。这样才能区分“没留下来”“没找回来”和“找回来了但没有用上”。</p>
+<p>其中检索对照只有八个完整的六臂任务块，而且这一部分缺少有效的正式修复得分，不能用来排记忆算法的总体名次。现阶段更适合借鉴它的测量口径：为上下文管理增加观测量，再解释策略之间的差异。</p>
+<h2 id="section-111">本周简讯</h2>
+<h3 id="section-114">LangChain 的 MCP 更新：等待用户回答，不必一直占着连接</h3>
+<p>原文：<a href="https://www.langchain.com/blog/mcp-in-langchain-stateless-protocol-elicitation-and-more">MCP in LangChain: Stateless Protocol, Elicitation, and More!</a> · 2026-09-03</p>
+<p>工具执行到一半缺参数或需要确认时，调用链需要暂停，并在收到答案后继续。LangChain 此次把 MCP 支持移入主包，通过 FastMCP 处理连接与协议协商，将新版协议的 elicitation 映射为 LangGraph interrupt，再携带用户答案重试请求。工具列表也可按服务端 TTL 缓存，减少每轮发现工具的请求。</p>
+<p>本周发布的是 LangChain 适配，所依据的 MCP 规范版本为 2026-07-28，并非本周首次发布协议。公告中的 Python 接口仍为 beta，TypeScript 支持尚待后续；协议核心无状态，也不表示 Agent 的暂停状态和调用方身份可以不保存。</p>
+<h2 id="section-126">更多原文</h2>
+<p>以下仅核对题名与提交日期，尚未精读，不据此转述实验结论。</p>
+<ul>
+<li>2026-08-31：<a href="https://arxiv.org/abs/2609.05510">Memory as Infrastructure: Reliability Engineering for Persistent Agent Memory in Months-Long LLM-Assisted Development</a>。长期开发中的持久记忆可靠性；日期按页面提交记录，不从论文编号推断。</li>
+<li>2026-09-01：<a href="https://arxiv.org/abs/2609.01736">Harness Engineering in LLM Tool Use via Agent-Native Reusable Tool Primitives</a>。面向 Agent 的可复用工具原语。</li>
+</ul>
 </article>
         <footer class="article-footer"><span class="end-mark" aria-hidden="true">∎</span><div><a href="../../index.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m12 19-7-7 7-7" />

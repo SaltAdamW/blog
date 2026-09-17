@@ -5,25 +5,73 @@
     "start": "2026-09-11",
     "end": "2026-09-17"
   },
-  "verification": "逐条回查原文、日期与关键数字；未进行独立模型复核或实验复现。",
+  "verification": "选读与简讯核对所引用的原文段落、日期和数字；更多原文仅核对题名及日期。未做独立模型复核或实验复现。",
   "sources": [
     {
       "id": "paid-media",
       "title": "How We Built LangChain's Paid Media Agent",
       "url": "https://www.langchain.com/blog/paid-media-agent",
-      "published_at": "2026-09-13"
+      "published_at": "2026-09-13",
+      "review_status": "primary_sections_read",
+      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
     },
     {
       "id": "mlperf",
       "title": "MLPerf Inference v6.1 官方发布说明",
       "url": "https://mlcommons.org/2026/09/mlperf-inference-v6-1-results/",
-      "published_at": "2026-09-16"
+      "published_at": "2026-09-16",
+      "review_status": "primary_sections_read",
+      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
     },
     {
       "id": "atria",
       "title": "Atria Dawn 技术报告，arXiv v1",
       "url": "https://arxiv.org/html/2609.15818v1",
-      "published_at": "2026-09-14"
+      "published_at": "2026-09-14",
+      "review_status": "primary_sections_read",
+      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
+    },
+    {
+      "id": "dsh-release-016",
+      "published_at": "2026-09-15",
+      "title": "DeepSeek Harness v0.1.6-alpha.1",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.6-alpha.1",
+      "date_basis": "GitHub Release published_at: 2026-09-15T04:57:57Z；prerelease 为 true。",
+      "review_status": "primary_sections_read",
+      "reading_scope": "完整版本说明及 GitHub API 版本元数据；未安装、升级或测试。"
+    },
+    {
+      "id": "paper2agent",
+      "published_at": "2026-09-16",
+      "title": "Reimagining Research Papers as Interactive and Reliable AI Agents",
+      "url": "https://www.nature.com/articles/s41586-026-11044-y",
+      "first_published_at": "2025-09-08",
+      "date_reference": "https://arxiv.org/abs/2509.06917",
+      "date_basis": "按 Nature 期刊版归期，非方法首次发布。",
+      "review_status": "primary_sections_read",
+      "reading_scope": "期刊正文的构建流程、100 篇可执行论文评测、26 篇资源层评测、讨论与方法；未复现。"
+    },
+    {
+      "id": "pararecover",
+      "published_at": "2026-09-11",
+      "title": "ParaRecover: A Process-Level Benchmark for Error Localization and Recovery in Parallel Tool-Use Agents",
+      "url": "https://arxiv.org/html/2609.12345v1",
+      "review_status": "primary_sections_read",
+      "reading_scope": "任务定义、2.1 数据构造与 SDE、附录 F 数据分布；未复核模型排行榜或复现。"
+    },
+    {
+      "id": "spurious-tools",
+      "published_at": "2026-09-14",
+      "title": "Spurious Tool Use: When RL Agents Learn the Wrong Reason to Act",
+      "url": "https://arxiv.org/html/2609.16268v1",
+      "review_status": "primary_sections_read",
+      "reading_scope": "问题定义、合成数据、工具必要性奖励、反事实实验与伦理局限；未复现。"
     }
-  ]
+  ],
+  "expandedAt": "2026-09-17",
+  "review_status_legend": {
+    "primary_sections_read": "已读并核对条目涉及的原文段落，不表示全文逐行校核或实验复现。",
+    "metadata_only": "仅核对题名和日期，尚未精读正文，不作为实验结论依据。"
+  },
+  "coverage": "按四个周窗口多轮开放检索，沿项目、作者和引用补扫；不预设专题，不声称穷尽当周所有内容。"
 }

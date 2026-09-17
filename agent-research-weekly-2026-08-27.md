@@ -1,6 +1,6 @@
 # Research 周报：2026 年 8 月 21 日至 8 月 27 日
 
-本期选读 Qwen 的架构预览、NVIDIA 的长任务实验、微软对 AI 基础设施入侵的调查，以及 OpenWiki 的记忆更新设计。
+本期选读模型架构、长任务、安全调查与记忆更新，并补入 Factory 的完成标准设计和 Prime Agent 的持久运行机制。文末另附三篇待精读原文。
 
 ## Qwen：低激活参数之外，还要处理长上下文和模型容量
 
@@ -51,3 +51,31 @@ OpenWiki 在写页面时，同时记录其中的事实声明、支持它的代�
 复核有两种结果：声明仍然成立，就刷新证据版本；声明已经不成立，就一起更新页面和证据。没有处理完的声明不会因这一轮结束而被默认恢复可信。保存的版本差异让下一轮仍能发现它需要检查，不必依赖模型记住一条待办。
 
 这种更新不要求每次重写整份 Wiki。确定性检查会扫描声明集，而模型在读取相关页面时处理其中的过期声明。作者还用连续代码提交回放新增功能、行为变化、修复和回退，检查 Wiki 能否跟上。它提供的是一种维护知识的办法：让“为什么相信这句话”与正文一起保存，同时承认未完成的复核仍是未完成。
+
+## Factory：代码写了很多，谁来决定任务已经完成
+
+原文：[What It Takes for Coding Agents to Complete Large Software Tasks](https://factory.com/news/what-it-takes-for-coding-agents-to-complete-large-software-tasks) · 2026-08-27
+
+大型软件任务常常停在一个很像成品的中间状态：主要路径能运行，部分功能仍是空实现，Agent 却已经开始写交付说明。Factory 在 ProgramBench 任务中观察到，单 Agent 会逐渐缩小自己认定的完成范围。继续增加执行时间，不一定能纠正这个停止条件。
+
+他们先让验证角色把任务要求转成可执行的完成标准，再由编排者、实现者和验证者反复推进。实现者接收缺陷分类与待完成范围，不直接看到验证用例；验证者独立运行检查，把未覆盖的功能送回下一轮。这样，尚未实现的部分不会因为实现者已经写出一段自洽的总结就消失。
+
+实验选取了 24 个较难的任务，对比多种模型在单 Agent 和完整系统中的表现。结果支持继续研究这种组织方式，但不能读成等费用下的普遍提升：两种条件没有匹配计算预算，每个配置只有一次运行，部分运行还更换了模型。对自己的代码任务，更值得复用的是独立完成标准、缺陷反馈和停止判定，而不是直接套用图中的涨幅。
+
+## Prime Agent：上下文换了一轮，工作状态怎样留下来
+
+原文：[Prime Agent: A Self-Improving RLM Harness，arXiv v1](https://arxiv.org/html/2608.23552v1) · 当前技术报告版本为 2026-08-24，首次公开于 2026-08-05
+
+长任务里有两种容易混在一起的状态：模型这一轮看到的上下文，以及程序已经算出的对象、历史记录和工具定义。把全部工作都放在聊天记录里，压缩或重新开始会话时，就容易连同可继续使用的状态一起丢掉。
+
+Prime Agent 把持久 IPython REPL 作为工作环境。历史、记忆、skills 和子 Agent 定义保存在上下文之外，由程序按需查询和加载；后台 daemon 维持会话，客户端断开不等于任务必须结束。模型面对的是当前需要处理的材料，完整工作记录则继续留在环境里。
+
+标题中的“自改进”指对 harness 及其相关状态做版本化修改，模型权重并没有随之训练。恢复也有边界：不可序列化对象和外部进程，不能仅靠保存 Python 状态就保证原样续上。这份报告适合与 NVIDIA AVO 对照阅读，分别看运行状态和实验记录怎样跨越上下文窗口；整体评测分数仍不能单独归因于 REPL 或记忆组件。
+
+## 更多原文
+
+以下仅核对题名与提交日期，尚未精读，不据此转述实验结论。
+
+- 2026-08-21：[Context as an Environment: Programmatic Context Management for Long-Horizon Agents](https://arxiv.org/abs/2608.21690)。程序化上下文管理。
+- 2026-08-23：[CONTRAMEM: Learning Self-Evolving Procedural Memory from Contrasting Multi-Model Trajectories](https://arxiv.org/abs/2608.22533)。从多模型轨迹对比中学习过程记忆。
+- 2026-08-25：[Joint Optimization of Tool Creation and Use for Large Language Model Agents](https://arxiv.org/abs/2608.24571)。工具创建与使用的联合优化。

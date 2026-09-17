@@ -3,11 +3,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="Qwen 怎样分配计算与模型容量，NVIDIA AVO 怎样保存长任务进展，微软观察到的基础设施入侵，以及 OpenWiki 对过期知识的复核。">
+<meta name="description" content="Qwen、NVIDIA AVO、安全调查与 OpenWiki，补读 Factory 的独立完成标准、Prime Agent 的持久运行机制，并附三篇待精读原文。">
 <meta name="author" content="Adam">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Research 周报：2026 年 8 月 21 日至 8 月 27 日 | Adam‘s blog">
-<meta property="og:description" content="Qwen 怎样分配计算与模型容量，NVIDIA AVO 怎样保存长任务进展，微软观察到的基础设施入侵，以及 OpenWiki 对过期知识的复核。">
+<meta property="og:description" content="Qwen、NVIDIA AVO、安全调查与 OpenWiki，补读 Factory 的独立完成标准、Prime Agent 的持久运行机制，并附三篇待精读原文。">
 <meta property="og:url" content="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-08-27/">
 <meta property="og:site_name" content="Adam‘s blog">
 <link rel="canonical" href="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-08-27/">
@@ -39,7 +39,7 @@
   <path d="M8 19h13" />
 </svg><span>本篇目录</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-chevron-down" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m6 9 6 6 6-6" />
-</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>Qwen：低激活参数之外，还要处理长上下文和模型容量</span></a></li><li><a href="#section-21" data-section="section-21"><span class="toc-number">02</span><span>NVIDIA AVO：一次持续七天的内核优化怎样保留进展</span></a></li><li><a href="#section-42" data-section="section-42"><span class="toc-number">03</span><span>微软安全调查：网关被攻破，损失可能不止一把模型密钥</span></a></li><li><a href="#section-60" data-section="section-60"><span class="toc-number">04</span><span>OpenWiki：代码变了，旧知识怎样重新变得不可信</span></a></li></ol></nav></details>
+</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>Qwen：低激活参数之外，还要处理长上下文和模型容量</span></a></li><li><a href="#section-21" data-section="section-21"><span class="toc-number">02</span><span>NVIDIA AVO：一次持续七天的内核优化怎样保留进展</span></a></li><li><a href="#section-42" data-section="section-42"><span class="toc-number">03</span><span>微软安全调查：网关被攻破，损失可能不止一把模型密钥</span></a></li><li><a href="#section-60" data-section="section-60"><span class="toc-number">04</span><span>OpenWiki：代码变了，旧知识怎样重新变得不可信</span></a></li><li><a href="#section-78" data-section="section-78"><span class="toc-number">05</span><span>Factory：代码写了很多，谁来决定任务已经完成</span></a></li><li><a href="#section-93" data-section="section-93"><span class="toc-number">06</span><span>Prime Agent：上下文换了一轮，工作状态怎样留下来</span></a></li><li><a href="#section-108" data-section="section-108"><span class="toc-number">07</span><span>更多原文</span></a></li></ol></nav></details>
         <div class="sidebar-bottom"><p>研究周报 / 架构与实现</p><a class="download-link" href="../../agent-research-weekly-2026-08-27.md" download><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -52,8 +52,8 @@
       <main id="main-content">
         <header class="article-header">
           <nav class="breadcrumbs" aria-label="面包屑导航"><a href="../../index.html">文章</a><span aria-hidden="true">/</span><span>研究周报</span></nav>
-          <h1>Research 周报<span class="subtitle">2026 年 8 月 21 日至 8 月 27 日</span></h1><p class="article-deck">模型架构、长任务、安全调查与知识更新，四篇当周选读。</p>
-          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-08-27">2026 年 8 月 27 日</time><span>1,797 字 · 4 项一手资料</span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <h1>Research 周报<span class="subtitle">2026 年 8 月 21 日至 8 月 27 日</span></h1><p class="article-deck">模型架构、长任务与安全之外，补读完成标准和持久运行。</p>
+          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-08-27">2026 年 8 月 27 日</time><span>2,544 字 · 9 项一手资料</span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
 </svg><span class="tooltip" role="tooltip">复制文章链接</span></button><a class="icon-button" href="../../agent-research-weekly-2026-08-27.md" download aria-label="下载 Markdown 原稿"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -62,7 +62,7 @@
   <path d="m7 10 5 5 5-5" />
 </svg><span class="tooltip" role="tooltip">下载原稿</span></a></div></div>
         </header>
-        <article id="article-content" class="prose" tabindex="-1"><p>本期选读 Qwen 的架构预览、NVIDIA 的长任务实验、微软对 AI 基础设施入侵的调查，以及 OpenWiki 的记忆更新设计。</p>
+        <article id="article-content" class="prose" tabindex="-1"><p>本期选读模型架构、长任务、安全调查与记忆更新，并补入 Factory 的完成标准设计和 Prime Agent 的持久运行机制。文末另附三篇待精读原文。</p>
 <h2 id="section-3">Qwen：低激活参数之外，还要处理长上下文和模型容量</h2>
 <p>原文：<a href="https://github.com/QwenLM/Qwen3.8-Flash-Next">Qwen3.8-Flash-Next 官方仓库与架构说明</a> · 2026-08-26</p>
 <p>模型每次只激活少量参数，并不意味着长上下文就便宜了。历史信息仍要被保存和访问，模型的总容量也仍然需要存储。Qwen 这次开放的架构预览，分别处理了这些成本。</p>
@@ -88,6 +88,23 @@
 <p>OpenWiki 在写页面时，同时记录其中的事实声明、支持它的代码位置和证据版本。每次更新开始，运行时先比较保存的证据版本与当前版本。如果不一致，就把相关声明作为待复核内容交给 Agent。代码变动只是重新检查的理由，不等于声明已经错误。</p>
 <p>复核有两种结果：声明仍然成立，就刷新证据版本；声明已经不成立，就一起更新页面和证据。没有处理完的声明不会因这一轮结束而被默认恢复可信。保存的版本差异让下一轮仍能发现它需要检查，不必依赖模型记住一条待办。</p>
 <p>这种更新不要求每次重写整份 Wiki。确定性检查会扫描声明集，而模型在读取相关页面时处理其中的过期声明。作者还用连续代码提交回放新增功能、行为变化、修复和回退，检查 Wiki 能否跟上。它提供的是一种维护知识的办法：让“为什么相信这句话”与正文一起保存，同时承认未完成的复核仍是未完成。</p>
+<h2 id="section-78">Factory：代码写了很多，谁来决定任务已经完成</h2>
+<p>原文：<a href="https://factory.com/news/what-it-takes-for-coding-agents-to-complete-large-software-tasks">What It Takes for Coding Agents to Complete Large Software Tasks</a> · 2026-08-27</p>
+<p>大型软件任务常常停在一个很像成品的中间状态：主要路径能运行，部分功能仍是空实现，Agent 却已经开始写交付说明。Factory 在 ProgramBench 任务中观察到，单 Agent 会逐渐缩小自己认定的完成范围。继续增加执行时间，不一定能纠正这个停止条件。</p>
+<p>他们先让验证角色把任务要求转成可执行的完成标准，再由编排者、实现者和验证者反复推进。实现者接收缺陷分类与待完成范围，不直接看到验证用例；验证者独立运行检查，把未覆盖的功能送回下一轮。这样，尚未实现的部分不会因为实现者已经写出一段自洽的总结就消失。</p>
+<p>实验选取了 24 个较难的任务，对比多种模型在单 Agent 和完整系统中的表现。结果支持继续研究这种组织方式，但不能读成等费用下的普遍提升：两种条件没有匹配计算预算，每个配置只有一次运行，部分运行还更换了模型。对自己的代码任务，更值得复用的是独立完成标准、缺陷反馈和停止判定，而不是直接套用图中的涨幅。</p>
+<h2 id="section-93">Prime Agent：上下文换了一轮，工作状态怎样留下来</h2>
+<p>原文：<a href="https://arxiv.org/html/2608.23552v1">Prime Agent: A Self-Improving RLM Harness，arXiv v1</a> · 当前技术报告版本为 2026-08-24，首次公开于 2026-08-05</p>
+<p>长任务里有两种容易混在一起的状态：模型这一轮看到的上下文，以及程序已经算出的对象、历史记录和工具定义。把全部工作都放在聊天记录里，压缩或重新开始会话时，就容易连同可继续使用的状态一起丢掉。</p>
+<p>Prime Agent 把持久 IPython REPL 作为工作环境。历史、记忆、skills 和子 Agent 定义保存在上下文之外，由程序按需查询和加载；后台 daemon 维持会话，客户端断开不等于任务必须结束。模型面对的是当前需要处理的材料，完整工作记录则继续留在环境里。</p>
+<p>标题中的“自改进”指对 harness 及其相关状态做版本化修改，模型权重并没有随之训练。恢复也有边界：不可序列化对象和外部进程，不能仅靠保存 Python 状态就保证原样续上。这份报告适合与 NVIDIA AVO 对照阅读，分别看运行状态和实验记录怎样跨越上下文窗口；整体评测分数仍不能单独归因于 REPL 或记忆组件。</p>
+<h2 id="section-108">更多原文</h2>
+<p>以下仅核对题名与提交日期，尚未精读，不据此转述实验结论。</p>
+<ul>
+<li>2026-08-21：<a href="https://arxiv.org/abs/2608.21690">Context as an Environment: Programmatic Context Management for Long-Horizon Agents</a>。程序化上下文管理。</li>
+<li>2026-08-23：<a href="https://arxiv.org/abs/2608.22533">CONTRAMEM: Learning Self-Evolving Procedural Memory from Contrasting Multi-Model Trajectories</a>。从多模型轨迹对比中学习过程记忆。</li>
+<li>2026-08-25：<a href="https://arxiv.org/abs/2608.24571">Joint Optimization of Tool Creation and Use for Large Language Model Agents</a>。工具创建与使用的联合优化。</li>
+</ul>
 </article>
         <footer class="article-footer"><span class="end-mark" aria-hidden="true">∎</span><div><a href="../../index.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m12 19-7-7 7-7" />

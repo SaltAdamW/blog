@@ -1,6 +1,6 @@
 # Research 周报：2026 年 9 月 4 日至 9 月 10 日
 
-本期选读 Harvey 的并购尽调实验、DeepSeek 的缓存压缩技术报告，以及 Google DeepMind 发布的基因变异预测图谱。
+本期选读并购尽调、缓存压缩、基因变异预测，以及多 Agent 上下文和行为评测。简讯补入托管 harness、调用方身份、工具训练数据与沙箱安全披露。
 
 ## Harvey：多 Agent 做不好，先检查谁在分工
 
@@ -47,3 +47,64 @@ Google DeepMind 本周发布的 AlphaGenome Atlas，把约 90 亿种可能单碱
 团队给出的一个合作案例涉及 DNM1 基因。研究者通过排序找到了此前被忽略的候选变异，底层预测提示它会产生错误剪接位点，造成蛋白异常延长；后续实验筛查支持了这一预测，也发现了附近具有类似效应的变异。这个例子展示了从候选筛选到机制解释、再到实验检验的过程。
 
 90 亿描述的是预测覆盖范围，不是已经完成的实验验证数量。图谱也只针对这里定义的单碱基变异，不能代表所有遗传变化都已被解释。它的价值在于帮助研究者决定先验证什么；个别案例获得实验支持，不等于整个图谱可以直接用于诊断或治疗判断。
+
+## LangChain：子 Agent 要不要继承主管的上下文
+
+原文：[Organizing Context in a Multi-Agent Harness](https://www.langchain.com/blog/organizing-context-in-a-multi-agent-harness) · 2026-09-08
+
+主管已经查完日志、定位到函数，再让一个空上下文的 worker 去实现修复，可能把调查又做一遍。但把全部对话交给 reviewer，也可能让它沿着主管的判断检查，遗漏其他解释。子 Agent 的工作不同，合适的上下文起点也不同。
+
+Deep Agents 将这一区别显式做成两种模式。`isolated` 只接收任务说明，从新上下文开始；`fork` 接收主管的状态与会话历史，移除末尾的委派工具调用，再加入自己的任务。完成后，主管接收最终结果，不把子 Agent 的全部中间过程搬回来。
+
+继续已有调查的实现工作，可以利用继承的证据，减少重复读取；需要独立判断的审查，或能独立研究的问题，则未必需要主管历史。继承上下文也有缓存复用的机会，但不应预设一定更便宜：要看 worker 是否真需要那些材料，以及前缀缓存是否命中。文章提供的是分工时选择信息边界的方法，没有证明某种模式对所有任务更好。
+
+## Google：总分降了，怎样找到 harness 的具体退步
+
+原文：[The Anatomy of Harness Engineering: How to Evaluate, Iterate, and Guard AI Coding Agents](https://developers.googleblog.com/the-anatomy-of-harness-engineering-how-to-evaluate-iterate-and-guard-ai-coding-agents/) · 2026-09-09
+
+一次端到端评测下降，可能是模型误解了要求，也可能只是修改构建文件后忘了运行验证。只有总分，开发者很难知道应该改提示、工具定义还是流程。
+
+Google 的工程文章建议从真实失败中提取可观察行为：面对含糊要求是否澄清，修改后是否执行相应检查，文档是否给出仓库原始链接。断言关注工具调用、文件变化和执行证据，让一次流程修改能够对应到具体回归，而不是只看最后那段回答写得像不像完成。
+
+简单任务可以严格检查必要动作，复杂任务则不能锁死工具顺序，否则另一条正确路径也会被判失败。模型执行有随机性，文章建议批量观察通过率，而非用单次运行决定成败。行为评测负责定位和防回归，端到端评测仍负责确认任务是否完成；两者不能互相替代。
+
+## 本周简讯
+
+### OpenAI Agents API：托管 harness，与执行环境分开选择
+
+原文：[Introducing the Agents API](https://openai.com/index/introducing-the-agents-api/) · 2026-09-10，public beta
+
+团队搭建长任务 Agent 时，除了工具和业务规则，还得维护上下文压缩、工具发现与子 Agent 协调。Agents API 将 Codex harness 作为托管服务提供，包含这些执行机制；代码运行环境可以选 OpenAI 托管沙箱、自有基础设施或合作方环境。
+
+这让“谁维护 Agent 循环”和“任务在哪里运行”成为两个选择，但并不自动解决业务授权、工具质量和任务验收。公告中的客户提速与降本数字是客户陈述，不是统一条件下的对照实验；本条仅介绍发布范围，不据此判断迁移收益。
+
+### LangChain Connections：同一个 Agent，替谁操作
+
+原文：[Connections: Managed Credentials and Per-Caller Identity for Managed Deep Agents](https://www.langchain.com/blog/connections-managed-credentials-and-per-caller-identity-for-managed-deep-agents) · 2026-09-09
+
+多人共用一个 Agent 时，共享服务账号会掩盖实际调用者，也可能让查询看到本不属于该用户的数据。Connections 将凭据所有者与凭据类型分开：Agent 或用户可以各自持有静态秘密或 OAuth 授权，工具运行时再按调用者解析凭据。缺少授权时暂停任务，完成授权后继续。
+
+凭据由工作区管理，轮换无需重新打包项目；按用户解析也使查询范围和写操作身份随调用者变化。不过，用户身份不等于每项动作已经获批，业务审批与最小权限仍需单独设计。公告对应 Managed Deep Agents 的预发布能力，不能当作所有 LangChain 部署的默认行为。
+
+### ToolGrad：先跑通工具链，再生成训练问题
+
+原文：[ToolGrad: Efficient Tool-Use Dataset Generation with Textual “Gradients”](https://research.google/blog/toolgrad-efficient-tool-use-dataset-generation-with-textual-gradients/) · 2026-09-10，研究介绍
+
+先编一个用户问题，再搜索能回答它的 API 路径，会产生大量失败尝试。ToolGrad 反过来扩展可执行的工具链：提出候选调用、并行执行、依据执行报告选择下一步，再更新与这条链对应的用户问题和回答。训练样本先有实际可用的执行依据，再补自然语言任务。
+
+Google 的介绍还报告了用这批数据微调模型后的函数调用评测。需要分清两个环节：数据生成阶段的执行通过率，不等于模型部署后面对真实请求的完成率；合成问题能覆盖多少真实需求，也仍需另外检查。本周是博客介绍，不据此认定方法首次提出于本周。
+
+### DSH 安全披露：沙箱内的任务不应能改自己的权限
+
+原文：[CVE-2026-82533: DeepSeek Harness AI Agent Sandbox Escape](https://www.ox.security/blog/cve-2026-82533-deepseek-harness-ai-agent-sandbox-escape/) · 原始披露为 2026-09-08
+
+OX Research 报告的漏洞发生在文件限制与本地管理 API 之间：任务虽然受文件写入约束，仍可访问 loopback；管理接口缺少鉴权，并依赖客户端可控制的 `Host` 头判断信任，导致任务能接触修改自身策略的接口。防守上需要检查的不只是文件路径，还包括任务能否访问控制它的管理面。
+
+按披露者的记录，受影响范围为 `0.1.1-rc.2` 及更早，修复版本为 `0.1.2-alpha.1`，修复于 8 月 27 日发布、8 月 30 日复测通过。9 月 16 日的转载不应被当作首次披露，也不能据此声称后续版本仍受同一漏洞影响。此处仅核对披露材料，未运行攻击验证。
+
+## 更多原文
+
+以下仅核对题名与提交日期，尚未精读，不据此转述实验结论。
+
+- 2026-09-04：[Train What You Deploy: Token-Faithful Post-Training of a Production Coding](https://arxiv.org/abs/2609.04678)。训练与部署的一致性；题名按原页面保留。
+- 2026-09-09：[AgentAudit: An Open, Extensible Framework for Full-Lifecycle Trust Evaluation of AI Agents](https://arxiv.org/abs/2609.09875)。Agent 全生命周期信任评估。

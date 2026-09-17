@@ -3,11 +3,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="LangChain 营销 Agent 的数据口径与审批流程，MLPerf 新增的应用工作负载，以及 Atria 团队记录的人与 Agent 研发分工。">
+<meta name="description" content="营销 Agent、MLPerf 与 Atria 研发记录，DSH 预发布版本的自动化接口和迁移边界，Paper2Agent 期刊版，以及工具故障恢复与选择捷径研究。">
 <meta name="author" content="Adam">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Research 周报：2026 年 9 月 11 日至 9 月 17 日 | Adam‘s blog">
-<meta property="og:description" content="LangChain 营销 Agent 的数据口径与审批流程，MLPerf 新增的应用工作负载，以及 Atria 团队记录的人与 Agent 研发分工。">
+<meta property="og:description" content="营销 Agent、MLPerf 与 Atria 研发记录，DSH 预发布版本的自动化接口和迁移边界，Paper2Agent 期刊版，以及工具故障恢复与选择捷径研究。">
 <meta property="og:url" content="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-17/">
 <meta property="og:site_name" content="Adam‘s blog">
 <link rel="canonical" href="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-17/">
@@ -39,7 +39,7 @@
   <path d="M8 19h13" />
 </svg><span>本篇目录</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-chevron-down" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m6 9 6 6 6-6" />
-</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>LangChain：营销周报的数字不可靠，问题可能在数据来源</span></a></li><li><a href="#section-27" data-section="section-27"><span class="toc-number">02</span><span>MLPerf：推理评测开始覆盖建库、检索和多轮交互</span></a></li><li><a href="#section-45" data-section="section-45"><span class="toc-number">03</span><span>Atria：Agent 做了更多工作，研究员的判断发生在哪里</span></a></li></ol></nav></details>
+</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>LangChain：营销周报的数字不可靠，问题可能在数据来源</span></a></li><li><a href="#section-27" data-section="section-27"><span class="toc-number">02</span><span>MLPerf：推理评测开始覆盖建库、检索和多轮交互</span></a></li><li><a href="#section-45" data-section="section-45"><span class="toc-number">03</span><span>Atria：Agent 做了更多工作，研究员的判断发生在哪里</span></a></li><li><a href="#section-69" data-section="section-69"><span class="toc-number">04</span><span>DSH：接入自动化之后，运行事件和执行边界都要可检查</span></a></li><li><a href="#section-87" data-section="section-87"><span class="toc-number">05</span><span>Paper2Agent：论文里的代码，怎样变成可调用的研究工具</span></a></li><li><a href="#section-102" data-section="section-102"><span class="toc-number">06</span><span>本周简讯</span></a></li></ol></nav></details>
         <div class="sidebar-bottom"><p>研究周报 / 架构与实现</p><a class="download-link" href="../../agent-research-weekly-2026-09-17.md" download><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -52,8 +52,8 @@
       <main id="main-content">
         <header class="article-header">
           <nav class="breadcrumbs" aria-label="面包屑导航"><a href="../../index.html">文章</a><span aria-hidden="true">/</span><span>研究周报</span></nav>
-          <h1>Research 周报<span class="subtitle">2026 年 9 月 11 日至 9 月 17 日</span></h1><p class="article-deck">营销分析、推理评测与模型研发，三篇当周选读。</p>
-          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-17">2026 年 9 月 17 日</time><span>1,800 字 · 3 项一手资料</span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <h1>Research 周报<span class="subtitle">2026 年 9 月 11 日至 9 月 17 日</span></h1><p class="article-deck">从营销与研发实践，读到 DSH 更新、论文工具化和工具调用研究。</p>
+          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-17">2026 年 9 月 17 日</time><span>3,074 字 · 7 项一手资料</span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
 </svg><span class="tooltip" role="tooltip">复制文章链接</span></button><a class="icon-button" href="../../agent-research-weekly-2026-09-17.md" download aria-label="下载 Markdown 原稿"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -62,7 +62,7 @@
   <path d="m7 10 5 5 5-5" />
 </svg><span class="tooltip" role="tooltip">下载原稿</span></a></div></div>
         </header>
-        <article id="article-content" class="prose" tabindex="-1"><p>本期选读 LangChain 的营销分析 Agent 实战、MLPerf 新增的推理工作负载，以及 Atria 团队对 AI 参与模型研发的记录。</p>
+        <article id="article-content" class="prose" tabindex="-1"><p>本期选读营销分析、推理评测与模型研发，补入 DSH 预发布更新和 Paper2Agent 期刊版；简讯关注并行工具调用的故障恢复，以及强化学习中的工具选择捷径。</p>
 <h2 id="section-3">LangChain：营销周报的数字不可靠，问题可能在数据来源</h2>
 <p>原文：<a href="https://www.langchain.com/blog/paid-media-agent">How We Built LangChain's Paid Media Agent</a> · 2026-09-13</p>
 <p>一个营销 Agent 可以把广告支出、点击和销售机会整理成周报，但这些数字不一定能直接拼在一起。不同广告平台有不同的层级、标识和归因窗口，数据仓库里的关联关系也可能不完整。LangChain 的团队记录了一个具体错误：仓库通过关键词关联 Google 广告数据，视频广告却不一定有关键词，结果漏掉了约 10% 的 Google 支出。</p>
@@ -85,6 +85,26 @@
 <p>报告还发现，每条人工提示对应的 Agent 动作数在研发期间增加了。但作者明确提醒，动作变多不能直接读成自主性变强：一次人工判断也可能只是驱动了更多执行。评价研发自动化时，只数模型调用、代码行或连续运行时间，会看不到决策和纠错仍由谁承担。</p>
 <p>这些是一个团队的研发记录和参与者回顾，不是随机分配有无 AI 的生产率实验。记录描述的是团队使用 Agent 开发模型，不等于新发布的 Atria 自己独立完成了自己的研发。参与者认为某些任务“没有 AI 就做不了”，也属于反事实自评，不能据此计算客观的效率倍数。</p>
 <p>报告留下了一个值得继续观察的问题：Agent 能把已经确定的实验做完之后，能否进一步判断哪些研究方向值得投入、从不确定结果中选出下一步？要回答它，需要记录提议、选择和介入发生的位置，而不只记录最终产物是谁写的。</p>
+<h2 id="section-69">DSH：接入自动化之后，运行事件和执行边界都要可检查</h2>
+<p>原文：<a href="https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.6-alpha.1">DeepSeek Harness v0.1.6-alpha.1 发布说明</a> · 2026-09-15，预发布版本</p>
+<p>把本地编码助手接入任务系统后，仅有聊天窗口不够：调度端需要提交任务、继续已有会话，并区分正在执行、等待反馈和已经结束。本次 DSH 的 Headless 更新支持从标准输入接收任务，以 <code>--session-id</code> 续接会话，以 <code>--json</code> 逐行输出运行事件。文件、命令和程序化工具调用也扩展到经 SSH 使用远端工作区。</p>
+<p>工具范围同时扩展到 MCP 资源与 URI 模板，以及实验性的 Browser Use、Computer Use 和 Auto review。后几项仍应按实验能力理解，发布说明本身不能证明它们在无人值守流程中已经可靠。</p>
+<p>执行边界的变化需要与功能一起读。Node PTC 改用独立进程，受会话文件策略、输出量和堆内存限制，<code>process.env</code> 为空。自定义代码若依赖旧进程环境，就需要适配；PTC 服务改名、工作流执行器改名和移除内置 E2B 后端，也会影响已有插件与配置。配置热更新不再保证事务回滚，插件激活失败时可能部分生效。</p>
+<p>还有一项容易被功能列表掩盖的默认行为：使用 DeepSeek 模型适配器连接官方 API 时，随请求上报会话事件的实验功能处于开启状态，可在配置中关闭。评估版本时，应一起检查事件上报、插件兼容和文件策略，而不能只看新增工具。本条依据该预发布版本的说明，未执行安装、升级或运行测试。</p>
+<h2 id="section-87">Paper2Agent：论文里的代码，怎样变成可调用的研究工具</h2>
+<p>原文：<a href="https://www.nature.com/articles/s41586-026-11044-y">Reimagining Research Papers as Interactive and Reliable AI Agents</a> · Nature 期刊版发布于 2026-09-16；<a href="https://arxiv.org/abs/2509.06917">预印本</a>首次提交于 2025-09-08</p>
+<p>论文附了代码，不代表另一位研究者马上能用。环境依赖、数据入口、教程步骤和函数参数，往往还需要人工重新拼起来。Paper2Agent 把这段准备工作拆成可执行流程：配置环境、运行教程、提取可复用工具、测试，再通过 MCP 提供调用入口。测试未通过的函数不进入最终工具集。</p>
+<p>期刊版报告在 100 篇计算生物学论文中，成功为 74 篇构建了可执行 Agent。剩余失败也有明确原因，包括代码、数据或依赖不可获得。这说明把论文转成工具仍受原始研究制品约束；语言模型不能补出本来就没有公开的实验条件。文中另有 26 篇资料型论文的资源层评测，不能与这 100 篇执行工具的成功比例混在一起。</p>
+<p>即使教程能复跑，科学判断也没有自动完成。研究者仍需决定要问什么、结果是否符合当前实验条件，以及后续应该验证哪种假说。Paper2Agent 解决的是从文稿和代码到可测试调用接口的距离，不是把可执行性当作科学结论正确性的证明。本期收录的是期刊版更新，不是方法首次亮相。</p>
+<h2 id="section-102">本周简讯</h2>
+<h3 id="section-105">ParaRecover：并行分支出错后，不必把整条任务重做</h3>
+<p>原文：<a href="https://arxiv.org/html/2609.12345v1">ParaRecover: A Process-Level Benchmark for Error Localization and Recovery in Parallel Tool-Use Agents，arXiv v1</a> · 2026-09-11</p>
+<p>一个工具调用失败后，Agent 可能错误地重启全部流程，或继续使用已经失效的下游结果。ParaRecover 用依赖图表示并行任务，围绕规划依赖、工具选择和参数匹配组织 14 类错误，再分别考察最近一轮故障和跨轮传播。SDE 评分关注计划能否执行、诊断是否准确、重新规划是否只改必要部分。</p>
+<p>其 10,626 个实例来自执行轨迹与注入错误后的扩充，工具环境采用受控模拟，并非同等数量的线上事故。评分结合脚本和模型判断，因此适合作为故障恢复评测的参考，不能把它的分数直接换算成生产可靠性。</p>
+<h3 id="section-117">Spurious Tool Use：答案正确，也可能选错了使用工具的理由</h3>
+<p>原文：<a href="https://arxiv.org/html/2609.16268v1">Spurious Tool Use: When RL Agents Learn the Wrong Reason to Act，arXiv v1</a> · 2026-09-14</p>
+<p>训练数据中，如果某种格式标记总与搜索任务同时出现，Agent 可能学会“看到标记就搜索”。即便搜索没有帮助，最后仍可能答对，单看答案奖励就发现不了这条捷径。论文在受控的事实问答与数学任务中注入标记，再交换标记与任务的组合，观察工具选择是否跟着无关线索变化。</p>
+<p>作者引入逐次工具必要性奖励，由模型评判调用是否需要，在所测设置中抑制了这类行为。但实验使用合成条件，必要性的裁判也会带入自身偏差，不能推广成所有生产工具调用都应被同样惩罚。它提醒训练和评测者：任务结果之外，还要检查模型为何在这一步调用这个工具。</p>
 </article>
         <footer class="article-footer"><span class="end-mark" aria-hidden="true">∎</span><div><a href="../../index.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m12 19-7-7 7-7" />

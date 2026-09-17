@@ -5,25 +5,86 @@
     "start": "2026-08-28",
     "end": "2026-09-03"
   },
-  "verification": "逐条回查原文、日期与关键数字；未进行独立模型复核或实验复现。",
+  "verification": "选读与简讯核对所引用的原文段落、日期和数字；更多原文仅核对题名及日期。未做独立模型复核或实验复现。",
   "sources": [
     {
       "id": "requesty",
       "title": "What is an AI Gateway? The View from Trillions of Production Tokens",
       "url": "https://huggingface.co/blog/Thibault-Requesty/requesty",
-      "published_at": "2026-08-29"
+      "published_at": "2026-08-29",
+      "review_status": "primary_sections_read",
+      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
     },
     {
       "id": "gigapath",
       "title": "GigaPath-Flash and GigaTIME-Flash",
       "url": "https://www.microsoft.com/en-us/research/blog/gigapath-flash-and-gigatime-flash-toward-population-scale-discovery-with-efficient-pathology-foundation-models/",
-      "published_at": "2026-08-31"
+      "published_at": "2026-08-31",
+      "review_status": "primary_sections_read",
+      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
     },
     {
       "id": "lemmalog",
       "title": "I accidentally turned LLM memory into program analysis",
       "url": "https://pwning.systems/posts/llm-memory-program-analysis/",
-      "published_at": "2026-08-28"
+      "published_at": "2026-08-28",
+      "review_status": "primary_sections_read",
+      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
+    },
+    {
+      "id": "harnessdev",
+      "published_at": "2026-09-01",
+      "title": "HarnessDev: Can LLMs Create and Evolve Their Own Agent Harness?",
+      "url": "https://arxiv.org/html/2609.01437v1",
+      "review_status": "primary_sections_read",
+      "reading_scope": "创建与迭代协议、跨任务和执行模型泛化、成本与局限章节；未复现。"
+    },
+    {
+      "id": "harness-of-harness",
+      "published_at": "2026-09-01",
+      "title": "Harness-of-Harness: Multi-Day Autonomous Software Development with Continual Improvement",
+      "url": "https://arxiv.org/html/2609.01481v1",
+      "review_status": "primary_sections_read",
+      "reading_scope": "第 3 节运行机制及预算对照相关说明；未复现长时运行或游戏。"
+    },
+    {
+      "id": "working-memory",
+      "published_at": "2026-08-31",
+      "title": "Measure Before You Manage: Evaluating Agent Working Memory in Coding Agents",
+      "url": "https://arxiv.org/html/2608.31057v1",
+      "review_status": "primary_sections_read",
+      "reading_scope": "轨迹测量、校准与留出协议、检索实验及局限；未复现。"
+    },
+    {
+      "id": "langchain-mcp",
+      "published_at": "2026-09-03",
+      "title": "MCP in LangChain: Stateless Protocol, Elicitation, and More!",
+      "url": "https://www.langchain.com/blog/mcp-in-langchain-stateless-protocol-elicitation-and-more",
+      "review_status": "primary_sections_read",
+      "reading_scope": "发布正文、兼容性、elicitation、缓存及 beta 范围；未运行示例代码。"
+    },
+    {
+      "id": "memory-infra-metadata",
+      "published_at": "2026-08-31",
+      "title": "Memory as Infrastructure: Reliability Engineering for Persistent Agent Memory in Months-Long LLM-Assisted Development",
+      "url": "https://arxiv.org/abs/2609.05510",
+      "review_status": "metadata_only",
+      "reading_scope": "仅核对 arXiv 题名和提交日期，尚未精读正文。",
+      "date_basis": "页面提交记录为 2026-08-31，不按 2609 编号推断。"
+    },
+    {
+      "id": "heart-metadata",
+      "published_at": "2026-09-01",
+      "title": "Harness Engineering in LLM Tool Use via Agent-Native Reusable Tool Primitives",
+      "url": "https://arxiv.org/abs/2609.01736",
+      "review_status": "metadata_only",
+      "reading_scope": "仅核对 arXiv 题名和提交日期，尚未精读正文。"
     }
-  ]
+  ],
+  "expandedAt": "2026-09-17",
+  "review_status_legend": {
+    "primary_sections_read": "已读并核对条目涉及的原文段落，不表示全文逐行校核或实验复现。",
+    "metadata_only": "仅核对题名和日期，尚未精读正文，不作为实验结论依据。"
+  },
+  "coverage": "按四个周窗口多轮开放检索，沿项目、作者和引用补扫；不预设专题，不声称穷尽当周所有内容。"
 }

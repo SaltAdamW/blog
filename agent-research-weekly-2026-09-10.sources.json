@@ -5,13 +5,15 @@
     "start": "2026-09-04",
     "end": "2026-09-10"
   },
-  "verification": "逐条回查原文、日期与关键数字；未进行独立模型复核或实验复现。",
+  "verification": "选读与简讯核对所引用的原文段落、日期和数字；更多原文仅核对题名及日期。未做独立模型复核或实验复现。",
   "sources": [
     {
       "id": "harvey",
       "title": "Post-Training RLM Agents for End-to-End M&A Diligence",
       "url": "https://www.harvey.ai/blog/post-training-rlm-agents-for-m-and-a-diligence",
-      "published_at": "2026-09-08"
+      "published_at": "2026-09-08",
+      "review_status": "primary_sections_read",
+      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
     },
     {
       "id": "deepseek",
@@ -19,13 +21,89 @@
       "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/53e70b17d9acb8e0c423f0e4fe5702f25562b63d/DeepSeek_V41_Tech_Report.pdf",
       "published_at": "2026-09-10",
       "date_reference": "https://www.deepseek.com/en/news/deepseek-v4-1-flash/",
-      "date_basis": "模型发布日；PDF 为正文链接指定的固定版本。"
+      "date_basis": "模型发布日；PDF 为正文链接指定的固定版本。",
+      "review_status": "primary_sections_read",
+      "reading_scope": "固定版本 PDF 第 9 至 11 页、第 19 至 20 页及官方发布日期；本轮保留原有选读，未复现。"
     },
     {
       "id": "alphagenome",
       "title": "AlphaGenome Atlas: A predictive map of every possible DNA letter change in the human genome",
       "url": "https://deepmind.google/blog/alphagenome-atlas-a-predictive-map-of-every-possible-dna-letter-change-in-the-human-genome/",
-      "published_at": "2026-09-08"
+      "published_at": "2026-09-08",
+      "review_status": "primary_sections_read",
+      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
+    },
+    {
+      "id": "langchain-context",
+      "published_at": "2026-09-08",
+      "title": "Organizing Context in a Multi-Agent Harness",
+      "url": "https://www.langchain.com/blog/organizing-context-in-a-multi-agent-harness",
+      "review_status": "primary_sections_read",
+      "reading_scope": "正文中的 fork、isolated、worker、verifier 与缓存条件；未运行示例。"
+    },
+    {
+      "id": "google-harness",
+      "published_at": "2026-09-09",
+      "title": "The Anatomy of Harness Engineering: How to Evaluate, Iterate, and Guard AI Coding Agents",
+      "url": "https://developers.googleblog.com/the-anatomy-of-harness-engineering-how-to-evaluate-iterate-and-guard-ai-coding-agents/",
+      "review_status": "primary_sections_read",
+      "reading_scope": "工程正文中的行为断言、任务复杂度、批量稳定性与端到端评测关系；未运行示例。"
+    },
+    {
+      "id": "openai-agents-api",
+      "published_at": "2026-09-10",
+      "title": "Introducing the Agents API",
+      "url": "https://openai.com/index/introducing-the-agents-api/",
+      "review_status": "primary_sections_read",
+      "reading_scope": "官方发布正文中的 public beta、托管 harness、工具机制与环境选择；未验证 API 或客户效果。"
+    },
+    {
+      "id": "langchain-connections",
+      "published_at": "2026-09-09",
+      "title": "Connections: Managed Credentials and Per-Caller Identity for Managed Deep Agents",
+      "url": "https://www.langchain.com/blog/connections-managed-credentials-and-per-caller-identity-for-managed-deep-agents",
+      "review_status": "primary_sections_read",
+      "reading_scope": "发布正文中的凭据所有者、类型、授权暂停和预发布范围；未执行授权或调用。"
+    },
+    {
+      "id": "toolgrad",
+      "published_at": "2026-09-10",
+      "title": "ToolGrad: Efficient Tool-Use Dataset Generation with Textual Gradients",
+      "url": "https://research.google/blog/toolgrad-efficient-tool-use-dataset-generation-with-textual-gradients/",
+      "date_basis": "官方研究博客介绍日，不代表论文首次公开日。",
+      "review_status": "primary_sections_read",
+      "reading_scope": "官方博客正文的数据生成机制与评测口径；未另行精读论文或复现。"
+    },
+    {
+      "id": "dsh-sandbox-disclosure",
+      "published_at": "2026-09-08",
+      "title": "CVE-2026-82533: DeepSeek Harness AI Agent Sandbox Escape",
+      "url": "https://www.ox.security/blog/cve-2026-82533-deepseek-harness-ai-agent-sandbox-escape/",
+      "date_basis": "披露者原始公告日期，非 9 月 16 日转载日期；修复发布于 8 月 27 日。",
+      "review_status": "primary_sections_read",
+      "reading_scope": "披露正文、时间线、受影响与修复版本；仅防守概述，未执行 PoC。"
+    },
+    {
+      "id": "train-deploy-metadata",
+      "published_at": "2026-09-04",
+      "title": "Train What You Deploy:Token-Faithful Post-Training of a Production Coding",
+      "url": "https://arxiv.org/abs/2609.04678",
+      "review_status": "metadata_only",
+      "reading_scope": "仅核对 arXiv 题名和提交日期，尚未精读正文；不补写题名末尾。"
+    },
+    {
+      "id": "agent-audit-metadata",
+      "published_at": "2026-09-09",
+      "title": "AgentAudit: An Open, Extensible Framework for Full-Lifecycle Trust Evaluation of AI Agents",
+      "url": "https://arxiv.org/abs/2609.09875",
+      "review_status": "metadata_only",
+      "reading_scope": "仅核对 arXiv 题名和提交日期，尚未精读正文。"
     }
-  ]
+  ],
+  "expandedAt": "2026-09-17",
+  "review_status_legend": {
+    "primary_sections_read": "已读并核对条目涉及的原文段落，不表示全文逐行校核或实验复现。",
+    "metadata_only": "仅核对题名和日期，尚未精读正文，不作为实验结论依据。"
+  },
+  "coverage": "按四个周窗口多轮开放检索，沿项目、作者和引用补扫；不预设专题，不声称穷尽当周所有内容。"
 }

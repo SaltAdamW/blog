@@ -5,31 +5,87 @@
     "start": "2026-08-21",
     "end": "2026-08-27"
   },
-  "verification": "逐条回查原文、日期与关键数字；未进行独立模型复核或实验复现。",
+  "verification": "选读与简讯核对所引用的原文段落、日期和数字；更多原文仅核对题名及日期。未做独立模型复核或实验复现。",
   "sources": [
     {
       "id": "qwen",
       "title": "Qwen3.8-Flash-Next 官方仓库与架构说明",
       "url": "https://github.com/QwenLM/Qwen3.8-Flash-Next",
-      "published_at": "2026-08-26"
+      "published_at": "2026-08-26",
+      "review_status": "primary_sections_read",
+      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
     },
     {
       "id": "avo",
       "title": "NVIDIA AVO 的长任务架构与 ARC-AGI-3 实验",
       "url": "https://developer.nvidia.com/blog/nvidia-avo-reaches-100-on-arc-agi-3-demonstrating-a-frontier-level-general-purpose-architecture-for-long-horizon-autonomous-agents/",
-      "published_at": "2026-08-21"
+      "published_at": "2026-08-21",
+      "review_status": "primary_sections_read",
+      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
     },
     {
       "id": "security",
       "title": "When AI infrastructure becomes the target",
       "url": "https://www.microsoft.com/en-us/security/blog/2026/08/26/when-ai-infrastructure-becomes-target-securing-gateways-control-points/",
-      "published_at": "2026-08-26"
+      "published_at": "2026-08-26",
+      "review_status": "primary_sections_read",
+      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
     },
     {
       "id": "openwiki",
       "title": "Building Self-Correcting Memory in OpenWiki",
       "url": "https://www.langchain.com/blog/self-correcting-memory-openwiki",
-      "published_at": "2026-08-25"
+      "published_at": "2026-08-25",
+      "review_status": "primary_sections_read",
+      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
+    },
+    {
+      "id": "factory-completion",
+      "published_at": "2026-08-27",
+      "title": "What It Takes for Coding Agents to Complete Large Software Tasks",
+      "url": "https://factory.com/news/what-it-takes-for-coding-agents-to-complete-large-software-tasks",
+      "review_status": "primary_sections_read",
+      "reading_scope": "正文中的完成标准、角色分工、任务筛选与实验限制；未复现。"
+    },
+    {
+      "id": "prime-agent",
+      "published_at": "2026-08-24",
+      "title": "Prime Agent: A Self-Improving RLM Harness",
+      "url": "https://arxiv.org/html/2608.23552v1",
+      "first_published_at": "2026-08-05",
+      "date_basis": "按当前技术报告版本归期，非首次公开。",
+      "review_status": "primary_sections_read",
+      "reading_scope": "报告的版本说明、架构、状态持久化和恢复边界；未逐项复核评测表。"
+    },
+    {
+      "id": "scroll-metadata",
+      "published_at": "2026-08-21",
+      "title": "Context as an Environment: Programmatic Context Management for Long-Horizon Agents",
+      "url": "https://arxiv.org/abs/2608.21690",
+      "review_status": "metadata_only",
+      "reading_scope": "仅核对 arXiv 题名和提交日期，尚未精读正文。"
+    },
+    {
+      "id": "contramem-metadata",
+      "published_at": "2026-08-23",
+      "title": "CONTRAMEM: Learning Self-Evolving Procedural Memory from Contrasting Multi-Model Trajectories",
+      "url": "https://arxiv.org/abs/2608.22533",
+      "review_status": "metadata_only",
+      "reading_scope": "仅核对 arXiv 题名和提交日期，尚未精读正文。"
+    },
+    {
+      "id": "smith-metadata",
+      "published_at": "2026-08-25",
+      "title": "Joint Optimization of Tool Creation and Use for Large Language Model Agents",
+      "url": "https://arxiv.org/abs/2608.24571",
+      "review_status": "metadata_only",
+      "reading_scope": "仅核对 arXiv 题名和提交日期，尚未精读正文。"
     }
-  ]
+  ],
+  "expandedAt": "2026-09-17",
+  "review_status_legend": {
+    "primary_sections_read": "已读并核对条目涉及的原文段落，不表示全文逐行校核或实验复现。",
+    "metadata_only": "仅核对题名和日期，尚未精读正文，不作为实验结论依据。"
+  },
+  "coverage": "按四个周窗口多轮开放检索，沿项目、作者和引用补扫；不预设专题，不声称穷尽当周所有内容。"
 }
