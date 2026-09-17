@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Harvey 的并购尽调分工实验，DeepSeek 对全局与持久 KV 缓存的不同取舍，以及 AlphaGenome Atlas 从变异预测到实验筛选的过程。">
+<meta name="author" content="Adam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Research 周报：2026 年 9 月 4 日至 9 月 10 日 | Adam‘s blog">
+<meta property="og:description" content="Harvey 的并购尽调分工实验，DeepSeek 对全局与持久 KV 缓存的不同取舍，以及 AlphaGenome Atlas 从变异预测到实验筛选的过程。">
+<meta property="og:url" content="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-10/">
+<meta property="og:site_name" content="Adam‘s blog">
+<link rel="canonical" href="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-10/">
+<link rel="alternate" type="application/rss+xml" title="Adam‘s blog" href="../../feed.xml">
+<link rel="icon" href="../../assets/avatar.jpg" type="image/jpeg">
+<link rel="stylesheet" href="../../assets/style.css?v=5bccd5a842c9">
+<script src="../../assets/site.js?v=6dee74f69ee7" defer></script>
+<title>Research 周报：2026 年 9 月 4 日至 9 月 10 日 | Adam‘s blog</title>
+</head><body id="top" class="article-page">
+<a class="skip-link" href="#article-content">跳到正文</a>
+<header class="site-header"><div class="header-inner">
+      <a class="brand" href="../../index.html" aria-label="Adam‘s blog 首页">Adam<span class="brand-apostrophe">‘</span>s blog<span class="brand-dot" aria-hidden="true">.</span></a>
+      <nav class="site-nav" aria-label="站点导航"><a href="../../index.html" data-page="home">文章</a><a href="../../archive/index.html" data-page="archive">归档</a><a href="../../about/index.html" data-page="about">关于</a><button class="icon-button js-only" type="button" data-action="theme" aria-label="切换深色主题" aria-pressed="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
+</svg><span class="tooltip" role="tooltip">切换深色主题</span></button></nav>
+    </div><div class="reading-track js-only" role="progressbar" aria-label="阅读进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="reading-fill"></div></div></header>
+<div class="page-layout">
+      <aside class="article-sidebar" aria-label="文章导航"><div class="sidebar-inner">
+        <a class="sidebar-home" href="../../index.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="m12 19-7-7 7-7" />
+  <path d="M19 12H5" />
+</svg> 全部文章</a>
+        <details class="toc-disclosure" open><summary><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-list" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M3 5h.01" />
+  <path d="M3 12h.01" />
+  <path d="M3 19h.01" />
+  <path d="M8 5h13" />
+  <path d="M8 12h13" />
+  <path d="M8 19h13" />
+</svg><span>本篇目录</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-chevron-down" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="m6 9 6 6 6-6" />
+</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>Harvey：多 Agent 做不好，先检查谁在分工</span></a></li><li><a href="#section-27" data-section="section-27"><span class="toc-number">02</span><span>DeepSeek：长上下文的成本，还在缓存的存储和恢复里</span></a></li><li><a href="#section-51" data-section="section-51"><span class="toc-number">03</span><span>AlphaGenome Atlas：先把变异预测算好，再让研究者筛选和验证</span></a></li></ol></nav></details>
+        <div class="sidebar-bottom"><p>研究周报 / 架构与实现</p><a class="download-link" href="../../agent-research-weekly-2026-09-10.md" download><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M12 15V3" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+  <path d="m7 10 5 5 5-5" />
+</svg> Markdown 原稿</a><a class="source-manifest-link" href="../../agent-research-weekly-2026-09-10.sources.json">来源清单 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-up-right" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M7 7h10v10" />
+  <path d="M7 17 17 7" />
+</svg></a><div class="sidebar-progress js-only"><span>阅读进度</span><output id="progress-label">0%</output></div></div>
+      </div></aside>
+      <main id="main-content">
+        <header class="article-header">
+          <nav class="breadcrumbs" aria-label="面包屑导航"><a href="../../index.html">文章</a><span aria-hidden="true">/</span><span>研究周报</span></nav>
+          <h1>Research 周报<span class="subtitle">2026 年 9 月 4 日至 9 月 10 日</span></h1><p class="article-deck">并购尽调、缓存压缩与基因变异预测，三篇当周选读。</p>
+          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-10">2026 年 9 月 10 日</time><span>1,724 字 · 3 项一手资料</span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+</svg><span class="tooltip" role="tooltip">复制文章链接</span></button><a class="icon-button" href="../../agent-research-weekly-2026-09-10.md" download aria-label="下载 Markdown 原稿"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M12 15V3" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+  <path d="m7 10 5 5 5-5" />
+</svg><span class="tooltip" role="tooltip">下载原稿</span></a></div></div>
+        </header>
+        <article id="article-content" class="prose" tabindex="-1"><p>本期选读 Harvey 的并购尽调实验、DeepSeek 的缓存压缩技术报告，以及 Google DeepMind 发布的基因变异预测图谱。</p>
+<h2 id="section-3">Harvey：多 Agent 做不好，先检查谁在分工</h2>
+<p>原文：<a href="https://www.harvey.ai/blog/post-training-rlm-agents-for-m-and-a-diligence">Post-Training RLM Agents for End-to-End M&amp;A Diligence</a> · 2026-09-08</p>
+<p>并购尽调可能要检查数千份文件。风险线索散落在不同材料里，一份看起来完整的报告，可能只覆盖了容易搜到的部分。Harvey 在自己的 LAB Diligence 合成任务中观察到，基线 Agent 往往选择性地搜索和阅读，大量材料没有进入分析。</p>
+<p>Harvey 与 Baseten 把资料室放进可以用代码查询的环境，再由根 Agent 分派范围明确的阅读任务。子 Agent 各读一部分，根 Agent 汇总发现。这样组织之后，值得追问的是：团队表现主要取决于谁读材料，还是谁决定怎么读？</p>
+<p>在 30 个留出资料室的模型组合对照中，固定子 Agent、更换根模型时，最好与最差结果平均相差约 38 个百分点；固定根模型、更换子 Agent 时，差距约为 8 个百分点。这个差距提示，在这些配置里，分工者有值得单独优化的空间。</p>
+<p>随后，他们固定子 Agent，对 Qwen3.5-122B-A10B 根模型做强化学习。在另一组 50 个留出资料室上，评分条目通过率从 29.9% 升到 63.0%。根 Agent 学到的不只是多派任务，还包括边接收阅读结果、边逐步写报告。训练后子 Agent 调用量也增加了，所以这不是等费用条件下的能力比较。</p>
+<p>更多委派层级却没有顺势带来收益。在报告给出的 Qwen 对照中，让子 Agent 使用代码工具并继续委派之后，14 个资料室有 10 个得分下降，平均评分条目通过率降低 19 个百分点，还出现了读过材料却没有交付报告的情况。这里同时改变了子 Agent 的工具能力和委派方式，不能推广成所有递归结构都无效。</p>
+<p>对大量材料分析任务，这篇研究给出的排查顺序很实用：先看遗漏了什么、分工是否覆盖这些材料、结果有没有进入最终交付，再决定是否升级阅读模型或增加层级。数字来自作者自建的合成法律任务和评分体系；评分条目通过率也不等于整项尽调任务的成功率。</p>
+<h2 id="section-27">DeepSeek：长上下文的成本，还在缓存的存储和恢复里</h2>
+<p>原文：<a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/53e70b17d9acb8e0c423f0e4fe5702f25562b63d/DeepSeek_V41_Tech_Report.pdf">DeepSeek-V4.1-Flash 技术报告，固定版本 PDF</a> · 模型发布于 2026-09-10</p>
+<p>重点阅读：第 9 至 11 页、第 19 至 20 页。发布日期参见<a href="https://www.deepseek.com/en/news/deepseek-v4-1-flash/">官方发布说明</a>。</p>
+<p>Agent 连续调用工具时，输入里会不断累积代码、日志和已有对话。KV cache 保存模型处理上下文后的中间状态，让后续请求有机会复用已经完成的计算。历史越长，这些状态的保存、搬运和恢复也越贵。DeepSeek 这份报告没有只讨论怎样减少注意力计算，还拆开了缓存的不同生命周期。</p>
+<p>用于访问全局上下文的缓存，可以在一些层之间共享。CSA2 把“复用 KV”和“复用检索到的位置”分开：有的层生成新缓存和索引，有的层共享缓存但重新选位置，有的层连已选位置也复用。这样既减少重复存储，又不强迫所有层永远读取同一批历史。配合 FP4 缓存，作者报告全局 KV 降到每 token 约 890 字节，约为 DeepSeek-V4-Flash 对应部分的四分之一。</p>
+<p>局部滑动窗口的缓存有另一种访问规律。它在活跃会话中可能很快被复用，但没有必要与全局前缀一起长时间保存。报告中的部署把这部分状态放入短期内存池；如果全局前缀仍在、局部状态已经丢失，就重放末尾一个窗口，近似恢复局部状态，而不是完整重算所有跨层依赖。</p>
+<p>“近似”是这项取舍的关键。重建结果并非与完整前向计算数学等价，作者在所测设置中观察到质量损失很小，但仍把缓存恢复边界列为后续压力测试对象。用少量重新计算换长期存储空间，需要接受并验证这类误差。</p>
+<p>移除持久缓存中的局部窗口状态，再叠加全局 KV 压缩，报告给出的持久 KV 占用约为前代的八分之一。这里有两个不同的比较：全局 KV 约四分之一，持久 KV 约八分之一。它们都不是整台机器总内存或推理账单的缩减比例。对长任务服务，这篇报告提供的观察角度是：哪些状态值得长期保留，哪些只需短期保留，丢失之后恢复要付出什么代价。</p>
+<h2 id="section-51">AlphaGenome Atlas：先把变异预测算好，再让研究者筛选和验证</h2>
+<p>原文：<a href="https://deepmind.google/blog/alphagenome-atlas-a-predictive-map-of-every-possible-dna-letter-change-in-the-human-genome/">AlphaGenome Atlas: A predictive map of every possible DNA letter change in the human genome</a> · 2026-09-08</p>
+<p>研究一个遗传问题时，候选变异可能有成千上万个，其中只有很少一部分与目标现象有关。逐个做实验不现实；即使模型能分析一个变异，研究者仍要面对大规模筛选、排序和解释的工作。</p>
+<p>Google DeepMind 本周发布的 AlphaGenome Atlas，把约 90 亿种可能单碱基变异的分子效应预先计算好，形成可以查询的图谱。这次发布的重点是把模型推断变成可重复使用的数据资源。研究者可以先在全局范围里筛选候选，再对少数变异深入研究，而不必每次从头运行同样的预测。</p>
+<p>配套的 AVI 分数结合 AlphaGenome 对调控效应的预测和 AlphaMissense 对蛋白改变的预测，帮助排序。图谱同时提供分数的特征归因，指出可能受影响的是剪接、基因表达或其他过程。只有排名还不够：机制线索决定下一步应该怎样设计实验。</p>
+<p>团队给出的一个合作案例涉及 DNM1 基因。研究者通过排序找到了此前被忽略的候选变异，底层预测提示它会产生错误剪接位点，造成蛋白异常延长；后续实验筛查支持了这一预测，也发现了附近具有类似效应的变异。这个例子展示了从候选筛选到机制解释、再到实验检验的过程。</p>
+<p>90 亿描述的是预测覆盖范围，不是已经完成的实验验证数量。图谱也只针对这里定义的单碱基变异，不能代表所有遗传变化都已被解释。它的价值在于帮助研究者决定先验证什么；个别案例获得实验支持，不等于整个图谱可以直接用于诊断或治疗判断。</p>
+</article>
+        <footer class="article-footer"><span class="end-mark" aria-hidden="true">∎</span><div><a href="../../index.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="m12 19-7-7 7-7" />
+  <path d="M19 12H5" />
+</svg> 返回全部文章</a><a href="../../agent-research-weekly-2026-09-10.md" download><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M12 15V3" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+  <path d="m7 10 5 5 5-5" />
+</svg> 下载原稿</a></div></footer>
+      </main>
+    </div>
+<footer class="site-footer"><span>Adam‘s blog</span><span>技术笔记</span><nav aria-label="页脚导航"><a href="../../archive/index.html">归档</a><a href="../../about/index.html">关于</a><a href="https://github.com/SaltAdamW/blog">GitHub <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-up-right" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M7 7h10v10" />
+  <path d="M7 17 17 7" />
+</svg></a><a href="../../feed.xml"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-rss" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M4 11a9 9 0 0 1 9 9" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <circle cx="5" cy="19" r="1" />
+</svg> RSS</a></nav></footer>
+<a class="back-to-top js-only icon-button" href="#top" aria-label="回到顶部"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-up" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="m5 12 7-7 7 7" />
+  <path d="M12 19V5" />
+</svg><span class="tooltip" role="tooltip">回到顶部</span></a><div class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+<template id="copy-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-copy" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+</svg></template><template id="check-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M20 6 9 17l-5-5" />
+</svg></template><template id="sun-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="4" />
+  <path d="M12 2v2" />
+  <path d="M12 20v2" />
+  <path d="m4.93 4.93 1.41 1.41" />
+  <path d="m17.66 17.66 1.41 1.41" />
+  <path d="M2 12h2" />
+  <path d="M20 12h2" />
+  <path d="m6.34 17.66-1.41 1.41" />
+  <path d="m19.07 4.93-1.41 1.41" />
+</svg></template><template id="moon-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
+</svg></template>
+</body></html>

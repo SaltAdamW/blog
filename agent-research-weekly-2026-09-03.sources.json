@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-09-17",
+  "compiledAt": "2026-09-17",
+  "window": {
+    "start": "2026-08-28",
+    "end": "2026-09-03"
+  },
+  "verification": "逐条回查原文、日期与关键数字；未进行独立模型复核或实验复现。",
+  "sources": [
+    {
+      "id": "requesty",
+      "title": "What is an AI Gateway? The View from Trillions of Production Tokens",
+      "url": "https://huggingface.co/blog/Thibault-Requesty/requesty",
+      "published_at": "2026-08-29"
+    },
+    {
+      "id": "gigapath",
+      "title": "GigaPath-Flash and GigaTIME-Flash",
+      "url": "https://www.microsoft.com/en-us/research/blog/gigapath-flash-and-gigatime-flash-toward-population-scale-discovery-with-efficient-pathology-foundation-models/",
+      "published_at": "2026-08-31"
+    },
+    {
+      "id": "lemmalog",
+      "title": "I accidentally turned LLM memory into program analysis",
+      "url": "https://pwning.systems/posts/llm-memory-program-analysis/",
+      "published_at": "2026-08-28"
+    }
+  ]
+}

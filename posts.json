@@ -16,14 +16,67 @@
   },
   {
     "slug": "weekly-agent-research-2026-09-17",
-    "title": "Agent 研究周报：2026 年 9 月 17 日",
+    "title": "Research 周报：2026 年 9 月 11 日至 9 月 17 日",
     "date": "2026-09-17",
     "category": "研究周报",
-    "tags": ["Agent", "上下文工程", "多 Agent", "评测"],
-    "description": "从 148 条去重候选中分配精读预算，记录 5 条经原文核验的具体发现，分别说明机制、对照条件、负结果和工程启示。",
-    "deck": "从原文中的机制、对照与负结果，检查 Agent 系统的设计判断。",
-    "word_count": 7222,
+    "tags": [
+      "营销分析",
+      "推理评测",
+      "研发协作"
+    ],
+    "description": "LangChain 营销 Agent 的数据口径与审批流程，MLPerf 新增的应用工作负载，以及 Atria 团队记录的人与 Agent 研发分工。",
+    "deck": "营销分析、推理评测与模型研发，三篇当周选读。",
+    "word_count": 1800,
     "source": "agent-research-weekly-2026-09-17.md",
     "source_manifest": "agent-research-weekly-2026-09-17.sources.json"
+  },
+  {
+    "slug": "weekly-agent-research-2026-08-27",
+    "title": "Research 周报：2026 年 8 月 21 日至 8 月 27 日",
+    "date": "2026-08-27",
+    "category": "研究周报",
+    "tags": [
+      "模型架构",
+      "长任务",
+      "基础设施安全",
+      "记忆更新"
+    ],
+    "description": "Qwen 怎样分配计算与模型容量，NVIDIA AVO 怎样保存长任务进展，微软观察到的基础设施入侵，以及 OpenWiki 对过期知识的复核。",
+    "deck": "模型架构、长任务、安全调查与知识更新，四篇当周选读。",
+    "word_count": 1797,
+    "source": "agent-research-weekly-2026-08-27.md",
+    "source_manifest": "agent-research-weekly-2026-08-27.sources.json"
+  },
+  {
+    "slug": "weekly-agent-research-2026-09-03",
+    "title": "Research 周报：2026 年 8 月 28 日至 9 月 3 日",
+    "date": "2026-09-03",
+    "category": "研究周报",
+    "tags": [
+      "模型路由",
+      "病理研究",
+      "逻辑记忆"
+    ],
+    "description": "Requesty 的缓存与故障切换观察，GigaPath-Flash 的病理模型压缩，以及 Lemmalog 在前提撤回后维护推导状态的实验。",
+    "deck": "生产流量、病理研究与逻辑记忆，三篇当周选读。",
+    "word_count": 1671,
+    "source": "agent-research-weekly-2026-09-03.md",
+    "source_manifest": "agent-research-weekly-2026-09-03.sources.json"
+  },
+  {
+    "slug": "weekly-agent-research-2026-09-10",
+    "title": "Research 周报：2026 年 9 月 4 日至 9 月 10 日",
+    "date": "2026-09-10",
+    "category": "研究周报",
+    "tags": [
+      "Harvey",
+      "DeepSeek",
+      "基因研究"
+    ],
+    "description": "Harvey 的并购尽调分工实验，DeepSeek 对全局与持久 KV 缓存的不同取舍，以及 AlphaGenome Atlas 从变异预测到实验筛选的过程。",
+    "deck": "并购尽调、缓存压缩与基因变异预测，三篇当周选读。",
+    "word_count": 1724,
+    "source": "agent-research-weekly-2026-09-10.md",
+    "source_manifest": "agent-research-weekly-2026-09-10.sources.json"
   }
 ]

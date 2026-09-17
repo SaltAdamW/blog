@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-09-17",
+  "compiledAt": "2026-09-17",
+  "window": {
+    "start": "2026-09-04",
+    "end": "2026-09-10"
+  },
+  "verification": "逐条回查原文、日期与关键数字；未进行独立模型复核或实验复现。",
+  "sources": [
+    {
+      "id": "harvey",
+      "title": "Post-Training RLM Agents for End-to-End M&A Diligence",
+      "url": "https://www.harvey.ai/blog/post-training-rlm-agents-for-m-and-a-diligence",
+      "published_at": "2026-09-08"
+    },
+    {
+      "id": "deepseek",
+      "title": "DeepSeek-V4.1-Flash 技术报告，固定版本 PDF",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/53e70b17d9acb8e0c423f0e4fe5702f25562b63d/DeepSeek_V41_Tech_Report.pdf",
+      "published_at": "2026-09-10",
+      "date_reference": "https://www.deepseek.com/en/news/deepseek-v4-1-flash/",
+      "date_basis": "模型发布日；PDF 为正文链接指定的固定版本。"
+    },
+    {
+      "id": "alphagenome",
+      "title": "AlphaGenome Atlas: A predictive map of every possible DNA letter change in the human genome",
+      "url": "https://deepmind.google/blog/alphagenome-atlas-a-predictive-map-of-every-possible-dna-letter-change-in-the-human-genome/",
+      "published_at": "2026-09-08"
+    }
+  ]
+}

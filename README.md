@@ -4,7 +4,16 @@
 
 ## 文章
 
-Agent 研究周报记录经原文核验的机制、对照与负结果，每期分别保存 Markdown 正文和公开来源清单，入口由 `posts.json` 维护。
+Research 周报按周独立选编材料，不预设专题。每条附原文链接与发布日期，每期分别保存 Markdown 正文和公开来源清单，入口由 `posts.json` 维护。
+
+| 周期 | 在线阅读 | Markdown 原稿 |
+| --- | --- | --- |
+| 2026-08-21 至 08-27 | [第一期](https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-08-27/) | [原稿](agent-research-weekly-2026-08-27.md) |
+| 2026-08-28 至 09-03 | [第二期](https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-03/) | [原稿](agent-research-weekly-2026-09-03.md) |
+| 2026-09-04 至 09-10 | [第三期](https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-10/) | [原稿](agent-research-weekly-2026-09-10.md) |
+| 2026-09-11 至 09-17 | [第四期](https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-17/) | [原稿](agent-research-weekly-2026-09-17.md) |
+
+四期于 2026 年 9 月 17 日补编，列表日期为各期窗口结束日。9 月 17 日一期沿用原链接，内容已重新选编。
 
 《开源 Agent 沙箱的设计：如何复用环境，又让任务彼此独立》
 
@@ -32,6 +41,8 @@ python3 -m venv .venv
 直接打开 `index.html` 即可预览全部页面。页面不依赖服务端，也不会向第三方请求字体或脚本。禁用 JavaScript 后，文章列表、归档、正文、目录和来源链接仍可阅读；搜索和主题切换需要 JavaScript。
 
 GitHub Pages 从 `main` 分支根目录发布。正文或清单变化后，重新生成并一并提交首页、归档、关于页、文章页和 RSS。
+
+本地生成、推送 GitHub 和 Pages 上线是三个不同状态。交付时需确认远端提交与本地一致、对应提交的 Pages 部署成功，并回读线上四期正文、原稿和来源清单；只给出本地文件链接不算发布完成。
 
 ## 新增文章
 

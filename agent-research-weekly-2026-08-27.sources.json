@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-09-17",
+  "compiledAt": "2026-09-17",
+  "window": {
+    "start": "2026-08-21",
+    "end": "2026-08-27"
+  },
+  "verification": "逐条回查原文、日期与关键数字；未进行独立模型复核或实验复现。",
+  "sources": [
+    {
+      "id": "qwen",
+      "title": "Qwen3.8-Flash-Next 官方仓库与架构说明",
+      "url": "https://github.com/QwenLM/Qwen3.8-Flash-Next",
+      "published_at": "2026-08-26"
+    },
+    {
+      "id": "avo",
+      "title": "NVIDIA AVO 的长任务架构与 ARC-AGI-3 实验",
+      "url": "https://developer.nvidia.com/blog/nvidia-avo-reaches-100-on-arc-agi-3-demonstrating-a-frontier-level-general-purpose-architecture-for-long-horizon-autonomous-agents/",
+      "published_at": "2026-08-21"
+    },
+    {
+      "id": "security",
+      "title": "When AI infrastructure becomes the target",
+      "url": "https://www.microsoft.com/en-us/security/blog/2026/08/26/when-ai-infrastructure-becomes-target-securing-gateways-control-points/",
+      "published_at": "2026-08-26"
+    },
+    {
+      "id": "openwiki",
+      "title": "Building Self-Correcting Memory in OpenWiki",
+      "url": "https://www.langchain.com/blog/self-correcting-memory-openwiki",
+      "published_at": "2026-08-25"
+    }
+  ]
+}

@@ -3,11 +3,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="从 148 条去重候选中分配精读预算，记录 5 条经原文核验的具体发现，分别说明机制、对照条件、负结果和工程启示。">
+<meta name="description" content="LangChain 营销 Agent 的数据口径与审批流程，MLPerf 新增的应用工作负载，以及 Atria 团队记录的人与 Agent 研发分工。">
 <meta name="author" content="Adam">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Agent 研究周报：2026 年 9 月 17 日 | Adam‘s blog">
-<meta property="og:description" content="从 148 条去重候选中分配精读预算，记录 5 条经原文核验的具体发现，分别说明机制、对照条件、负结果和工程启示。">
+<meta property="og:title" content="Research 周报：2026 年 9 月 11 日至 9 月 17 日 | Adam‘s blog">
+<meta property="og:description" content="LangChain 营销 Agent 的数据口径与审批流程，MLPerf 新增的应用工作负载，以及 Atria 团队记录的人与 Agent 研发分工。">
 <meta property="og:url" content="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-17/">
 <meta property="og:site_name" content="Adam‘s blog">
 <link rel="canonical" href="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-17/">
@@ -15,7 +15,7 @@
 <link rel="icon" href="../../assets/avatar.jpg" type="image/jpeg">
 <link rel="stylesheet" href="../../assets/style.css?v=5bccd5a842c9">
 <script src="../../assets/site.js?v=6dee74f69ee7" defer></script>
-<title>Agent 研究周报：2026 年 9 月 17 日 | Adam‘s blog</title>
+<title>Research 周报：2026 年 9 月 11 日至 9 月 17 日 | Adam‘s blog</title>
 </head><body id="top" class="article-page">
 <a class="skip-link" href="#article-content">跳到正文</a>
 <header class="site-header"><div class="header-inner">
@@ -39,7 +39,7 @@
   <path d="M8 19h13" />
 </svg><span>本篇目录</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-chevron-down" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m6 9 6 6 6-6" />
-</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-9" data-section="section-9"><span class="toc-number">01</span><span>回答前声明检索状态，显著降低失败后的失实输出</span></a></li><li><a href="#section-63" data-section="section-63"><span class="toc-number">02</span><span>执行护栏降低异常，但成功率提升不等于正常工作无损</span></a></li><li><a href="#section-119" data-section="section-119"><span class="toc-number">03</span><span>协作训练的团队在截止时限内取得更高得分，但尚非等费用优势</span></a></li><li><a href="#section-160" data-section="section-160"><span class="toc-number">04</span><span>批量失败聚合降低演化开销，协同诊断增加平均收益但并非处处有效</span></a></li><li><a href="#section-214" data-section="section-214"><span class="toc-number">05</span><span>编码成绩依赖运行框架，升高推理档位也不保证单调提升</span></a></li><li><a href="#section-255" data-section="section-255"><span class="toc-number">06</span><span>采集范围与未完成部分</span></a></li></ol></nav></details>
+</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>LangChain：营销周报的数字不可靠，问题可能在数据来源</span></a></li><li><a href="#section-27" data-section="section-27"><span class="toc-number">02</span><span>MLPerf：推理评测开始覆盖建库、检索和多轮交互</span></a></li><li><a href="#section-45" data-section="section-45"><span class="toc-number">03</span><span>Atria：Agent 做了更多工作，研究员的判断发生在哪里</span></a></li></ol></nav></details>
         <div class="sidebar-bottom"><p>研究周报 / 架构与实现</p><a class="download-link" href="../../agent-research-weekly-2026-09-17.md" download><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -52,8 +52,8 @@
       <main id="main-content">
         <header class="article-header">
           <nav class="breadcrumbs" aria-label="面包屑导航"><a href="../../index.html">文章</a><span aria-hidden="true">/</span><span>研究周报</span></nav>
-          <h1>Agent 研究周报<span class="subtitle">2026 年 9 月 17 日</span></h1><p class="article-deck">从原文中的机制、对照与负结果，检查 Agent 系统的设计判断。</p>
-          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-17">2026 年 9 月 17 日</time><span>7,222 字 · 4 项一手资料</span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <h1>Research 周报<span class="subtitle">2026 年 9 月 11 日至 9 月 17 日</span></h1><p class="article-deck">营销分析、推理评测与模型研发，三篇当周选读。</p>
+          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-17">2026 年 9 月 17 日</time><span>1,800 字 · 3 项一手资料</span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
 </svg><span class="tooltip" role="tooltip">复制文章链接</span></button><a class="icon-button" href="../../agent-research-weekly-2026-09-17.md" download aria-label="下载 Markdown 原稿"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -62,97 +62,29 @@
   <path d="m7 10 5 5 5-5" />
 </svg><span class="tooltip" role="tooltip">下载原稿</span></a></div></div>
         </header>
-        <article id="article-content" class="prose" tabindex="-1"><p>这份周报关注能够改变 Agent 设计、训练或评估判断的具体发现。每项分别保留原文结果、机制、适用边界和工程推论；厂商自评可以入选，但不等于独立复现。</p>
-<p>采集窗口为 2026-09-10 至 2026-09-17。本轮发现 148 条去重候选，尝试处理 8 篇，完成审稿 7 篇，最终选出 5 条发现。候选包含日期未知的材料，不等于本周新论文数量。材料的发布日期逐项列明，未知日期不视为本周新发布。</p>
-<p>下文由 Codex 根据原文提取，再经单独的事实复核调用与引用片段匹配。这个过程不替代同行评审，也不能证明实验已经复现。</p>
-<h2 id="section-9">回答前声明检索状态，显著降低失败后的失实输出</h2>
-<p>这里的失实率 DR，是失败工具试验中“编造或无警告传递不可用值”与“编造拒答理由”两类输出的占比之和，并非只统计编造答案。</p>
-<p>事实：在同一主实验的 688 例配对比较中，部署提示的 DR 为 14.10%；保留原提示并追加 retrieval_status 要求后为 0.87%，95%区间为[0.15%, 1.71%]，下降 13.23 个百分点（14.10−0.87），92 例改善、1 例恶化。替换为核验指令和仅追加核验指令分别为 4.51%与 6.54%。这是失败报告行为的改善，不是任务完成率提升。框架提示迁移也报告同向下降，但不能据此比较框架优劣。</p>
-<p><strong>问题</strong>：仅要求依据工具输出回答，或要求核验输出，可能仍没有明确规定证据不可用时的输出行为；需要验证显式失败状态是否比一般核验要求更有效。</p>
-<p><strong>机制与证据</strong>：干预在回答前要求输出 OK 或 FAILED，并列举错误、空值、遮蔽、不可读内容及结构错误等不可用情形。作者将优势归因于命名失败分支。比较支持这套提示干预有效，但其他候选提示全文未提供，尚不能将状态字段的作用与异常示例、措辞和输出格式的作用完全分离。</p>
-<p><strong>局限与负结果</strong>：</p>
-<ul>
-<li>作者称按 8/8 领域划分筛选与留出验证，但表 4 展示全部 688 例的汇总结果，不应写成独立留出集上的 14.10%→0.87%；单独留出明细在本版本未提供。</li>
-<li>CrewAI 迁移数字来自八个留出领域，LlamaIndex 和 smolagents 来自全网格。表 2 还注明 CrewAI、LlamaIndex 使用单轮回放，smolagents 使用实时工具循环，样本数不同，不能跨行排名或混算效果（PDF 第 6 页）。</li>
-<li>两个一般核验方案的排序跨协议不稳定（PDF 第 8 页）；命名状态方案在框架提示迁移后仍有残余失实，并非消除故障后的编造。</li>
-<li>全部样本都是失败载荷，未检验有效结果下是否增加误拒答。FAILED 声明被判为诚实报告的高比例不是检测准确率或召回率，且原文观察到正确 FAILED 标记搭配不实解释（PDF 第 8 页）。</li>
-<li>同系列裁判和小规模人工校验限制证据强度；附录未提供原始输出和完整候选提示。增加状态行也不能直接宣称零费用，论文未报告相应时延或 token 成本。</li>
-</ul>
-<p><strong>工程启示（推论）</strong>：可把证据可用性声明纳入工具后处理协议，作为可检查信号，但必须同时审核答案和拒答理由；不能仅凭模型自报 FAILED 就认定整段回复可信。</p>
-<p><strong>最小验证（建议）</strong>：在成功与失败混合的本地任务集上，固定模型和调用预算，对比原提示、仅核验、核验加状态字段；另设保留异常示例但去掉状态字段的消融。预先固定领域留出集，配对统计 DR、有效载荷正确率、误拒答率、状态检测精确率与召回率，并记录 token 和时延。</p>
-<p>原文：<a href="https://arxiv.org/pdf/2609.14758v1">S01 · Fabrication After Tool Failure: Tool-Augmented Agents Assert Values Their Tools Did Not Return</a>。发布日期：未核实。
-证据位置：PDF 第 6、7 页。
-阅读范围：审稿模型本轮获得 76/76 个正文块；不能把全文已解析等同于全文已审读。</p>
-<h2 id="section-63">执行护栏降低异常，但成功率提升不等于正常工作无损</h2>
-<p>事实：在 Claude Code 2.1.19、Claude Haiku 4.5 及同一 Click 仓库快照上，100 个含对抗步骤的任务每条件各运行 3 次。加入 AgentGuard 后，异常执行率从 69.0%降至 26.7%，复合成功率从 21.7%升至 35.0%；原文报告差值分别为−42.3 和+13.3 个百分点。但良性工作完成率从 49.0%降至 42.0%，护栏组过拒绝率为 19.3%。这是有限设置下的可靠性收益，不是无损提升。</p>
-<p><strong>问题</strong>：编码 Agent 即使给出貌似正确的结果，也可能越界改文件、修改断言绕过失败或忽略验证。只看最终成功或异常率，无法判断护栏是否通过放弃合法工作换取安全。</p>
-<p><strong>机制与证据</strong>：方法事实：作者先按任务划分数据，从 282 个任务的 461 条异常轨迹归纳 15 条条件式规则，通过触发条件、禁止动作、授权例外、安全替代和执行阶段组织，并按当前指令加载。它只向上下文加入指令，不修改权限或拦截工具。作者解释：条件约束抑制危险捷径，剩余瓶颈是触发护栏后未继续可行工作。对照支持整套干预的效果，未单独证实规则归纳、授权例外或动态路由各自的贡献。</p>
-<p><strong>局限与负结果</strong>：</p>
-<ul>
-<li>作者自评、单模型、单仓库，且每个评测任务都有注入的对抗步骤；不能外推为普通开发任务或其他 Agent 的自然异常率。每组 300 次执行来自 100 个任务，并非 300 个独立任务。</li>
-<li>三名评审能够识别实验条件，存在非盲评偏差。原文有任务聚类统计，复合成功率差值的 95%区间为[5.3, 21.7]个百分点，但这不消除评审偏差。</li>
-<li>Success 同时要求无异常、正确处理对抗步骤和完成可行良性工作，不是独立的功能修复率。CBR 指可行良性工作的完成率，其差值的 95%区间为[−17.0, 3.0]个百分点；未显著下降不等于已证明无损或非劣。</li>
-<li>过拒绝率的正文称基线为 0，表 2 却标为横线，表文呈现不一致；护栏组 19.3%有明确报告。</li>
-<li>未提供静态规则、人工规则或路由组件消融，正文也未给出完整子技能及归纳器配置；不能断言自动归纳优于人工编写，或动态路由是收益来源。</li>
-<li>平均单次费用从 0.158 美元增至 0.162 美元，耗时从 93.3 秒增至 97.0 秒。这不是等费用对照，也未核算规则构建与人工复核的总成本。</li>
-</ul>
-<p><strong>工程启示（推论）</strong>：护栏验收应联合检查异常率、合法工作完成率与过拒绝，而不是只优化拒绝或安全指标。授权例外和拦截后的继续执行应成为测试重点；提示词护栏不能替代权限隔离。复合成功率上升也不能直接解释为编码能力提升。</p>
-<p><strong>最小验证（建议）</strong>：选 30 个未参与规则归纳的本地任务，覆盖纯良性工作、阻断风险后仍可继续的工作、明确授权修改测试。固定模型、权限及执行上限，比较无护栏与完整护栏，每任务每组各运行 3 次；尽可能盲审异常、复合成功、良性完成和过拒绝，分别记录费用与耗时，按任务聚类估计区间。预先约定良性完成率的非劣界，不能以差异不显著作为无损证明。</p>
-<p>原文：<a href="https://arxiv.org/abs/2609.16287">S02 · AgentGuard: Learning Execution Guardrails from Anomalous Coding-Agent Trajectories</a>。发布日期：2026-09-14。
-阅读范围：审稿模型本轮获得 341/341 个正文块；不能把全文已解析等同于全文已审读。</p>
-<h2 id="section-119">协作训练的团队在截止时限内取得更高得分，但尚非等费用优势</h2>
-<p>事实（作者初步自评）：DeepSeek-V4.1-Flash 的最强团队配置与最强单 Agent 配置比较，在 FrontierSWE v2 无 GPU 子集上，20 小时截止时限的 Mean@5 分别为 32.90%和 28.20%，相差 4.70 个百分点（计算：32.90−28.20）。这支持配置级的时限收益，不证明增加 Agent 数量本身有效。</p>
-<p><strong>问题</strong>：复杂编码任务扩大时间预算时，如何让团队通过委派和并行增加有效产出，而不是只增加通信与同步开销？</p>
-<p><strong>机制与证据</strong>：作者方法：在 Agent Team 模式中，用任务表现、鼓励委派通信的协作奖励和派生时延惩罚共同训练。派生时延依据执行依赖 DAG，以固定推理速率折算 token 成本，加上实测工具耗时，取关键路径长度。作者解释是鼓励有效并行、减少串行与同步；该解释未通过逐项奖励消融独立验证。</p>
-<p><strong>局限与负结果</strong>：</p>
-<ul>
-<li>这是厂商最强配置之间的初步比较，不是同训练、同资源的控制变量消融；无法分离协作奖励、时延惩罚和运行框架的贡献。</li>
-<li>ProgramBench 仅含 172 个参考解通过率至少 95%的筛选任务；516 是每配置计划轨迹数，不能写成实际完成数。FrontierSWE v2 只含公开无 GPU 任务，该实验节未列子集规模。</li>
-<li>相同墙钟期限不等于相同 token、算力或费用；派生时延也不等于线上实测响应时间。</li>
-</ul>
-<p><strong>工程启示（推论）</strong>：有明确交付期限且任务可并行时，值得评估经过协作训练的团队配置；采购和容量决策仍须另看总费用，不能只看截止时限成绩。</p>
-<p><strong>最小验证（建议）</strong>：固定同一 checkpoint、任务和工具，对单 Agent 与成员数固定的团队做配对评测。先统一墙钟期限，记录完成质量、总 token、费用和冲突返工，再增加等总 token 对照；此验证运行配置收益，不归因于训练奖励。</p>
-<p>原文：<a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/53e70b17d9acb8e0c423f0e4fe5702f25562b63d/DeepSeek_V41_Tech_Report.pdf">S03 · DeepSeek-V4.1-Flash Technical Report</a>。发布日期：未核实。
-证据位置：PDF 第 35、36 页。
-阅读范围：审稿模型本轮获得 182/420 个正文块；不能把全文已解析等同于全文已审读。</p>
-<h2 id="section-160">批量失败聚合降低演化开销，协同诊断增加平均收益但并非处处有效</h2>
-<p>文中的 FDCR 指 Failure-Driven Collaborative Refinement，即由失败证据驱动的协同改进；SE 指逐条演化方案。</p>
-<p>事实：在五个任务模型与两个τ²-Bench 子集的冻结评估中，逐条演化、批量聚合、批量聚合加 FDCR 的平均准确率分别为 46.67%、54.67%、59.33%。另在 Qwen3-8B 的 Retail 演化运行中，三者训练墙钟时间分别为 1831.4、1292.4、1405.9 秒，API 费用分别为 8.484、2.485、5.763 美元。聚合本身已有收益；FDCR 相对纯聚合增加训练费用和时间，同时提高总体平均准确率，但并非所有模型、子集和指标均改善。</p>
-<p><strong>问题</strong>：逐条失败触发代码修改，可能反复处理同一缺陷，也可能把当前模型的错误固化为全局限制。作者在六个 Qwen3 模型与领域组合的初步对照中，逐条演化准确率 43.33%，低于固定人工 harness 的 50.28%，说明增加自动修改不保证改进。</p>
-<p><strong>机制与证据</strong>：做法：三种演化方法从同一人工 harness 出发，固定 Qwen3-8B 参数，最多三轮候选生成；编码代理及诊断角色使用 DeepSeek-V4-Pro。SE 逐条修改并累积为轮级候选；聚合方案优先分析至少跨两个任务的失败模式，每个非空轮次调用一次编码代理。FDCR 另加两轮分析、批评与工程协调，再由仲裁角色形成修改规格。候选仅在后续完整训练评估中总分提高时保留，最终冻结并迁移至五个模型。作者解释：跨任务证据可减少把条件性选择改成全局禁令的模型迎合。辅助观察：人工归类的迎合决策占比为 SE 60.0%、Ecdysis 45.5%；这支持解释方向，不证明其导致泛化提升。</p>
-<p><strong>局限与负结果</strong>：</p>
-<ul>
-<li>作者自评，每个子集仅 20 道训练题和 20 道测试题，每道测试题重复三次；这不等于三次独立演化复现，不能据表中波动直接宣称统计显著或广泛泛化。</li>
-<li>成本对应实际演化路径，不是等费用、等调用次数比较。FDCR 同时改变角色组织和推理开销，不能把增益全部归因于多角色协作；API 费用也依赖执行时价格及缓存。</li>
-<li>负结果：MiniMax-M2.7 在 Retail 上加入 FDCR 后，准确率从 100.00%降至 96.67%，三次全成功率从 100.00%降至 90.00%。</li>
-<li>迎合比例分析未披露独立决策总数、标注一致性，该段也未区分 Ecdysis 是否启用 FDCR。跨任务重复只是归纳偏置，同一模型的缺陷也可能跨任务出现。</li>
-<li>候选验收只约束训练总分，不保证每项任务不退化；本实验不能证明自动演化已消除过拟合或合法操作被误禁的风险。</li>
-</ul>
-<p><strong>工程启示（推论）</strong>：优化 harness 时应先把修改单位从单条失败提升到跨任务失败组，将 FDCR 作为需要额外验收的可选模块，而非默认增加角色。修改规格必须写清触发条件、作用范围和应保留的合法行为；上线门槛同时检查目标模型迁移、重复成功率与关键任务回归，不能只看训练总分。</p>
-<p><strong>最小验证（建议）</strong>：建议的最小验证，未执行：固定同一 harness、任务模型和训练集，对照逐条修改、轮级聚合、聚合加 FDCR；统一最多三轮及验收规则，记录实际调用、API 费用和墙钟时间。冻结后在未参与修改的任务及另一模型上各重复评估三次，报告准确率、至少一次成功率、三次全成功率和合法操作误禁案例；另设等费用对照，检验 FDCR 收益能否由额外推理预算解释。</p>
-<p>原文：<a href="https://arxiv.org/abs/2609.11677">S04 · Ecdysis: Efficient and Effective Training of Runtime Harnesses for LLM Agents</a>。发布日期：2026-09-10。
-阅读范围：审稿模型本轮获得 543/543 个正文块；不能把全文已解析等同于全文已审读。</p>
-<h2 id="section-214">编码成绩依赖运行框架，升高推理档位也不保证单调提升</h2>
-<p>事实（作者自评）：Max effort 下，DSH Minimal、Standard、PTC 在 DeepSWE v1.1 的 Resolved 分别为 72.6、70.5、67.6，在 Terminal-Bench v2.1 的 Pass@1 分别为 90.6、85.8、85.8。附录进一步报告：同一 checkpoint 跨三种框架提高 effort 时，输出长度单调增加，准确率却存在平台和回落。正文的单调提升表述不能推广为跨框架规律。</p>
-<p><strong>问题</strong>：只按模型榜单选型，或默认更多工具、更高推理档位必然更好，会忽略提示词、工具接口和交互协议对实际编码结果的影响。</p>
-<p><strong>机制与证据</strong>：作者实验设计：表 4 固定 checkpoint、解码配置和任务集，更换整套运行框架。DSH Minimal 仅用 bash，Standard 提供 26 个初始工具，PTC 通过程序调用 24 个底层工具。这是框架整体对照，不是工具数量消融。附录的长度与准确率脱钩是观察结果，其具体成因尚未隔离。</p>
-<p><strong>局限与负结果</strong>：</p>
-<ul>
-<li>结论限于该模型、框架版本及两个编码基准；不能推导 bash 工具普遍优于结构化工具，也不能证明多框架训练导致了迁移能力。</li>
-<li>共同的上下文和轮数上限不是等 token 或等费用约束。Terminal-Bench 评测禁网，也限制了对含联网工具框架的外推。</li>
-<li>8 次和 3 次采样是表 4 明确披露的口径；图 11 的跨档结果仅按原文作定性判断，不补造曲线点值、采样数或统计显著性。</li>
-</ul>
-<p><strong>工程启示（推论）</strong>：把模型、运行框架和 effort 作为联合配置验收。最大档和工具更多的配置不应自动成为默认项，须在目标任务上寻找质量与成本的合适组合。</p>
-<p><strong>最小验证（建议）</strong>：固定任务集和 checkpoint，对现用框架及 DSH Minimal 分别运行 low、high、max 并重复采样，同时记录任务成功率、输入输出 token、墙钟时间和费用，检查升档不升分及框架排序变化。</p>
-<p>原文：<a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/53e70b17d9acb8e0c423f0e4fe5702f25562b63d/DeepSeek_V41_Tech_Report.pdf">S03 · DeepSeek-V4.1-Flash Technical Report</a>。发布日期：未核实。
-证据位置：PDF 第 34、35、48、49 页。
-阅读范围：审稿模型本轮获得 182/420 个正文块；不能把全文已解析等同于全文已审读。</p>
-<h2 id="section-255">采集范围与未完成部分</h2>
-<p>配置了 16 个固定入口。本轮实际查询 15 个列表或订阅，12 个返回了候选；另有 1 个固定页面仅登记为候选，不能算抓取成功。跨站搜索返回了候选，但未完成全部渠道覆盖。</p>
-<p>固定入口包括：Lance Martin、Harvey Research、Codex Changelog、DeepSeek Research、Anthropic Engineering、OpenAI News、Google DeepMind、Hugging Face Blog、LangChain、Cognition、Cursor、Microsoft Research、Lilian Weng、Simon Willison、Berkeley BAIR、arXiv Multiagent Systems。</p>
-<p>本次运行记录中的失败入口为：DeepSeek Research、Hugging Face Blog、Berkeley BAIR。其中 DeepSeek 导航链接的漏采已在采集器后续修正并单独验证，本期统计保留原运行记录，不追改为成功。</p>
-<p>预算内尚未处理的队列有 148 篇；待补证 1 篇。未处理、未读完或访问失败都不等于研究质量低，也不构成这周没有其他重要工作的证据。</p>
-<p>每个入口最多采集 20 条元数据，预选池最多容纳 100 条，并按域名轮转。本次最多精读 8 篇；这些上限决定了本期覆盖边界，不是对全网 Agent 研究的完整排名。</p>
+        <article id="article-content" class="prose" tabindex="-1"><p>本期选读 LangChain 的营销分析 Agent 实战、MLPerf 新增的推理工作负载，以及 Atria 团队对 AI 参与模型研发的记录。</p>
+<h2 id="section-3">LangChain：营销周报的数字不可靠，问题可能在数据来源</h2>
+<p>原文：<a href="https://www.langchain.com/blog/paid-media-agent">How We Built LangChain's Paid Media Agent</a> · 2026-09-13</p>
+<p>一个营销 Agent 可以把广告支出、点击和销售机会整理成周报，但这些数字不一定能直接拼在一起。不同广告平台有不同的层级、标识和归因窗口，数据仓库里的关联关系也可能不完整。LangChain 的团队记录了一个具体错误：仓库通过关键词关联 Google 广告数据，视频广告却不一定有关键词，结果漏掉了约 10% 的 Google 支出。</p>
+<p>他们没有要求模型从几套互相矛盾的数字里猜一个答案，而是明确每项指标由哪个系统负责。支出、展示和点击以广告平台为准；线索、销售机会和后续销售管道以仓库为准。相关规则写入业务 Wiki，并通过工具可见范围限制错误来源。无法可靠关联的数据保留缺口，同时说明来源、日期窗口和归因口径。</p>
+<p>计算方式也发生了变化。早期版本把大量投放和销售记录交给模型，让它自己计算总量和环比，每次都可能重新走一遍计算过程。后来改由 Python 拉取数据、对齐日期、计算比较并执行固定规则，模型读取紧凑结果，负责解释原因和提出建议。哪些数据可信、数字怎样算，因而可以脱离语言生成单独检查。</p>
+<p>在按平台分派子 Agent 之后，团队又遇到一个与模型能力无关的故障：两个子 Agent 共用报告路径和完成标记，第一个完成后，第二个可能误以为自己也完成了。修正办法是给各平台独立的产物位置和状态。单独的上下文窗口没有自动隔离文件和任务状态，这些仍要由运行系统定义。</p>
+<p>报告之后的操作也没有直接交给模型执行。Agent 可以提出关键词、定向或广告活动的修改建议；服务端检查操作者身份，授权人员核对和批准最终方案，再由代码提交修改并回读广告平台确认结果。分析、审批和实际生效之间有可检查的交接。</p>
+<p>这篇文章适合当作完整工作流的复盘来读：它既解释数据为什么会错，也记录产物丢失和权限边界的问题。作者同时报告了获客成本和营销管道的变化，但这期间预算、投放方式和团队工作都在变化，不能把这些业务结果全部归因于 Agent。文末提出的持续主动监测仍是后续方向，不应与当前的定时和按需运行混写。</p>
+<h2 id="section-27">MLPerf：推理评测开始覆盖建库、检索和多轮交互</h2>
+<p>原文：<a href="https://mlcommons.org/2026/09/mlperf-inference-v6-1-results/">MLPerf Inference v6.1 官方发布说明</a> · 2026-09-16</p>
+<p>一个模型生成得很快，不代表接入知识库后的问答也快。一次请求还可能经过向量化、检索、重排和多次生成；本地 Agent 则会反复读取不断增长的对话。只测单次模型调用，很难看出这些工作负载在哪里受到限制。</p>
+<p>MLCommons 在这次版本中加入了端到端 RAG 测试。它把向量化、向量库检索、重排和模型回答纳入同一条工作流，并分开衡量两类任务：把文档语料建成向量库，以及针对已建好的库回答问题。这一区分避免把数据准备成本和日常查询性能揉成一个数。</p>
+<p>另一个新测试面向边缘设备上的 Agent 推理。它考虑单用户、有限内存与算力条件下的多轮工作，配合延迟指标和准确性门槛。官方说明区分了受时间约束的准确性测试，以及确定性工作负载的性能测试。读取成绩时，也需要区分它是在测任务结果，还是在测给定负载的执行速度。</p>
+<p>这轮还有硬件性能结果，但跨版本最好的加速比，并不等于某台机器上的完整应用都会得到同倍数收益。部分平台以 preview 类别提交，也不能当成已经全面交付。对实际系统更有用的变化是评测对象逐渐接近应用工作流：数据准备、多个模型阶段和多轮历史终于不再全部藏在单次生成速度之外。</p>
+<h2 id="section-45">Atria：Agent 做了更多工作，研究员的判断发生在哪里</h2>
+<p>原文：<a href="https://arxiv.org/html/2609.15818v1">Atria Dawn 技术报告，arXiv v1</a> · 2026-09-14</p>
+<p>如果代码、实验运行和修改大多由 Agent 执行，是否就能说模型研发已经自主化？Atria 团队的技术报告除了介绍新模型，还记录了自己研发过程中人和 Agent 的分工。这部分材料比单纯的代码生成占比提供了更多信息。</p>
+<p>团队分析了 56 位参与者的 769 条任务记录，并结合 Agent 日志，分别询问谁提出方案、谁最终选择方案，以及工作遇到困难之后怎样继续。在方法和参数决策中，85.5% 的最终选择由人完成。模型可以生成候选办法，但选择哪一个、是否值得继续，仍然经常需要研究者判断。</p>
+<p>另一组统计针对 588 条记录了主要困难及应对方式的任务，其中 76.0% 通过人的介入继续推进。介入主要是补充上下文、澄清要求、诊断问题或修改方法，直接接手执行的情况较少。也就是说，人工贡献可能只表现为一小段反馈，却改变了后面很长一段 Agent 工作的方向。</p>
+<p>报告还发现，每条人工提示对应的 Agent 动作数在研发期间增加了。但作者明确提醒，动作变多不能直接读成自主性变强：一次人工判断也可能只是驱动了更多执行。评价研发自动化时，只数模型调用、代码行或连续运行时间，会看不到决策和纠错仍由谁承担。</p>
+<p>这些是一个团队的研发记录和参与者回顾，不是随机分配有无 AI 的生产率实验。记录描述的是团队使用 Agent 开发模型，不等于新发布的 Atria 自己独立完成了自己的研发。参与者认为某些任务“没有 AI 就做不了”，也属于反事实自评，不能据此计算客观的效率倍数。</p>
+<p>报告留下了一个值得继续观察的问题：Agent 能把已经确定的实验做完之后，能否进一步判断哪些研究方向值得投入、从不确定结果中选出下一步？要回答它，需要记录提议、选择和介入发生的位置，而不只记录最终产物是谁写的。</p>
 </article>
         <footer class="article-footer"><span class="end-mark" aria-hidden="true">∎</span><div><a href="../../index.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m12 19-7-7 7-7" />
