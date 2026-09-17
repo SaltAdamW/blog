@@ -137,6 +137,15 @@ class BlogBuildTest(unittest.TestCase):
         for name, content in first.items():
             self.assertEqual((self.root / name).read_bytes(), content, name)
 
+    def test_asset_version_changes_with_content(self):
+        old = build.versioned_asset("assets/site.js")
+        with (self.root / "assets/site.js").open("a") as output:
+            output.write("\n// test\n")
+        self.assertNotEqual(build.versioned_asset("assets/site.js"), old)
+        self.build()
+        for page in self.root.rglob("*.html"):
+            self.assertIn(build.versioned_asset("assets/site.js"), page.read_text())
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -4,6 +4,7 @@ from collections import Counter
 from datetime import date
 from html import escape
 from html.parser import HTMLParser
+from hashlib import sha256
 from pathlib import Path
 from urllib.parse import quote
 import json
@@ -51,6 +52,11 @@ def tool(action, label, symbol, extra=""):
     return f'<button class="icon-button js-only" type="button" data-action="{action}" aria-label="{label}" {extra}>{icon(symbol)}<span class="tooltip" role="tooltip">{label}</span></button>'
 
 
+def versioned_asset(path):
+    digest = sha256((ROOT / path).read_bytes()).hexdigest()[:12]
+    return f"{path}?v={digest}"
+
+
 def site_header(prefix, active, article=False):
     links = []
     for key, text, path in [("home", "文章", "index.html"), ("archive", "归档", "archive/index.html"), ("about", "关于", "about/index.html")]:
@@ -85,8 +91,8 @@ def page_shell(title, description, path, prefix, active, body, *, article=False)
 <link rel="canonical" href="{SITE_URL}{path}">
 <link rel="alternate" type="application/rss+xml" title="{BRAND}" href="{prefix}feed.xml">
 <link rel="icon" href="{prefix}assets/avatar.jpg" type="image/jpeg">
-<link rel="stylesheet" href="{prefix}assets/style.css">
-<script src="{prefix}assets/site.js" defer></script>
+<link rel="stylesheet" href="{prefix}{versioned_asset('assets/style.css')}">
+<script src="{prefix}{versioned_asset('assets/site.js')}" defer></script>
 <title>{escape(title)}</title>
 </head><body id="top" class="{'article-page' if article else 'index-page'}">
 <a class="skip-link" href="#{'article-content' if article else 'main-content'}">跳到正文</a>
