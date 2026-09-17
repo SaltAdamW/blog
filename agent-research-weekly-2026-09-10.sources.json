@@ -26,14 +26,6 @@
       "reading_scope": "固定版本 PDF 第 9 至 11 页、第 19 至 20 页及官方发布日期；本轮保留原有选读，未复现。"
     },
     {
-      "id": "alphagenome",
-      "title": "AlphaGenome Atlas: A predictive map of every possible DNA letter change in the human genome",
-      "url": "https://deepmind.google/blog/alphagenome-atlas-a-predictive-map-of-every-possible-dna-letter-change-in-the-human-genome/",
-      "published_at": "2026-09-08",
-      "review_status": "primary_sections_read",
-      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
-    },
-    {
       "id": "langchain-context",
       "published_at": "2026-09-08",
       "title": "Organizing Context in a Multi-Agent Harness",

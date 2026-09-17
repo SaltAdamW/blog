@@ -41,17 +41,6 @@
       "reading_scope": "完整版本说明及 GitHub API 版本元数据；未安装、升级或测试。"
     },
     {
-      "id": "paper2agent",
-      "published_at": "2026-09-16",
-      "title": "Reimagining Research Papers as Interactive and Reliable AI Agents",
-      "url": "https://www.nature.com/articles/s41586-026-11044-y",
-      "first_published_at": "2025-09-08",
-      "date_reference": "https://arxiv.org/abs/2509.06917",
-      "date_basis": "按 Nature 期刊版归期，非方法首次发布。",
-      "review_status": "primary_sections_read",
-      "reading_scope": "期刊正文的构建流程、100 篇可执行论文评测、26 篇资源层评测、讨论与方法；未复现。"
-    },
-    {
       "id": "pararecover",
       "published_at": "2026-09-11",
       "title": "ParaRecover: A Process-Level Benchmark for Error Localization and Recovery in Parallel Tool-Use Agents",
