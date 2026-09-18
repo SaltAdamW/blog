@@ -39,9 +39,9 @@
       "DSH",
       "工具调用"
     ],
-    "description": "营销 Agent、MLPerf 与 Atria 研发记录，DSH 预发布版本的自动化接口和迁移边界，以及工具故障恢复与选择捷径研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口。",
-    "deck": "从营销与研发实践，读到 DSH 更新和工具调用研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口。",
-    "word_count": 4152,
+    "description": "营销 Agent、MLPerf 与 Atria 研发记录，DSH 预发布版本的自动化接口和迁移边界，以及工具故障恢复与选择捷径研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口；补读Jev 选择浏览器动作，省时是否也省钱？。",
+    "deck": "从营销与研发实践，读到 DSH 更新和工具调用研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口；补读Jev 选择浏览器动作，省时是否也省钱？。",
+    "word_count": 5032,
     "source": "agent-research-weekly-2026-09-17.md",
     "source_manifest": "agent-research-weekly-2026-09-17.sources.json"
   },

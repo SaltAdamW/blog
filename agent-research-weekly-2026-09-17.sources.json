@@ -73,6 +73,15 @@
       "review_status": "primary_sections_read",
       "reading_scope": "正文取材范围 113/113 个原文块，由另一次模型调用复核，未复现实验。",
       "source_sha256": "151e838a743696dcfb1721f5010369baf83c2ee319abec44f77c68254468228d"
+    },
+    {
+      "id": "f693e325f59de387574b5ecf",
+      "title": "How Jev Chooses the Next Browser Action",
+      "url": "https://rtrvr.ai/blog/jev-browser-agent-benchmark",
+      "published_at": "2026-09-16",
+      "review_status": "primary_sections_read",
+      "reading_scope": "正文取材范围 103/103 个原文块，由另一次模型调用复核，未复现实验。",
+      "source_sha256": "cad9ce33a70a14d44428d727d976a8ec04f24690abd4715593da3b8585a58333"
     }
   ],
   "expandedAt": "2026-09-17",
@@ -82,12 +91,12 @@
   },
   "coverage": "按四个周窗口多轮开放检索，沿项目、作者和引用补扫；不预设专题，不声称穷尽当周所有内容。",
   "latest_update": {
-    "run_id": "2026-W38-20260918T110726-9382d4",
-    "scope": "weekly",
-    "search_rounds": 5,
-    "recorded_queries": 280,
-    "unprocessed_candidates": 212,
-    "source_gaps": 5,
+    "run_id": "2026-W38-20260918T134817-d61b73",
+    "scope": "targeted",
+    "search_rounds": 0,
+    "recorded_queries": 0,
+    "unprocessed_candidates": 0,
+    "source_gaps": 0,
     "note": "选读不等于穷尽；未处理材料不代表低质量。"
   }
 }

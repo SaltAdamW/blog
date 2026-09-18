@@ -3,11 +3,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="营销 Agent、MLPerf 与 Atria 研发记录，DSH 预发布版本的自动化接口和迁移边界，以及工具故障恢复与选择捷径研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口。">
+<meta name="description" content="营销 Agent、MLPerf 与 Atria 研发记录，DSH 预发布版本的自动化接口和迁移边界，以及工具故障恢复与选择捷径研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口；补读Jev 选择浏览器动作，省时是否也省钱？。">
 <meta name="author" content="Adam">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Research 周报：2026 年 9 月 11 日至 9 月 17 日 | Adam‘s blog">
-<meta property="og:description" content="营销 Agent、MLPerf 与 Atria 研发记录，DSH 预发布版本的自动化接口和迁移边界，以及工具故障恢复与选择捷径研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口。">
+<meta property="og:description" content="营销 Agent、MLPerf 与 Atria 研发记录，DSH 预发布版本的自动化接口和迁移边界，以及工具故障恢复与选择捷径研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口；补读Jev 选择浏览器动作，省时是否也省钱？。">
 <meta property="og:url" content="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-17/">
 <meta property="og:site_name" content="Adam‘s blog">
 <link rel="canonical" href="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-17/">
@@ -40,7 +40,7 @@
   <path d="M8 19h13" />
 </svg><span>本篇目录</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-chevron-down" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m6 9 6 6 6-6" />
-</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>LangChain：营销周报的数字不可靠，问题可能在数据来源</span></a></li><li><a href="#section-27" data-section="section-27"><span class="toc-number">02</span><span>MLPerf：推理评测开始覆盖建库、检索和多轮交互</span></a></li><li><a href="#section-45" data-section="section-45"><span class="toc-number">03</span><span>Atria：Agent 做了更多工作，研究员的判断发生在哪里</span></a></li><li><a href="#section-69" data-section="section-69"><span class="toc-number">04</span><span>DSH：接入自动化之后，运行事件和执行边界都要可检查</span></a></li><li><a href="#section-87" data-section="section-87"><span class="toc-number">05</span><span>本周简讯</span></a></li><li><a href="#section-114" data-section="section-114"><span class="toc-number">06</span><span>维护任务如何改写后续 Agent 加载的共享模型</span></a></li><li><a href="#section-138" data-section="section-138"><span class="toc-number">07</span><span>Jev 如何替代先生成文本再解析的决策接口</span></a></li></ol></nav></details>
+</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>LangChain：营销周报的数字不可靠，问题可能在数据来源</span></a></li><li><a href="#section-27" data-section="section-27"><span class="toc-number">02</span><span>MLPerf：推理评测开始覆盖建库、检索和多轮交互</span></a></li><li><a href="#section-45" data-section="section-45"><span class="toc-number">03</span><span>Atria：Agent 做了更多工作，研究员的判断发生在哪里</span></a></li><li><a href="#section-69" data-section="section-69"><span class="toc-number">04</span><span>DSH：接入自动化之后，运行事件和执行边界都要可检查</span></a></li><li><a href="#section-87" data-section="section-87"><span class="toc-number">05</span><span>本周简讯</span></a></li><li><a href="#section-114" data-section="section-114"><span class="toc-number">06</span><span>维护任务如何改写后续 Agent 加载的共享模型</span></a></li><li><a href="#section-138" data-section="section-138"><span class="toc-number">07</span><span>Jev 如何替代先生成文本再解析的决策接口</span></a></li><li><a href="#section-159" data-section="section-159"><span class="toc-number">08</span><span>Jev 选择浏览器动作，省时是否也省钱？</span></a></li></ol></nav></details>
         <div class="sidebar-bottom"><p>研究周报 / 架构与实现</p><a class="download-link" href="../../agent-research-weekly-2026-09-17.md" download><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -53,8 +53,8 @@
       <main id="main-content">
         <header class="article-header">
           <nav class="breadcrumbs" aria-label="面包屑导航"><a href="../../index.html">文章</a><span aria-hidden="true">/</span><span>研究周报</span></nav>
-          <h1>Research 周报<span class="subtitle">2026 年 9 月 11 日至 9 月 17 日</span></h1><p class="article-deck">从营销与研发实践，读到 DSH 更新和工具调用研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口。</p>
-          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-17">2026 年 9 月 17 日</time><span>4,152 字 · 8 项一手资料</span><span class="visit-stat" data-view-count="busuanzi_page_pv" hidden>本篇浏览 <span class="visit-value" data-count-value role="status">加载中</span></span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <h1>Research 周报<span class="subtitle">2026 年 9 月 11 日至 9 月 17 日</span></h1><p class="article-deck">从营销与研发实践，读到 DSH 更新和工具调用研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口；补读Jev 选择浏览器动作，省时是否也省钱？。</p>
+          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-17">2026 年 9 月 17 日</time><span>5,032 字 · 9 项一手资料</span><span class="visit-stat" data-view-count="busuanzi_page_pv" hidden>本篇浏览 <span class="visit-value" data-count-value role="status">加载中</span></span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
 </svg><span class="tooltip" role="tooltip">复制文章链接</span></button><a class="icon-button" href="../../agent-research-weekly-2026-09-17.md" download aria-label="下载 Markdown 原稿"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -116,6 +116,14 @@
 <p>发布文中的“不会幻觉”需要收窄理解。作者明确说明，图中的 0% 并非经验测量，而来自 schema 匹配保证。这是对输出符合接口约束的保证，不证明模型选中了正确答案。同样，附带概率不等于校准效果已经得到验证；即使概率经过良好校准，也不意味着某一次高置信判断必然正确。</p>
 <p>已提供正文只介绍了 RLCD 的名称和目标，没有展示足以核对校准效果的指标。正文指向的外链评测及未展开的 FAQ 不能当作已经读过的证据，因此本次入选不背书其普遍速度、费用或准确率优势，也不推断未公开的内部架构。</p>
 <p>我们的判断是，Jev 提供了一个值得纳入选型的接口方向：让开放式生成与有限输出空间内的决策分别承担任务。类型约束可以减少接口层面的失败，但仍需独立检查业务正确率与概率校准，不能借接口合法性取消人工升级或其他错误处理机制。</p>
+<h2 id="section-159">Jev 选择浏览器动作，省时是否也省钱？</h2>
+<p>原文：<a href="https://rtrvr.ai/blog/jev-browser-agent-benchmark">How Jev Chooses the Next Browser Action</a> · 2026-09-16</p>
+<p>浏览器 Agent 即使已经有了操作计划，仍须在每一步从当前页面选出动作。rtrvr 的做法是保留 GLM 编写和修复计划，让 harness 根据页面控件生成参数已填好的菜单，再由 Jev 选择动作或交回 GLM。Jev 不负责生成消息、编造元素标识或拼装工具参数；它替换的是受约束的动作选择环节，而不是整个生成式规划器。</p>
+<p>作者用发送 LinkedIn 消息和向 Amazon 购物车添加两件商品进行本地测试，每个任务分别关闭、开启 Jev 各运行一次。四次运行均使用同一扩展构建和经 GMI 调用的 GLM 5.3 Flash，Jev 对应 jev-1.13.0。作者报告，开启后的耗时分别减少 31% 和 43%。这里统计的是包含浏览器操作与等待的完整规划器调用，不包含调用前准备；基线先运行，页面、计划和确认路径也不同，因此不能视为严格消融或普遍加速幅度。</p>
+<p>时间缩短并没有伴随费用下降。LinkedIn 的估算推理费用从 0.02398 美元升至 0.03308 美元，Amazon 从 0.03298 美元升至 0.04978 美元，作者报告的增幅分别为 38% 和 51%。大页面先经过一轮并行 Score，再将选中的区域和动作交给 Choice。洗发水搜索页的菜单因此从 591 项缩至 82 项，但 Score 本身已经读过被筛掉的材料，不能把下游上下文缩减算成总 token 节省。两次辅助运行合计增加了 39 次 Score 和 11 次 Choice 调用，Score 占 Jev 估算费用的 78.7%。</p>
+<p>作者将增费归因于评分开销超过减少 GLM 调用节省的费用，缓存进一步影响了这笔账：文中 Jev 输入价虽然低于未缓存的 GLM 输入价，却是缓存输入价的 2.8 倍，而基线的缓存命中更多。还有一次 LinkedIn 规划器上下文筛选执行了四次 Score，最终因保留内容过多而退回原始提示。单次 Choice 的 165 至 367 毫秒也不包含评分、页面采集和浏览器执行，不能用来替代完整流程的耗时判断。上述费用均为配置费率下的估算，不是账单，也不包含浏览器基础设施等开销。</p>
+<p>完成验证是另一条必须保留的边界。LinkedIn 的发送动作获得 0.95 概率和 0.94 置信度，浏览器工具却报告没有可观察效果；随后模型读取更新页面，报告消息已带时间戳出现在会话中，但作者没有独立保存最终截图。Amazon 两组运行也选了不同商品，基线打开购物车确认，辅助运行读取添加成功页面，缺少受控的购物车重置记录。因此，类型正确和高置信度不能替代网站状态检查，这些案例也不足以确定自动接受动作的阈值。</p>
+<p>对我们的启示是，动作选择模型值得作为有边界的组件评估，但收益要同时核算评分调用、缓存变化、规划器调用耗时和可核验的完成结果。不能从这四次运行推导所有任务都更快，也不能把替换更贵模型可能省钱写成已验证结论。实验发生在 2026 年 9 月 16 日；文中记载次日上线的 37.9.0 集成已有进一步修改，尚未重新测试，因此这些数字只对应被测本地构建。</p>
 </article>
         <footer class="article-footer"><span class="end-mark" aria-hidden="true">∎</span><div><a href="../../index.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m12 19-7-7 7-7" />
