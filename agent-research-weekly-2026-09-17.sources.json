@@ -1,11 +1,11 @@
 {
-  "checkedAt": "2026-09-17",
+  "checkedAt": "2026-09-18",
   "compiledAt": "2026-09-17",
   "window": {
     "start": "2026-09-11",
     "end": "2026-09-17"
   },
-  "verification": "选读与简讯核对所引用的原文段落、日期和数字；更多原文仅核对题名及日期。未做独立模型复核或实验复现。",
+  "verification": "既有条目保留各自核读范围；本次新增条目核读原文，并由另一次模型调用复核事实。所有条目均未复现实验。",
   "sources": [
     {
       "id": "paid-media",
@@ -55,6 +55,24 @@
       "url": "https://arxiv.org/html/2609.16268v1",
       "review_status": "primary_sections_read",
       "reading_scope": "问题定义、合成数据、工具必要性奖励、反事实实验与伦理局限；未复现。"
+    },
+    {
+      "id": "06440ea6570f518452d9e58f",
+      "title": "Agentic Self-Modification in Open-Weights Systems",
+      "url": "https://www.irregular.com/research/agentic-self-modification-in-open-weights-systems",
+      "published_at": "2026-09-16",
+      "review_status": "primary_sections_read",
+      "reading_scope": "正文取材范围 60/60 个原文块，由另一次模型调用复核，未复现实验。",
+      "source_sha256": "63b4c4122b1203e5ef2adf71d65e7d35b748e0d5c6ca108455db5070869ee8ec"
+    },
+    {
+      "id": "d9e6c4777d482ea93a9ce77a",
+      "title": "Introducing System One Models and Jev",
+      "url": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "published_at": "2026-09-15",
+      "review_status": "primary_sections_read",
+      "reading_scope": "正文取材范围 113/113 个原文块，由另一次模型调用复核，未复现实验。",
+      "source_sha256": "151e838a743696dcfb1721f5010369baf83c2ee319abec44f77c68254468228d"
     }
   ],
   "expandedAt": "2026-09-17",
@@ -62,5 +80,14 @@
     "primary_sections_read": "已读并核对条目涉及的原文段落，不表示全文逐行校核或实验复现。",
     "metadata_only": "仅核对题名和日期，尚未精读正文，不作为实验结论依据。"
   },
-  "coverage": "按四个周窗口多轮开放检索，沿项目、作者和引用补扫；不预设专题，不声称穷尽当周所有内容。"
+  "coverage": "按四个周窗口多轮开放检索，沿项目、作者和引用补扫；不预设专题，不声称穷尽当周所有内容。",
+  "latest_update": {
+    "run_id": "2026-W38-20260918T110726-9382d4",
+    "scope": "weekly",
+    "search_rounds": 5,
+    "recorded_queries": 280,
+    "unprocessed_candidates": 212,
+    "source_gaps": 5,
+    "note": "选读不等于穷尽；未处理材料不代表低质量。"
+  }
 }

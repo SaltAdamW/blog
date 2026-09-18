@@ -4,7 +4,11 @@
     "title": "开源 Agent 沙箱的设计：如何复用环境，又让任务彼此独立",
     "date": "2026-09-17",
     "category": "开源系统",
-    "tags": ["Agent 沙箱", "系统设计", "运行时"],
+    "tags": [
+      "Agent 沙箱",
+      "系统设计",
+      "运行时"
+    ],
     "description": "从重复的环境准备出发，理解开源沙箱如何保存运行状态、创建独立分支，以及如何组织存储、回收、预热池与编排。结合 E2B、Daytona、AgentENV 等项目的一手实现，讨论每种设计的适用条件与代价。",
     "deck": "一次准备，如何成为一百个彼此独立的起点？",
     "closing": "独立运行，不必从零开始。",
@@ -12,7 +16,16 @@
     "source": "article.md",
     "source_manifest": "source-manifest.json",
     "legacy_home": true,
-    "toc_labels": ["阅读主线", "装好软件，为什么还不够", "一份环境，一百个独立起点", "保存现场，不必保留机器", "延续现场，还是重新开始", "恢复之外，还需要什么", "结语", "参考资料"]
+    "toc_labels": [
+      "阅读主线",
+      "装好软件，为什么还不够",
+      "一份环境，一百个独立起点",
+      "保存现场，不必保留机器",
+      "延续现场，还是重新开始",
+      "恢复之外，还需要什么",
+      "结语",
+      "参考资料"
+    ]
   },
   {
     "slug": "weekly-agent-research-2026-09-17",
@@ -26,9 +39,9 @@
       "DSH",
       "工具调用"
     ],
-    "description": "营销 Agent、MLPerf 与 Atria 研发记录，DSH 预发布版本的自动化接口和迁移边界，以及工具故障恢复与选择捷径研究。",
-    "deck": "从营销与研发实践，读到 DSH 更新和工具调用研究。",
-    "word_count": 2698,
+    "description": "营销 Agent、MLPerf 与 Atria 研发记录，DSH 预发布版本的自动化接口和迁移边界，以及工具故障恢复与选择捷径研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口。",
+    "deck": "从营销与研发实践，读到 DSH 更新和工具调用研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口。",
+    "word_count": 4152,
     "source": "agent-research-weekly-2026-09-17.md",
     "source_manifest": "agent-research-weekly-2026-09-17.sources.json"
   },
