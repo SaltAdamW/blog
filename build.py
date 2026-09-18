@@ -7,6 +7,7 @@ from html.parser import HTMLParser
 from hashlib import sha256
 from pathlib import Path
 from urllib.parse import quote
+from urllib.parse import urlsplit
 import json
 import re
 import xml.etree.ElementTree as ET
@@ -38,6 +39,17 @@ def load_posts(root=None):
             path = (root / value).resolve()
             if not path.is_relative_to(root.resolve()) or not path.is_file():
                 raise ValueError(f"文章文件不存在或超出仓库: {value}")
+        for image, figure in post.get("figures", {}).items():
+            for value in (image, figure["mobile"], figure["diagram"]):
+                parsed = urlsplit(value)
+                path = (root / value).resolve()
+                if (parsed.scheme or parsed.netloc or parsed.query or parsed.fragment
+                        or not value.startswith("assets/") or not path.is_relative_to(root.resolve())
+                        or not path.is_file()):
+                    raise ValueError(f"配图资源不存在或超出仓库: {value}")
+            for key in ("width", "height", "mobile_width", "mobile_height"):
+                if type(figure[key]) is not int or figure[key] <= 0:
+                    raise ValueError(f"配图尺寸必须为正整数: {image}: {key}")
         post["url"] = f"posts/{slug}/"
     return sorted(posts, key=lambda post: (post["date"], post["slug"]), reverse=True)
 
@@ -116,6 +128,23 @@ def date_label(value):
     return f"{parsed.year} 年 {parsed.month} 月 {parsed.day} 日"
 
 
+def render_figure(image, figure, prefix, alt):
+    desktop = escape(prefix + image, quote=True)
+    mobile = escape(prefix + figure["mobile"], quote=True)
+    diagram = escape(prefix + figure["diagram"], quote=True)
+    return f'''<figure class="entry-figure">
+      <a class="figure-open" href="{desktop}" target="_blank" rel="noopener" aria-label="在新窗口查看完整机制图">
+        <picture><source media="(max-width: 719px)" srcset="{mobile}" width="{figure['mobile_width']}" height="{figure['mobile_height']}">
+          <img src="{desktop}" alt="{escape(alt, quote=True)}" width="{figure['width']}" height="{figure['height']}" loading="lazy" decoding="async">
+        </picture>
+      </a>
+      <figcaption><p>{escape(figure['caption'])}</p><div class="figure-tools">
+        <a class="icon-button" href="{desktop}" download aria-label="下载机制图 PNG">{icon('download')}<span class="tooltip" role="tooltip">下载 PNG</span></a>
+        <a class="icon-button" href="{diagram}" download aria-label="下载可编辑图源">{icon('copy')}<span class="tooltip" role="tooltip">可编辑图源</span></a>
+      </div></figcaption>
+    </figure>'''
+
+
 def render_article(post):
     prefix = "../../"
     manifest = json.loads((ROOT / post["source_manifest"]).read_text()) if post.get("source_manifest") else {"sources": []}
@@ -134,6 +163,24 @@ def render_article(post):
     if not tokens or tokens[0].type != "heading_open" or tokens[0].tag != "h1" or tokens[1].content != post["title"]:
         raise ValueError(f"文章标题与清单不一致: {post['source']}")
     tokens = tokens[3:]
+    # Markdown 保持仓库内可读；只有登记的独立图片段落扩展成响应式图示。
+    figures = post.get("figures", {})
+    rendered_figures = set()
+    for index, token in enumerate(tokens):
+        if token.type != "inline" or len(token.children or []) != 1:
+            continue
+        image = token.children[0]
+        if image.type != "image" or image.attrGet("src") not in figures:
+            continue
+        if tokens[index - 1].type != "paragraph_open" or tokens[index + 1].type != "paragraph_close":
+            continue
+        src = image.attrGet("src")
+        alt = parser.renderer.renderInlineAsText(image.children or [], parser.options, {})
+        tokens[index - 1].hidden = tokens[index + 1].hidden = True
+        token.type, token.content, token.children = "html_block", render_figure(src, figures[src], prefix, alt), None
+        rendered_figures.add(src)
+    if set(figures) != rendered_figures:
+        raise ValueError(f"配图没有对应的独立 Markdown 图片段落: {set(figures) - rendered_figures}")
     sections = []
     for index, token in enumerate(tokens):
         if token.type == "heading_open":

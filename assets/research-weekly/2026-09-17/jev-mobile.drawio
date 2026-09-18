@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="jev-mobile" name="jev-mobile">
+    <mxGraphModel grid="0" page="1" pageWidth="560" pageHeight="1290" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="" style="fillColor=#ffffff;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="560" height="1290" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="生成计划，选择动作" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=30;fontColor=#202724;fontStyle=1;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="22" width="512" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="rtrvr 接入 Jev 的动作循环" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#57645f;fontStyle=0;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="76" width="512" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;GLM&lt;/b&gt;&lt;br&gt;写计划、生成文字与代码&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#eff3fb;strokeColor=#3056a0;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="80" y="144" width="396" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#3056a0;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="278" y="244" as="sourcePoint" />
+            <mxPoint x="278" y="326" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7" value="局部目标" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#3056a0;fontStyle=0;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="304" y="270" width="166" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;01 观察页面&lt;/b&gt;&lt;br&gt;当前控件、内容、操作结果&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#f5f7f5;strokeColor=#ccd6d1;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="80" y="326" width="396" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#57645f;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="278" y="426" as="sourcePoint" />
+            <mxPoint x="278" y="476" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="10" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;02 准备菜单&lt;/b&gt;&lt;br&gt;每项是已填好参数的动作&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#f5f7f5;strokeColor=#ccd6d1;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="80" y="476" width="396" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#167465;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="104" y="584" as="sourcePoint" />
+            <mxPoint x="104" y="854" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="12" value="小输入&#10;直接选择" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#167465;fontStyle=0;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="126" y="674" width="142" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#167465;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="378" y="584" as="sourcePoint" />
+            <mxPoint x="378" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="14" value="输入过大" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#167465;fontStyle=0;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="258" y="610" width="112" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;Score&lt;/b&gt;&lt;br&gt;并行评分&lt;br&gt;筛选原文与动作&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#e9f4ef;strokeColor=#167465;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="280" y="660" width="196" height="128" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#167465;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="378" y="788" as="sourcePoint" />
+            <mxPoint x="378" y="854" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="17" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;03 Choice&lt;/b&gt;&lt;br&gt;选一项动作，或 delegate&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#e9f4ef;strokeColor=#167465;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="80" y="854" width="396" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#3056a0;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=1;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="476" y="904" as="sourcePoint" />
+            <mxPoint x="476" y="194" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="524" y="904" />
+              <mxPoint x="524" y="194" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="19" value="委&#10;派" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#3056a0;fontStyle=0;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="488" y="472" width="30" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#167465;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="278" y="954" as="sourcePoint" />
+            <mxPoint x="278" y="1036" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="21" value="已选动作" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#167465;fontStyle=0;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="306" y="976" width="168" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;04 执行&lt;/b&gt;&lt;br&gt;操作页面，读取新的结果&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#f5f7f5;strokeColor=#ccd6d1;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1036" width="396" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="23" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#57645f;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="1086" as="sourcePoint" />
+            <mxPoint x="80" y="376" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="40" y="1086" />
+              <mxPoint x="40" y="376" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="24" value="新&#10;页&#10;面" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#57645f;fontStyle=0;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="8" y="748" width="26" height="116" as="geometry" />
+        </mxCell>
+        <mxCell id="25" value="菜单约束输出。" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fontStyle=1;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="1174" width="512" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="26" value="任务是否完成，仍要看执行后的状态。" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#57645f;fontStyle=0;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="1220" width="512" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

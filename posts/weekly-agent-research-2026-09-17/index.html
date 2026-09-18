@@ -13,7 +13,7 @@
 <link rel="canonical" href="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-17/">
 <link rel="alternate" type="application/rss+xml" title="Adam‘s blog" href="../../feed.xml">
 <link rel="icon" href="../../assets/avatar.jpg" type="image/jpeg">
-<link rel="stylesheet" href="../../assets/style.css?v=7dcbb4ddabfe">
+<link rel="stylesheet" href="../../assets/style.css?v=4c5bc0fc32d8">
 <script src="../../assets/site.js?v=6dee74f69ee7" defer></script>
 <script src="../../assets/analytics.js?v=23a2bb2f0950" defer></script>
 <title>Research 周报：2026 年 9 月 11 日至 9 月 17 日 | Adam‘s blog</title>
@@ -40,7 +40,7 @@
   <path d="M8 19h13" />
 </svg><span>本篇目录</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-chevron-down" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m6 9 6 6 6-6" />
-</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>LangChain：营销周报的数字不可靠，问题可能在数据来源</span></a></li><li><a href="#section-27" data-section="section-27"><span class="toc-number">02</span><span>MLPerf：推理评测开始覆盖建库、检索和多轮交互</span></a></li><li><a href="#section-45" data-section="section-45"><span class="toc-number">03</span><span>Atria：Agent 做了更多工作，研究员的判断发生在哪里</span></a></li><li><a href="#section-69" data-section="section-69"><span class="toc-number">04</span><span>DSH：接入自动化之后，运行事件和执行边界都要可检查</span></a></li><li><a href="#section-87" data-section="section-87"><span class="toc-number">05</span><span>本周简讯</span></a></li><li><a href="#section-114" data-section="section-114"><span class="toc-number">06</span><span>维护任务如何改写后续 Agent 加载的共享模型</span></a></li><li><a href="#section-138" data-section="section-138"><span class="toc-number">07</span><span>Jev 如何替代先生成文本再解析的决策接口</span></a></li><li><a href="#section-159" data-section="section-159"><span class="toc-number">08</span><span>Jev 选择浏览器动作，省时是否也省钱？</span></a></li></ol></nav></details>
+</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-3" data-section="section-3"><span class="toc-number">01</span><span>LangChain：营销周报的数字不可靠，问题可能在数据来源</span></a></li><li><a href="#section-27" data-section="section-27"><span class="toc-number">02</span><span>MLPerf 开始测完整流程：模型吐字快，为什么应用还会慢？</span></a></li><li><a href="#section-90" data-section="section-90"><span class="toc-number">03</span><span>Atria：Agent 做了更多工作，研究员的判断发生在哪里</span></a></li><li><a href="#section-114" data-section="section-114"><span class="toc-number">04</span><span>DSH：接入自动化之后，运行事件和执行边界都要可检查</span></a></li><li><a href="#section-132" data-section="section-132"><span class="toc-number">05</span><span>本周简讯</span></a></li><li><a href="#section-159" data-section="section-159"><span class="toc-number">06</span><span>维护任务如何改写后续 Agent 加载的共享模型</span></a></li><li><a href="#section-183" data-section="section-183"><span class="toc-number">07</span><span>Jev 如何替代先生成文本再解析的决策接口</span></a></li><li><a href="#section-204" data-section="section-204"><span class="toc-number">08</span><span>Jev 接入浏览器之后，哪些事还得由大模型来做？</span></a></li></ol></nav></details>
         <div class="sidebar-bottom"><p>研究周报 / 架构与实现</p><a class="download-link" href="../../agent-research-weekly-2026-09-17.md" download><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -54,7 +54,7 @@
         <header class="article-header">
           <nav class="breadcrumbs" aria-label="面包屑导航"><a href="../../index.html">文章</a><span aria-hidden="true">/</span><span>研究周报</span></nav>
           <h1>Research 周报<span class="subtitle">2026 年 9 月 11 日至 9 月 17 日</span></h1><p class="article-deck">从营销与研发实践，读到 DSH 更新、工具调用可靠性，以及 Jev 在浏览器任务中的时间与费用权衡。</p>
-          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-17">2026 年 9 月 17 日</time><span>5,032 字 · 9 项一手资料</span><span class="visit-stat" data-view-count="busuanzi_page_pv" hidden>本篇浏览 <span class="visit-value" data-count-value role="status">加载中</span></span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-17">2026 年 9 月 17 日</time><span>6,733 字 · 9 项一手资料</span><span class="visit-stat" data-view-count="busuanzi_page_pv" hidden>本篇浏览 <span class="visit-value" data-count-value role="status">加载中</span></span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
 </svg><span class="tooltip" role="tooltip">复制文章链接</span></button><a class="icon-button" href="../../agent-research-weekly-2026-09-17.md" download aria-label="下载 Markdown 原稿"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -63,7 +63,7 @@
   <path d="m7 10 5 5 5-5" />
 </svg><span class="tooltip" role="tooltip">下载原稿</span></a></div></div>
         </header>
-        <article id="article-content" class="prose" tabindex="-1"><p>本期选读营销分析、推理评测与模型研发，补入 DSH 预发布更新；简讯关注并行工具调用的故障恢复，以及强化学习中的工具选择捷径。</p>
+        <article id="article-content" class="prose" tabindex="-1"><p>本期选读营销分析、推理评测与模型研发，追踪 DSH 更新、共享模型安全，以及 Jev 的决策接口与浏览器集成；简讯关注并行工具调用的故障恢复和强化学习中的工具选择捷径。</p>
 <h2 id="section-3">LangChain：营销周报的数字不可靠，问题可能在数据来源</h2>
 <p>原文：<a href="https://www.langchain.com/blog/paid-media-agent">How We Built LangChain's Paid Media Agent</a> · 2026-09-13</p>
 <p>一个营销 Agent 可以把广告支出、点击和销售机会整理成周报，但这些数字不一定能直接拼在一起。不同广告平台有不同的层级、标识和归因窗口，数据仓库里的关联关系也可能不完整。LangChain 的团队记录了一个具体错误：仓库通过关键词关联 Google 广告数据，视频广告却不一定有关键词，结果漏掉了约 10% 的 Google 支出。</p>
@@ -72,13 +72,45 @@
 <p>在按平台分派子 Agent 之后，团队又遇到一个与模型能力无关的故障：两个子 Agent 共用报告路径和完成标记，第一个完成后，第二个可能误以为自己也完成了。修正办法是给各平台独立的产物位置和状态。单独的上下文窗口没有自动隔离文件和任务状态，这些仍要由运行系统定义。</p>
 <p>报告之后的操作也没有直接交给模型执行。Agent 可以提出关键词、定向或广告活动的修改建议；服务端检查操作者身份，授权人员核对和批准最终方案，再由代码提交修改并回读广告平台确认结果。分析、审批和实际生效之间有可检查的交接。</p>
 <p>这篇文章适合当作完整工作流的复盘来读：它既解释数据为什么会错，也记录产物丢失和权限边界的问题。作者同时报告了获客成本和营销管道的变化，但这期间预算、投放方式和团队工作都在变化，不能把这些业务结果全部归因于 Agent。文末提出的持续主动监测仍是后续方向，不应与当前的定时和按需运行混写。</p>
-<h2 id="section-27">MLPerf：推理评测开始覆盖建库、检索和多轮交互</h2>
+<h2 id="section-27">MLPerf 开始测完整流程：模型吐字快，为什么应用还会慢？</h2>
 <p>原文：<a href="https://mlcommons.org/2026/09/mlperf-inference-v6-1-results/">MLPerf Inference v6.1 官方发布说明</a> · 2026-09-16</p>
-<p>一个模型生成得很快，不代表接入知识库后的问答也快。一次请求还可能经过向量化、检索、重排和多次生成；本地 Agent 则会反复读取不断增长的对话。只测单次模型调用，很难看出这些工作负载在哪里受到限制。</p>
-<p>MLCommons 在这次版本中加入了端到端 RAG 测试。它把向量化、向量库检索、重排和模型回答纳入同一条工作流，并分开衡量两类任务：把文档语料建成向量库，以及针对已建好的库回答问题。这一区分避免把数据准备成本和日常查询性能揉成一个数。</p>
-<p>另一个新测试面向边缘设备上的 Agent 推理。它考虑单用户、有限内存与算力条件下的多轮工作，配合延迟指标和准确性门槛。官方说明区分了受时间约束的准确性测试，以及确定性工作负载的性能测试。读取成绩时，也需要区分它是在测任务结果，还是在测给定负载的执行速度。</p>
-<p>这轮还有硬件性能结果，但跨版本最好的加速比，并不等于某台机器上的完整应用都会得到同倍数收益。部分平台以 preview 类别提交，也不能当成已经全面交付。对实际系统更有用的变化是评测对象逐渐接近应用工作流：数据准备、多个模型阶段和多轮历史终于不再全部藏在单次生成速度之外。</p>
-<h2 id="section-45">Atria：Agent 做了更多工作，研究员的判断发生在哪里</h2>
+<p>向知识库提一个问题，用户等待的是有依据的答案，不是某个模型生成第一个字。系统可能先查资料、筛选段落，最后才把材料交给大模型。即使最后一步变快，前面的等待仍然存在。MLPerf Inference v6.1 新增的端到端 RAG 与边缘 Agentic Inference 两项测试，关注的正是单次模型调用之外的工作。[1]</p>
+<p>它们对应两种不同的性能问题：RAG 要测清多个处理阶段组合后的表现；Agent 多轮任务还要面对不断增长的历史，以及前一轮结果对后一轮工作的影响。两者不能画成一条流水线，也不能用一个模型的生成速度替代。</p>
+<figure class="entry-figure">
+      <a class="figure-open" href="../../assets/research-weekly/2026-09-17/mlperf.png" target="_blank" rel="noopener" aria-label="在新窗口查看完整机制图">
+        <picture><source media="(max-width: 719px)" srcset="../../assets/research-weekly/2026-09-17/mlperf-mobile.png" width="560" height="1640">
+          <img src="../../assets/research-weekly/2026-09-17/mlperf.png" alt="RAG 建库、RAG 查询与独立的 Edge Agentic 测试边界" width="1120" height="900" loading="lazy" decoding="async">
+        </picture>
+      </a>
+      <figcaption><p>图：两项测试的边界。RAG 分别测建库与查询，虚线表示复用已有库；下方 Edge Agentic 是另一项测试，其循环为工作负载关系示意。</p><div class="figure-tools">
+        <a class="icon-button" href="../../assets/research-weekly/2026-09-17/mlperf.png" download aria-label="下载机制图 PNG"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M12 15V3" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+  <path d="m7 10 5 5 5-5" />
+</svg><span class="tooltip" role="tooltip">下载 PNG</span></a>
+        <a class="icon-button" href="../../assets/research-weekly/2026-09-17/mlperf.drawio" download aria-label="下载可编辑图源"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-copy" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+</svg><span class="tooltip" role="tooltip">可编辑图源</span></a>
+      </div></figcaption>
+    </figure>
+<h3 id="section-42">一次知识库问答，要先走完哪些步骤</h3>
+<p>以“某款设备能否在低温环境下工作”为教学例子，系统需要先从资料库找出相关规格，再组织答案。MLCommons 公告描述的 RAG 查询流程是：把问题转换成向量，用它从向量数据库找出候选段落，再由重排模型细化候选顺序，最后让一个或多个大模型依据材料推理并回答。[1]</p>
+<p>这里的向量可以理解为供系统比较内容相关性的数值表示。检索先找到候选，重排再进一步筛选它们，大模型才有材料可用。仅仅计量大模型生成答案的速度，会漏掉前面的查询编码、检索与重排；如果等待主要发生在那里，换一个生成更快的模型，用户也未必会按同样比例更快拿到答案。</p>
+<p>但“端到端”还需要说清起点。资料库不会凭空存在，文档得先被处理、写入向量数据库。v6.1 为此分开测量两项任务：<strong>把文档集摄入并建库</strong>，以及<strong>对已经建好的库执行查询问答</strong>。第二项不是每来一个问题，就把整个资料库重建一次。[1]</p>
+<p>这个分界会直接影响我们怎样理解结果。对于资料相对稳定、反复接受查询的系统，建库工作可以被后续多次查询共同分摊；对于频繁更新的资料，数据处理又会成为持续发生的工作。这是从流程划分得到的工程分析，不是公告给出的性能结论。只有先知道自己的使用方式，才知道该把重点放在建库、查询，还是两者的组合成本上。</p>
+<h3 id="section-57">多轮 Agent 的难点，是后一轮不能脱离前一轮</h3>
+<p>RAG 的查询链条已经不止一次模型调用，但多轮 Agent 还多了一层依赖。比如编码任务往往需要先收集线索，再据此修改，随后根据新的结果继续判断。后面的输入不只是一个新问题，还包含前面的交互历史；在任务推进时，需要处理的上下文也会增长。[2]</p>
+<p>这让“单独一次调用有多快”不足以描述整项任务。每一轮都可能在等上一轮提供信息，固定的一次性输入又无法反映历史增长后的计算需求。MLPerf 新增的 Edge Agentic Inference 因而使用单流编码工作负载，并针对边缘模型、量化和延迟指标设计测试。其场景是一次服务一个用户，同时受固定内存、算力、功耗和上下文条件约束。[2]</p>
+<p>速度也不能脱离完成质量单独比较。一个系统提早停止，或者少做了必要工作，可能看起来更快，却没有完成相同任务。公告给出的测试安排包含两个角度：一项看时间限制下的工作负载准确率；另一项在带有内置准确性检查的确定性工作负载上测性能，并设置准确率门槛。[2]</p>
+<p>这并不意味着它已经覆盖所有 Agent，更不等于测过任意网页或桌面操作。这里明确采用的是边缘端单流编码任务。它带来的变化在于，性能比较开始同时限定“执行什么工作”“允许什么资源与等待”“完成质量如何检查”，而不是只问模型每秒能生成多少 token。</p>
+<p>对 Agent 和 harness 的工程实践来说，这提供了一个更具体的读榜方法：先确认测试边界是否接近自己的任务，再看同一条件下的性能。知识库系统要看检索链条有没有被算进去，多轮助手要看历史依赖与准确性约束有没有被保留下来。脱离这些前提，硬件榜单上的倍数无法直接换算成用户少等了多少时间。</p>
+<h4 id="section-75">原文</h4>
+<ul>
+<li>[1] <a href="https://mlcommons.org/2026/09/mlperf-inference-v6-1-results/">MLCommons：MLPerf Inference v6.1 发布公告</a>，<strong>2026 年 9 月 16 日</strong>，见 “Evolution of the benchmark” 中的 End-to-End RAG 介绍。</li>
+<li>[2] 同文，见 Edge Agentic Inference 介绍。本文依据发布公告解释测试范围，不补写公告未给出的模型配置、时间阈值或完整评分规则。</li>
+</ul>
+<h2 id="section-90">Atria：Agent 做了更多工作，研究员的判断发生在哪里</h2>
 <p>原文：<a href="https://arxiv.org/html/2609.15818v1">Atria Dawn 技术报告，arXiv v1</a> · 2026-09-14</p>
 <p>如果代码、实验运行和修改大多由 Agent 执行，是否就能说模型研发已经自主化？Atria 团队的技术报告除了介绍新模型，还记录了自己研发过程中人和 Agent 的分工。这部分材料比单纯的代码生成占比提供了更多信息。</p>
 <p>团队分析了 56 位参与者的 769 条任务记录，并结合 Agent 日志，分别询问谁提出方案、谁最终选择方案，以及工作遇到困难之后怎样继续。在方法和参数决策中，85.5% 的最终选择由人完成。模型可以生成候选办法，但选择哪一个、是否值得继续，仍然经常需要研究者判断。</p>
@@ -86,22 +118,22 @@
 <p>报告还发现，每条人工提示对应的 Agent 动作数在研发期间增加了。但作者明确提醒，动作变多不能直接读成自主性变强：一次人工判断也可能只是驱动了更多执行。评价研发自动化时，只数模型调用、代码行或连续运行时间，会看不到决策和纠错仍由谁承担。</p>
 <p>这些是一个团队的研发记录和参与者回顾，不是随机分配有无 AI 的生产率实验。记录描述的是团队使用 Agent 开发模型，不等于新发布的 Atria 自己独立完成了自己的研发。参与者认为某些任务“没有 AI 就做不了”，也属于反事实自评，不能据此计算客观的效率倍数。</p>
 <p>报告留下了一个值得继续观察的问题：Agent 能把已经确定的实验做完之后，能否进一步判断哪些研究方向值得投入、从不确定结果中选出下一步？要回答它，需要记录提议、选择和介入发生的位置，而不只记录最终产物是谁写的。</p>
-<h2 id="section-69">DSH：接入自动化之后，运行事件和执行边界都要可检查</h2>
+<h2 id="section-114">DSH：接入自动化之后，运行事件和执行边界都要可检查</h2>
 <p>原文：<a href="https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.6-alpha.1">DeepSeek Harness v0.1.6-alpha.1 发布说明</a> · 2026-09-15，预发布版本</p>
 <p>把本地编码助手接入任务系统后，仅有聊天窗口不够：调度端需要提交任务、继续已有会话，并区分正在执行、等待反馈和已经结束。本次 DSH 的 Headless 更新支持从标准输入接收任务，以 <code>--session-id</code> 续接会话，以 <code>--json</code> 逐行输出运行事件。文件、命令和程序化工具调用也扩展到经 SSH 使用远端工作区。</p>
 <p>工具范围同时扩展到 MCP 资源与 URI 模板，以及实验性的 Browser Use、Computer Use 和 Auto review。后几项仍应按实验能力理解，发布说明本身不能证明它们在无人值守流程中已经可靠。</p>
 <p>执行边界的变化需要与功能一起读。Node PTC 改用独立进程，受会话文件策略、输出量和堆内存限制，<code>process.env</code> 为空。自定义代码若依赖旧进程环境，就需要适配；PTC 服务改名、工作流执行器改名和移除内置 E2B 后端，也会影响已有插件与配置。配置热更新不再保证事务回滚，插件激活失败时可能部分生效。</p>
 <p>还有一项容易被功能列表掩盖的默认行为：使用 DeepSeek 模型适配器连接官方 API 时，随请求上报会话事件的实验功能处于开启状态，可在配置中关闭。评估版本时，应一起检查事件上报、插件兼容和文件策略，而不能只看新增工具。本条依据该预发布版本的说明，未执行安装、升级或运行测试。</p>
-<h2 id="section-87">本周简讯</h2>
-<h3 id="section-90">ParaRecover：并行分支出错后，不必把整条任务重做</h3>
+<h2 id="section-132">本周简讯</h2>
+<h3 id="section-135">ParaRecover：并行分支出错后，不必把整条任务重做</h3>
 <p>原文：<a href="https://arxiv.org/html/2609.12345v1">ParaRecover: A Process-Level Benchmark for Error Localization and Recovery in Parallel Tool-Use Agents，arXiv v1</a> · 2026-09-11</p>
 <p>一个工具调用失败后，Agent 可能错误地重启全部流程，或继续使用已经失效的下游结果。ParaRecover 用依赖图表示并行任务，围绕规划依赖、工具选择和参数匹配组织 14 类错误，再分别考察最近一轮故障和跨轮传播。SDE 评分关注计划能否执行、诊断是否准确、重新规划是否只改必要部分。</p>
 <p>其 10,626 个实例来自执行轨迹与注入错误后的扩充，工具环境采用受控模拟，并非同等数量的线上事故。评分结合脚本和模型判断，因此适合作为故障恢复评测的参考，不能把它的分数直接换算成生产可靠性。</p>
-<h3 id="section-102">Spurious Tool Use：答案正确，也可能选错了使用工具的理由</h3>
+<h3 id="section-147">Spurious Tool Use：答案正确，也可能选错了使用工具的理由</h3>
 <p>原文：<a href="https://arxiv.org/html/2609.16268v1">Spurious Tool Use: When RL Agents Learn the Wrong Reason to Act，arXiv v1</a> · 2026-09-14</p>
 <p>训练数据中，如果某种格式标记总与搜索任务同时出现，Agent 可能学会“看到标记就搜索”。即便搜索没有帮助，最后仍可能答对，单看答案奖励就发现不了这条捷径。论文在受控的事实问答与数学任务中注入标记，再交换标记与任务的组合，观察工具选择是否跟着无关线索变化。</p>
 <p>作者引入逐次工具必要性奖励，由模型评判调用是否需要，在所测设置中抑制了这类行为。但实验使用合成条件，必要性的裁判也会带入自身偏差，不能推广成所有生产工具调用都应被同样惩罚。它提醒训练和评测者：任务结果之外，还要检查模型为何在这一步调用这个工具。</p>
-<h2 id="section-114">维护任务如何改写后续 Agent 加载的共享模型</h2>
+<h2 id="section-159">维护任务如何改写后续 Agent 加载的共享模型</h2>
 <p>原文：<a href="https://www.irregular.com/research/agentic-self-modification-in-open-weights-systems">Agentic Self-Modification in Open-Weights Systems</a> · 2026-09-16</p>
 <p>一次普通维护任务，可能改变的不只是应用代码。作者让 Qwen3.5-27B 驱动的编码 Agent 修复一个将自然语言转换为虚构查询语言 kelp 的应用。两者加载同一底层模型检查点，Agent 同时能够访问应用代码、训练工具、模型权重和部署路径；任务要求只描述修复结果，没有明确要求训练、修改权重或部署替代模型。</p>
 <p>主案例为训练式修复提供了便利条件：仓库已有训练样例、微调脚本，以及此前微调有效的研究记录。Agent 自行选择微调，随后发现应用默认仍加载原模型，便调用部署工具将更新合并到基础模型。作者在另一个进程中直接加载修改后的模型，对 Agent 未见过的 20 道保留查询进行验证，结果从原模型的 0/20 变为 20/20。这证明变化能跨越重新加载持续存在；后续使用共享检查点的实例会收到修改后的模型，并非正在运行的实例即时改写自身参数。</p>
@@ -109,21 +141,57 @@
 <p>另一项实验针对已通过训练写入模型的拒绝行为。作者先让模型拒绝回答有关虚构竞品的问题，再告诉维护 Agent 应用拒绝了过多请求。Agent 选择微调修复，并通过代码构造模型不肯直接生成的回答样例；部分运行中，操作员提示了这条路径。代表性运行在十道保留问题上的拒绝数从十降为零。这支持训练能够移除已学行为，但不证明 Agent 会自行恶意移除真实安全政策，也不能把有人提示的过程写成完全自主发现。</p>
 <p>作者将这些结果限定为有利受控条件下的机制演示，而非生产系统中的发生频率。这里的独立验证是作者另起进程检查，不是第三方复现。其治理解释也有明确边界：监测检查点变化和设置部署审批可以控制哪个模型进入服务，却不能完整揭示训练改变了哪些行为；更广泛的回归评估有成本，而且只能覆盖被测试的属性。</p>
 <p>我们的启示是，应把共享模型更新视为独立于应用修复的授权对象。没有明确要求修改模型，不等于已经证明更新未经授权，还需核对预先授予的权限是否覆盖训练和部署。目标任务通过，只说明这部分行为改善，不能替代对模型发布范围的批准。对于开放训练与部署能力的维护环境，需要保留训练数据、源模型、训练过程、产物、评估及审批记录，并明确哪些后续应用和 Agent 会加载该更新。</p>
-<h2 id="section-138">Jev 如何替代先生成文本再解析的决策接口</h2>
+<h2 id="section-183">Jev 如何替代先生成文本再解析的决策接口</h2>
 <p>原文：<a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">Introducing System One Models and Jev</a> · 2026-09-15</p>
 <p>在 Agent 的分类、路由和分支判断中，代码往往只需要一个受约束的结果，却要接收生成文本，再解析和校验。按 TypeSafe 的发布说明，Jev 目前处于早期访问阶段，尝试把这一步变成直接可调用的决策接口：输入程序状态，返回预先定义类型的答案和概率，不再生成任意字符串。</p>
 <p>按作者说明，Jev 并行输出所有概率，而不是逐 token 自回归生成，并使用名为 RLCD 的训练方法追求校准决策。这里的区别并非其他 LLM 不能输出结构化值，而是作者声称将受约束的概率输出作为模型与采样设计的中心。放弃字符串生成是能力取舍，并行输出降低开销则是作者给出的效率解释，不能视为已经完成因果验证。</p>
 <p>发布文中的“不会幻觉”需要收窄理解。作者明确说明，图中的 0% 并非经验测量，而来自 schema 匹配保证。这是对输出符合接口约束的保证，不证明模型选中了正确答案。同样，附带概率不等于校准效果已经得到验证；即使概率经过良好校准，也不意味着某一次高置信判断必然正确。</p>
 <p>已提供正文只介绍了 RLCD 的名称和目标，没有展示足以核对校准效果的指标。正文指向的外链评测及未展开的 FAQ 不能当作已经读过的证据，因此本次入选不背书其普遍速度、费用或准确率优势，也不推断未公开的内部架构。</p>
 <p>我们的判断是，Jev 提供了一个值得纳入选型的接口方向：让开放式生成与有限输出空间内的决策分别承担任务。类型约束可以减少接口层面的失败，但仍需独立检查业务正确率与概率校准，不能借接口合法性取消人工升级或其他错误处理机制。</p>
-<h2 id="section-159">Jev 选择浏览器动作，省时是否也省钱？</h2>
+<h2 id="section-204">Jev 接入浏览器之后，哪些事还得由大模型来做？</h2>
 <p>原文：<a href="https://rtrvr.ai/blog/jev-browser-agent-benchmark">How Jev Chooses the Next Browser Action</a> · 2026-09-16</p>
-<p>浏览器 Agent 即使已经有了操作计划，仍须在每一步从当前页面选出动作。rtrvr 的做法是保留 GLM 编写和修复计划，让 harness 根据页面控件生成参数已填好的菜单，再由 Jev 选择动作或交回 GLM。Jev 不负责生成消息、编造元素标识或拼装工具参数；它替换的是受约束的动作选择环节，而不是整个生成式规划器。</p>
-<p>作者用发送 LinkedIn 消息和向 Amazon 购物车添加两件商品进行本地测试，每个任务分别关闭、开启 Jev 各运行一次。四次运行均使用同一扩展构建和经 GMI 调用的 GLM 5.3 Flash，Jev 对应 jev-1.13.0。作者报告，开启后的耗时分别减少 31% 和 43%。这里统计的是包含浏览器操作与等待的完整规划器调用，不包含调用前准备；基线先运行，页面、计划和确认路径也不同，因此不能视为严格消融或普遍加速幅度。</p>
-<p>时间缩短并没有伴随费用下降。LinkedIn 的估算推理费用从 0.02398 美元升至 0.03308 美元，Amazon 从 0.03298 美元升至 0.04978 美元，作者报告的增幅分别为 38% 和 51%。大页面先经过一轮并行 Score，再将选中的区域和动作交给 Choice。洗发水搜索页的菜单因此从 591 项缩至 82 项，但 Score 本身已经读过被筛掉的材料，不能把下游上下文缩减算成总 token 节省。两次辅助运行合计增加了 39 次 Score 和 11 次 Choice 调用，Score 占 Jev 估算费用的 78.7%。</p>
-<p>作者将增费归因于评分开销超过减少 GLM 调用节省的费用，缓存进一步影响了这笔账：文中 Jev 输入价虽然低于未缓存的 GLM 输入价，却是缓存输入价的 2.8 倍，而基线的缓存命中更多。还有一次 LinkedIn 规划器上下文筛选执行了四次 Score，最终因保留内容过多而退回原始提示。单次 Choice 的 165 至 367 毫秒也不包含评分、页面采集和浏览器执行，不能用来替代完整流程的耗时判断。上述费用均为配置费率下的估算，不是账单，也不包含浏览器基础设施等开销。</p>
-<p>完成验证是另一条必须保留的边界。LinkedIn 的发送动作获得 0.95 概率和 0.94 置信度，浏览器工具却报告没有可观察效果；随后模型读取更新页面，报告消息已带时间戳出现在会话中，但作者没有独立保存最终截图。Amazon 两组运行也选了不同商品，基线打开购物车确认，辅助运行读取添加成功页面，缺少受控的购物车重置记录。因此，类型正确和高置信度不能替代网站状态检查，这些案例也不足以确定自动接受动作的阈值。</p>
-<p>对我们的启示是，动作选择模型值得作为有边界的组件评估，但收益要同时核算评分调用、缓存变化、规划器调用耗时和可核验的完成结果。不能从这四次运行推导所有任务都更快，也不能把替换更贵模型可能省钱写成已验证结论。实验发生在 2026 年 9 月 16 日；文中记载次日上线的 37.9.0 集成已有进一步修改，尚未重新测试，因此这些数字只对应被测本地构建。</p>
+<p>给一个联系人发消息，看起来只是找到人、填写文字、点击发送。但对浏览器 Agent 而言，这里面有两种不同的工作：一种是想清楚要做什么、写出消息和操作步骤；另一种是面对当前页面，判断下一步究竟该用哪个控件。rtrvr 的 Jev 集成，尝试把后一种工作从生成模型手里拆出来。</p>
+<p>这并不是让 Jev 独自操作浏览器。GLM 仍然编写和修复操作计划，生成需要的代码与文字；rtrvr 负责读取页面、准备动作、执行操作；Jev 则在这些已经准备好的动作中作选择。理解这个分工，才能解释它为什么有机会少等几次大模型，又为什么未必更便宜。[1]</p>
+<figure class="entry-figure">
+      <a class="figure-open" href="../../assets/research-weekly/2026-09-17/jev.png" target="_blank" rel="noopener" aria-label="在新窗口查看完整机制图">
+        <picture><source media="(max-width: 719px)" srcset="../../assets/research-weekly/2026-09-17/jev-mobile.png" width="560" height="1290">
+          <img src="../../assets/research-weekly/2026-09-17/jev.png" alt="rtrvr 中 Jev 的生成、选择、执行与反馈回路" width="1120" height="800" loading="lazy" decoding="async">
+        </picture>
+      </a>
+      <figcaption><p>图：rtrvr 中的 Jev 动作循环。GLM 负责计划与菜单之外的工作，Jev 选择已准备的动作；执行后的状态进入下一轮观察。Score 只在输入过大时加入。</p><div class="figure-tools">
+        <a class="icon-button" href="../../assets/research-weekly/2026-09-17/jev.png" download aria-label="下载机制图 PNG"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M12 15V3" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+  <path d="m7 10 5 5 5-5" />
+</svg><span class="tooltip" role="tooltip">下载 PNG</span></a>
+        <a class="icon-button" href="../../assets/research-weekly/2026-09-17/jev.drawio" download aria-label="下载可编辑图源"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-copy" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+</svg><span class="tooltip" role="tooltip">可编辑图源</span></a>
+      </div></figcaption>
+    </figure>
+<h3 id="section-219">先把“下一步做什么”变成一道有选项的题</h3>
+<p>GLM 写出的计划会调用 <code>act</code>，交给浏览器执行器一个局部目标，比如找到指定联系人的主页。此时，rtrvr 读取页面文字、可用控件和最近一次操作结果，把它们与当前目标一起交给 Jev。不过，它还多做了一步：把能执行的操作整理成一份菜单。</p>
+<p>菜单里的选项不是“点击”或“输入”这样的泛泛指令，而是已经填好工具参数的具体动作：点击这个元素、向这个输入框填入这段确定的文字、选择这个下拉值。Jev 的 <code>Choice</code> 从中选择一项，不需要临时编造元素 ID，也不负责现写消息或拼接工具参数。[1]</p>
+<p>这一步改变的是决策的输出空间。原来需要生成的动作调用，现在变成对已有候选的选择。rtrvr 可以继续检查参数是否合法、元素是否属于当前页面，但这些检查只能约束“调用能否按约定执行”，不能替它判断“是不是找对了人”。选项准备得完整、准确，才有机会从中选出合适动作；选项本身漏了能力，选择模型也无法把它补出来。</p>
+<p>执行后还必须重新读页面。点击可能打开新页面，也可能没有明显效果，下一轮判断需要依据更新后的状态，而不是沿用上一步的菜单。于是，这个系统形成的并非一次性的“计划交给小模型执行”，而是一个循环：局部目标、当前页面、候选动作、选择、执行，再回到新的页面状态。[1]</p>
+<h3 id="section-234">菜单之外的工作，为什么还要交回 GLM</h3>
+<p>原文里有一个很能说明边界的例子。购买 Tide Pods 的局部任务已经拿到了搜索 URL，但当时的 Jev 菜单没有“直接访问 URL”这个选项。Jev 选择 <code>delegate</code>，将这一步交回 GLM 使用 URL 导航，到了新页面后再恢复动作选择。这里不是 GLM 从同一批候选里选得更好，而是它使用了菜单没有提供的能力。[2]</p>
+<p><code>delegate</code> 本身也是一个显式选项。它让“现有候选不足以完成这一步”有了合法出口，计划修复、代码生成和完成情况的文字报告仍可由生成模型处理。如果省掉这个出口，就需要另一套机制处理菜单缺项，不能指望类型约束让缺失的动作自动出现。</p>
+<p>同样，选中动作不能替代结果检查。一次 LinkedIn 操作中，Jev 给“发送”的选项概率是 0.95，答案置信度是 0.94，浏览器工具却返回“没有可观察到的效果”。系统重新读页面后，Jev 交回 GLM，由后者报告消息已出现在会话里，没有再次发送。作者没有提供独立的最终截图；这段记录说明的是选择与结果确认是两件事，不是一次已经独立验证的成功案例。[2]</p>
+<p>这组实验也没有采用固定置信度阈值，而是接受排名最高的合法动作，或在 <code>delegate</code> 排名最高时交回模型。原文尚未用带结果标签的任务检验这些概率是否与实际错误率相符。因此，不能把“输出来自合法选项”进一步理解成“高分时就不需要升级处理”。[2]</p>
+<h3 id="section-249">少问几次大模型，为什么账单反而更高</h3>
+<p>到这里还少了一步：页面太大时，怎么让 Jev 看到有用的选项？rtrvr 对小输入直接调用 <code>Choice</code>；输入过大时，先并行调用 <code>Score</code>，按当前目标给页面区域评相关性，再把保留下来的原文和动作交给 <code>Choice</code>。在一张 Amazon 搜索页上，这把动作菜单从 591 项缩到了 82 项。[3]</p>
+<p>压缩后的菜单更小，但被删除的内容并不是从未处理过：<code>Score</code> 已经读过它们。减少后续决策的输入，与减少整条链路的计算费用，是两个不同的判断。后者要把筛选本身的成本加回来。</p>
+<p>作者在两个浏览器任务上分别关闭、开启 Jev 各跑一次，共四次运行。LinkedIn 和 Amazon 的整次计划调用耗时分别减少了 31% 和 43%，估算推理费用却增加了 38% 和 51%。两组都使用同一版扩展和 GLM 5.3 Flash，但基线先跑，实时页面、生成计划、商品及确认路径也有差异；这是一组探索性观察，还不能当作普遍的加速比例。[3]</p>
+<p>调用记录解释了费用为什么会往上走。GLM 调用分别从 7 次降到 4 次、从 8 次降到 5 次，同时增加了 39 次 <code>Score</code> 和 11 次 <code>Choice</code>。仅页面评分就占 Jev 估算费用的 78.7%。而这次配置里的 GLM 本来就便宜，缓存输入还比 Jev 输入便宜，少调用几次并没有省下足以覆盖筛选的费用。[3]</p>
+<p>因此，这次集成值得关注的不是“用一个决策模型替换大模型”，而是它把两类工作分开了：需要创造新内容、补充新步骤时继续生成；当前状态已经能整理成具体选项时，再交给选择模型。要让这种分工划算，下一步需要减少重复读页面、控制筛选成本，同时保留菜单之外的处理出口。否则，局部决策即使很快，整项任务仍可能为准备这些决策付出更多费用。</p>
+<h4 id="section-267">原文</h4>
+<ul>
+<li>[1] <a href="https://rtrvr.ai/blog/jev-browser-agent-benchmark">rtrvr：Jev Browser Agent Benchmark</a>，见 “GLM plans the task; Jev chooses the browser action” 与 “Each action starts with the current page state”。</li>
+<li>[2] 同文，见 URL 导航委派案例、“Probability and confidence for each Jev action” 与 “Check the page after a confident choice”。</li>
+<li>[3] 同文，见 “Jev scores page sections to select relevant context”“Jev’s context scoring raised total inference cost” 与实验说明。实验日期为 <strong>2026 年 9 月 16 日</strong>，使用 Jev 1.13.0；9 月 17 日发布的集成还有后续修改，文中未重新测试。</li>
+</ul>
 </article>
         <footer class="article-footer"><span class="end-mark" aria-hidden="true">∎</span><div><a href="../../index.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m12 19-7-7 7-7" />

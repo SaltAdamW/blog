@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="mlperf-mobile" name="mlperf-mobile">
+    <mxGraphModel grid="0" page="1" pageWidth="560" pageHeight="1640" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="" style="fillColor=#ffffff;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="560" height="1640" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="模型之外，还要测什么？" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=30;fontColor=#202724;fontStyle=1;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="22" width="512" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="MLPerf Inference v6.1" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#57645f;fontStyle=0;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="76" width="512" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#ccd6d1;strokeWidth=2;endArrow=none;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="24" y="126" as="sourcePoint" />
+            <mxPoint x="536" y="126" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6" value="A1 · RAG：摄入文档并建库" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#167465;fontStyle=1;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="146" width="512" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;文档集&lt;/b&gt;&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#f5f7f5;strokeColor=#ccd6d1;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="24" y="206" width="132" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;向量化&lt;/b&gt;&lt;br&gt;与入库&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#e9f4ef;strokeColor=#167465;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="208" y="206" width="140" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;向量库&lt;/b&gt;&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#e9f4ef;strokeColor=#167465;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="400" y="206" width="136" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#167465;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="156" y="253" as="sourcePoint" />
+            <mxPoint x="208" y="253" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="11" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#167465;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="348" y="253" as="sourcePoint" />
+            <mxPoint x="400" y="253" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="12" value="A2 · RAG：对现成的库问答" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#167465;fontStyle=1;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="328" width="500" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;问题向量化&lt;/b&gt;&lt;br&gt;编码当前查询&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#f5f7f5;strokeColor=#ccd6d1;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="116" y="394" width="330" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;检索&lt;/b&gt;&lt;br&gt;找候选段落&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#e9f4ef;strokeColor=#167465;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="116" y="534" width="330" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;重排&lt;/b&gt;&lt;br&gt;细化候选顺序&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#f5f7f5;strokeColor=#ccd6d1;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="116" y="674" width="330" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;LLM&lt;/b&gt;&lt;br&gt;依据材料推理与回答&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#eff3fb;strokeColor=#3056a0;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="116" y="814" width="330" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#57645f;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="281" y="478" as="sourcePoint" />
+            <mxPoint x="281" y="534" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="18" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#57645f;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="281" y="618" as="sourcePoint" />
+            <mxPoint x="281" y="674" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="19" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#3056a0;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="281" y="758" as="sourcePoint" />
+            <mxPoint x="281" y="814" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="20" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#167465;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=1;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="468" y="300" as="sourcePoint" />
+            <mxPoint x="446" y="576" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="468" y="314" />
+              <mxPoint x="512" y="314" />
+              <mxPoint x="512" y="576" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="21" value="复&#10;用&#10;已&#10;有&#10;库" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#167465;fontStyle=0;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="474" y="386" width="30" height="158" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#ccd6d1;strokeWidth=2;endArrow=none;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="24" y="934" as="sourcePoint" />
+            <mxPoint x="536" y="934" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23" value="B · Edge Agentic：另一项测试" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#3056a0;fontStyle=1;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="954" width="512" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="单流编码任务，固定边缘资源约束" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#57645f;fontStyle=0;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="1002" width="512" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="25" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;历史 + 当前输入&lt;/b&gt;&lt;br&gt;前一轮影响后一轮&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#f5f7f5;strokeColor=#ccd6d1;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="116" y="1072" width="330" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="26" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;推理与交互&lt;/b&gt;&lt;br&gt;收集证据，继续判断&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#eff3fb;strokeColor=#3056a0;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="116" y="1222" width="330" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="27" value="&lt;div style=&quot;line-height:1.5&quot;&gt;&lt;b&gt;任务结果&lt;/b&gt;&lt;br&gt;检查完成质量&lt;/div&gt;" style="rounded=1;arcSize=6;absoluteArcSize=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;spacing=8;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fillColor=#f5f7f5;strokeColor=#ccd6d1;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="116" y="1372" width="330" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="28" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#3056a0;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="281" y="1166" as="sourcePoint" />
+            <mxPoint x="281" y="1222" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="29" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#3056a0;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="281" y="1316" as="sourcePoint" />
+            <mxPoint x="281" y="1372" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="30" value="" edge="1" parent="1" style="edgeStyle=none;rounded=0;html=0;strokeColor=#3056a0;strokeWidth=2;endArrow=block;endFill=1;endSize=9;dashed=0;dashPattern=5 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="116" y="1269" as="sourcePoint" />
+            <mxPoint x="116" y="1119" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="62" y="1269" />
+              <mxPoint x="62" y="1119" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="31" value="历&#10;史&#10;增&#10;长" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#3056a0;fontStyle=0;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="1140" width="30" height="136" as="geometry" />
+        </mxCell>
+        <mxCell id="32" value="测量一：时间约束下的准确率" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fontStyle=1;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="1502" width="512" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="33" value="测量二：确定性负载的性能" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#202724;fontStyle=1;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="1544" width="512" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="包含内置准确性检查" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Droid Sans Fallback;fontSize=24;fontColor=#57645f;fontStyle=0;fillColor=none;strokeColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="1584" width="512" height="36" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

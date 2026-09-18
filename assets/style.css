@@ -117,6 +117,18 @@ h1 .subtitle > span { display: inline-block; }
 .prose > p:first-child { font-size: 18px; color: var(--heading); }
 .prose h2 { color: var(--heading); font: 600 28px/1.7 var(--serif); margin: 64px 0 28px; padding-top: 28px; border-top: 1px solid var(--line); overflow-wrap: anywhere; text-wrap: balance; }
 .prose h3 { color: var(--heading); font-size: 21px; line-height: 1.7; font-weight: 600; margin: 40px 0 20px; overflow-wrap: anywhere; }
+.prose h4 { color: var(--heading); font-size: 16px; line-height: 1.7; margin: 28px 0 16px; }
+.entry-figure { margin: 32px 0; padding: 12px 0 16px; border-block: 1px solid var(--line); }
+.entry-figure .figure-open, .entry-figure picture { display: block; }
+.entry-figure img { display: block; width: 100%; height: auto; background: #fff; }
+.entry-figure figcaption { display: flex; align-items: flex-start; gap: 16px; margin-top: 14px; color: var(--muted); }
+.entry-figure figcaption p { flex: 1; min-width: 0; margin: 0; font-size: 13px; line-height: 1.85; overflow-wrap: anywhere; }
+.entry-figure .figure-tools { display: flex; flex-shrink: 0; gap: 2px; }
+.entry-figure .tooltip { top: auto; bottom: calc(100% + 7px); }
+@media (max-width: 560px) {
+  .entry-figure figcaption { gap: 8px; }
+  .entry-figure .figure-tools { flex-direction: column; }
+}
 .prose strong { font-weight: 650; color: var(--heading); }
 .prose a { color: var(--accent); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
 .prose a:hover { text-decoration-color: currentColor; }

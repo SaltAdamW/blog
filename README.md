@@ -19,6 +19,8 @@ Research 周报按周独立选编材料，不预设专题。多轮开放搜索�
 
 来源清单使用 `review_status` 与 `reading_scope` 区分已核读的正文段落和仅核对题名、日期的材料。正文中的“更多原文”不作为实验结论依据。9 月 18 日新增两条经过另一次模型调用的事实复核；此前条目保留各自核读范围，所有条目均未进行实验复现。
 
+9 月 18 日在第四期将 MLPerf 与 Jev 浏览器集成两条替换为已确认的图文版本：每条附一张机制图，手机使用单独排版，并保留原文链接、PNG 与可编辑 draw.io 图源。此次改写由作者重新核读并自检，不把此前的独立复核记录当作新正文的独立复核。其他条目与周报链接保持不变。
+
 《开源 Agent 沙箱的设计：如何复用环境，又让任务彼此独立》
 
 从一次任务开始前的准备工作出发，讨论开源沙箱如何保存运行状态、建立独立分支，以及组织存储、回收、预热池与编排。资料核对日期为 2026 年 9 月 17 日。
@@ -69,6 +71,8 @@ GitHub Pages 从 `main` 分支根目录发布。正文或清单变化后，重�
 2. 在 `posts.json` 追加条目。`slug` 使用不重复的小写英文路径；`title` 必须与 Markdown 一级标题一致；填写 `date`、`category`、`tags`、`description`、`deck`、`word_count` 和 `source`。
 3. `source_manifest`、`closing` 和 `toc_labels` 可选。`toc_labels` 省略时使用正文二级标题；日期采用 `YYYY-MM-DD`，首页和归档按日期倒序排列。
 4. 运行构建和检查，提交新增正文、清单及所有生成页面。不要给新文章设置 `legacy_home`，该字段仅用于兼容最初的单篇文章首页链接。
+
+条目机制图在 Markdown 中以独立图片段落引用仓库内 `assets/` 路径。对应 `posts.json` 条目的 `figures` 以此路径为键，登记 `width`、`height`、手机版路径 `mobile` 及其 `mobile_width`、`mobile_height`、可编辑图源 `diagram`、图注 `caption`。构建时生成带尺寸和替代文字的 `<picture>`，原稿仍能在仓库中直接显示图片；未登记图片不自动转换。不把绘图引擎或原文缓存部署到站点。
 
 修改一级或二级标题后，可运行 `.venv/bin/python tools/fetch-heading-font.py` 更新标题字体子集；此维护步骤会访问 Google Fonts。普通构建和在线阅读不需要该网络请求。
 

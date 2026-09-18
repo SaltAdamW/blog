@@ -21,6 +21,7 @@ class Document(HTMLParser):
         self.canonical = None
         self.headings = 0
         self.in_article = False
+        self.in_figure = False
         self.article_text = []
         self.feed(text)
 
@@ -32,18 +33,24 @@ class Document(HTMLParser):
             self.headings += 1
         if tag == "article" and attrs.get("id") == "article-content":
             self.in_article = True
+        if tag == "figure":
+            self.in_figure = True
         if tag == "link" and attrs.get("rel") == "canonical":
             self.canonical = attrs["href"]
         for key in ("src", "href"):
             if key in attrs:
                 self.links.append(attrs[key])
+        if tag == "source" and "srcset" in attrs:
+            self.links.extend(value.strip().split()[0] for value in attrs["srcset"].split(","))
 
     def handle_endtag(self, tag):
         if tag == "article":
             self.in_article = False
+        if tag == "figure":
+            self.in_figure = False
 
     def handle_data(self, data):
-        if self.in_article:
+        if self.in_article and not self.in_figure:
             self.article_text.append(data)
 
 
@@ -170,6 +177,56 @@ class BlogBuildTest(unittest.TestCase):
         self.assertIn('data-view-count="busuanzi_site_pv"', intro)
         self.assertNotIn('data-view-count=', footer)
         self.assertIn('class="blog-description"', intro)
+
+    def test_weekly_figures_have_local_responsive_assets_and_sources(self):
+        self.build()
+        post = next(post for post in build.load_posts() if post["slug"] == "weekly-agent-research-2026-09-17")
+        html = (self.root / post["url"] / "index.html").read_text()
+        self.assertEqual(html.count('<figure class="entry-figure">'), 2)
+        self.assertEqual(html.count('<picture>'), 2)
+        for image, figure in post["figures"].items():
+            self.assertIn(f'src="../../{image}"', html)
+            self.assertIn(f'srcset="../../{figure["mobile"]}"', html)
+            self.assertIn(f'href="../../{figure["diagram"]}"', html)
+            self.assertIn(figure["caption"], html)
+        self.assertIn("https://rtrvr.ai/blog/jev-browser-agent-benchmark", html)
+        self.assertIn("https://mlcommons.org/2026/09/mlperf-inference-v6-1-results/", html)
+        self.assertNotIn("drawio-viewer", html)
+
+    def test_figure_manifest_rejects_missing_external_and_escaping_assets(self):
+        path = self.root / "posts.json"
+        original = json.loads(path.read_text())
+        for value in ("assets/missing.png", "../outside.png", "https://example.org/image.png", "assets/avatar.jpg?tracking=1"):
+            with self.subTest(value=value):
+                posts = json.loads(json.dumps(original))
+                post = next(post for post in posts if post.get("figures"))
+                next(iter(post["figures"].values()))["mobile"] = value
+                path.write_text(json.dumps(posts))
+                with self.assertRaises(ValueError):
+                    build.load_posts()
+
+    def test_figure_manifest_rejects_invalid_dimensions_or_unused_entries(self):
+        posts = build.load_posts()
+        post = next(post for post in posts if post.get("figures"))
+        figure = next(iter(post["figures"].values()))
+        for value in (0, -1, True, "560"):
+            figure["mobile_width"] = value
+            (self.root / "posts.json").write_text(json.dumps(posts))
+            with self.assertRaises(ValueError):
+                build.load_posts()
+        figure["mobile_width"] = 560
+        post["figures"]["assets/avatar.jpg"] = dict(figure)
+        with self.assertRaisesRegex(ValueError, "独立 Markdown"):
+            build.render_article(post)
+
+    def test_figure_caption_and_alt_are_escaped(self):
+        post = next(post for post in build.load_posts() if post.get("figures"))
+        image, figure = next(iter(post["figures"].items()))
+        figure = dict(figure, caption='<script>alert("x")</script>')
+        html = build.render_figure(image, figure, "../../", '图 " onload="alert(1)')
+        self.assertNotIn("<script>", html)
+        self.assertIn("&lt;script&gt;", html)
+        self.assertIn("&quot; onload=&quot;", html)
 
 
 if __name__ == "__main__":

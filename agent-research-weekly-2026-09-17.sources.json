@@ -5,7 +5,7 @@
     "start": "2026-09-11",
     "end": "2026-09-17"
   },
-  "verification": "既有条目保留各自核读范围；本次新增条目核读原文，并由另一次模型调用复核事实。所有条目均未复现实验。",
+  "verification": "既有条目保留各自核读与复核记录；9 月 18 日重写 MLPerf 与 Jev 浏览器集成两条，重新核读原文并由作者自检事实与解释。用户已确认图文样稿；不将本次自检写成独立复核。所有条目均未复现实验。",
   "sources": [
     {
       "id": "paid-media",
@@ -21,7 +21,9 @@
       "url": "https://mlcommons.org/2026/09/mlperf-inference-v6-1-results/",
       "published_at": "2026-09-16",
       "review_status": "primary_sections_read",
-      "reading_scope": "此前已核对选读引用的原文段落、日期与关键数字；本轮保留原有选读，未复现实验。"
+      "reading_scope": "已读发布公告全文，重点核对端到端 RAG 的建库/查询划分与 Edge Agentic 的多轮负载、边缘约束和两项测试；未读取链接所指完整技术规范，未复现实验。9 月 18 日按已确认样稿重写并配图，作者自检。",
+      "source_sha256": "5d5dc9a675fe3a082c79175eb4f54c8f3bcd7ca72eb0b0c7c6a59ee8d37b3f50",
+      "source_format": "extracted_markdown"
     },
     {
       "id": "atria",
@@ -80,7 +82,7 @@
       "url": "https://rtrvr.ai/blog/jev-browser-agent-benchmark",
       "published_at": "2026-09-16",
       "review_status": "primary_sections_read",
-      "reading_scope": "正文取材范围 103/103 个原文块，由另一次模型调用复核，未复现实验。",
+      "reading_scope": "本次重读 103/103 个原文块，核对计划、候选动作、Choice/Score、委派、执行反馈与四次运行的费用和耗时。此前条目经过另一次模型调用复核；9 月 18 日本次改写与机制图由作者自检，用户确认，未复现实验。",
       "source_sha256": "cad9ce33a70a14d44428d727d976a8ec04f24690abd4715593da3b8585a58333"
     }
   ],
@@ -98,5 +100,15 @@
     "unprocessed_candidates": 0,
     "source_gaps": 0,
     "note": "选读不等于穷尽；未处理材料不代表低质量。"
+  },
+  "editorial_update": {
+    "date": "2026-09-18",
+    "type": "approved_visual_rewrite",
+    "sources": [
+      "mlperf",
+      "f693e325f59de387574b5ecf"
+    ],
+    "scope": "仅替换两条已确认图文，保留其他条目；每条含横版、手机版机制图与原文链接。",
+    "review": "作者自检与用户样稿确认；非独立实验复现。"
   }
 }

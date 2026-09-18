@@ -41,9 +41,29 @@
     ],
     "description": "营销 Agent、MLPerf 与 Atria 研发记录，DSH 自动化接口、工具调用可靠性、共享模型安全，以及 Jev 的决策接口与浏览器集成实测。",
     "deck": "从营销与研发实践，读到 DSH 更新、工具调用可靠性，以及 Jev 在浏览器任务中的时间与费用权衡。",
-    "word_count": 5032,
+    "word_count": 6733,
     "source": "agent-research-weekly-2026-09-17.md",
-    "source_manifest": "agent-research-weekly-2026-09-17.sources.json"
+    "source_manifest": "agent-research-weekly-2026-09-17.sources.json",
+    "figures": {
+      "assets/research-weekly/2026-09-17/jev.png": {
+        "width": 1120,
+        "height": 800,
+        "mobile": "assets/research-weekly/2026-09-17/jev-mobile.png",
+        "mobile_width": 560,
+        "mobile_height": 1290,
+        "diagram": "assets/research-weekly/2026-09-17/jev.drawio",
+        "caption": "图：rtrvr 中的 Jev 动作循环。GLM 负责计划与菜单之外的工作，Jev 选择已准备的动作；执行后的状态进入下一轮观察。Score 只在输入过大时加入。"
+      },
+      "assets/research-weekly/2026-09-17/mlperf.png": {
+        "width": 1120,
+        "height": 900,
+        "mobile": "assets/research-weekly/2026-09-17/mlperf-mobile.png",
+        "mobile_width": 560,
+        "mobile_height": 1640,
+        "diagram": "assets/research-weekly/2026-09-17/mlperf.drawio",
+        "caption": "图：两项测试的边界。RAG 分别测建库与查询，虚线表示复用已有库；下方 Edge Agentic 是另一项测试，其循环为工作负载关系示意。"
+      }
+    }
   },
   {
     "slug": "weekly-agent-research-2026-08-27",
