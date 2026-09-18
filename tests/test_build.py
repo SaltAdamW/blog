@@ -161,6 +161,16 @@ class BlogBuildTest(unittest.TestCase):
             self.assertNotIn('<script src="https://cdn.busuanzi.cc', text)
         self.assertIn("访问统计与隐私", (self.root / "about/index.html").read_text())
 
+    def test_home_visit_count_is_in_intro_not_footer(self):
+        self.build()
+        home = (self.root / "index.html").read_text()
+        intro_start = home.index('<header class="blog-intro">')
+        intro = home[intro_start:home.index('</header>', intro_start)]
+        footer = home[home.index('<footer class="site-footer">'):]
+        self.assertIn('data-view-count="busuanzi_site_pv"', intro)
+        self.assertNotIn('data-view-count=', footer)
+        self.assertIn('class="blog-description"', intro)
+
 
 if __name__ == "__main__":
     unittest.main()

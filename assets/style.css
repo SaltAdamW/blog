@@ -156,7 +156,8 @@ h1 .subtitle > span { display: inline-block; }
 .blog-intro { border-bottom: 1px solid var(--line); margin-bottom: 40px; padding-bottom: 40px; }
 .section-eyebrow { font: 12px/1.5 var(--mono); color: var(--accent); margin: 0 0 16px; }
 .blog-intro h1 { font: 600 48px/1.25 Georgia, "Times New Roman", serif; margin-bottom: 16px; text-wrap: initial; }
-.blog-intro > p:last-child { margin: 0; font-size: 16px; line-height: 1.9; color: var(--muted); }
+.blog-description { margin: 0; font-size: 16px; line-height: 1.9; color: var(--muted); }
+.blog-intro > .visit-stat { margin-top: 16px; font-size: 13px; line-height: 1.5; }
 .blog-grid { display: grid; grid-template-columns: minmax(0, 1fr) 232px; gap: 72px; }
 .post-collection { min-width: 0; scroll-margin-top: 100px; }
 .collection-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 44px; margin-bottom: 16px; }
@@ -305,7 +306,7 @@ h1 .subtitle > span { display: inline-block; }
   .blog-main { padding: 0 22px; margin-top: 32px; }
   .blog-intro { margin-bottom: 24px; padding-bottom: 28px; }
   .blog-intro h1 { font-size: 38px; }
-  .blog-intro > p:last-child { font-size: 14px; }
+  .blog-description { font-size: 14px; }
   .blog-grid { display: block; }
   .collection-heading { gap: 8px; margin-bottom: 12px; }
   .collection-heading h2 { font-size: 17px; }

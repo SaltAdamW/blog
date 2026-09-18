@@ -69,8 +69,9 @@ def site_header(prefix, active, article=False):
     </div>{progress}</header>'''
 
 
-def site_footer(prefix):
-    return f'''<footer class="site-footer"><span>{BRAND}</span>{visit_counter('site_pv', '本站访问')}<nav aria-label="页脚导航"><a href="{prefix}archive/index.html">归档</a><a href="{prefix}about/index.html">关于</a><a href="https://github.com/SaltAdamW/blog">GitHub {icon('arrow-up-right')}</a><a href="{prefix}feed.xml">{icon('rss')} RSS</a></nav></footer>'''
+def site_footer(prefix, show_visits=True):
+    visits = visit_counter('site_pv', '本站访问') if show_visits else ''
+    return f'''<footer class="site-footer"><span>{BRAND}</span>{visits}<nav aria-label="页脚导航"><a href="{prefix}archive/index.html">归档</a><a href="{prefix}about/index.html">关于</a><a href="https://github.com/SaltAdamW/blog">GitHub {icon('arrow-up-right')}</a><a href="{prefix}feed.xml">{icon('rss')} RSS</a></nav></footer>'''
 
 
 def visit_counter(metric, text):
@@ -103,7 +104,7 @@ def page_shell(title, description, path, prefix, active, body, *, article=False)
 <a class="skip-link" href="#{'article-content' if article else 'main-content'}">跳到正文</a>
 {site_header(prefix, active, article)}
 {body}
-{site_footer(prefix)}
+{site_footer(prefix, show_visits=active != 'home')}
 {back}<div class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 {templates}
 </body></html>
@@ -193,7 +194,7 @@ def render_home(posts):
     legacy = next((post for post in posts if post.get("legacy_home")), None)
     legacy_attr = f' data-legacy-article="{legacy["url"]}index.html"' if legacy else ""
     body = f'''<main id="main-content" class="blog-main" tabindex="-1"{legacy_attr}>
-      <header class="blog-intro"><p class="section-eyebrow">NOTES ON ENGINEERING</p><h1>{BRAND}<span class="brand-dot" aria-hidden="true">.</span></h1><p>关于开源系统、架构与实现的技术笔记。</p></header>
+      <header class="blog-intro"><p class="section-eyebrow">NOTES ON ENGINEERING</p><h1>{BRAND}<span class="brand-dot" aria-hidden="true">.</span></h1><p class="blog-description">关于开源系统、架构与实现的技术笔记。</p>{visit_counter('site_pv', '本站访问')}</header>
       <div class="blog-grid"><section id="articles" class="post-collection" aria-labelledby="collection-title">
         <div class="collection-heading"><h2 id="collection-title">全部文章 <span>{len(posts):02d}</span></h2><a href="archive/index.html">按时间归档 {icon('arrow-up-right')}</a></div>
         <form class="post-search js-only" role="search"><label for="post-query">搜索文章</label><div class="search-field">{icon('search')}<input id="post-query" type="search" name="q" placeholder="标题、关键词或主题" autocomplete="off"><button type="reset" class="clear-search" hidden>清除</button></div></form>
