@@ -3,11 +3,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="营销 Agent、MLPerf 与 Atria 研发记录，DSH 预发布版本的自动化接口和迁移边界，以及工具故障恢复与选择捷径研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口；补读Jev 选择浏览器动作，省时是否也省钱？。">
+<meta name="description" content="营销 Agent、MLPerf 与 Atria 研发记录，DSH 自动化接口、工具调用可靠性、共享模型安全，以及 Jev 的决策接口与浏览器集成实测。">
 <meta name="author" content="Adam">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Research 周报：2026 年 9 月 11 日至 9 月 17 日 | Adam‘s blog">
-<meta property="og:description" content="营销 Agent、MLPerf 与 Atria 研发记录，DSH 预发布版本的自动化接口和迁移边界，以及工具故障恢复与选择捷径研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口；补读Jev 选择浏览器动作，省时是否也省钱？。">
+<meta property="og:description" content="营销 Agent、MLPerf 与 Atria 研发记录，DSH 自动化接口、工具调用可靠性、共享模型安全，以及 Jev 的决策接口与浏览器集成实测。">
 <meta property="og:url" content="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-17/">
 <meta property="og:site_name" content="Adam‘s blog">
 <link rel="canonical" href="https://saltadamw.github.io/blog/posts/weekly-agent-research-2026-09-17/">
@@ -53,7 +53,7 @@
       <main id="main-content">
         <header class="article-header">
           <nav class="breadcrumbs" aria-label="面包屑导航"><a href="../../index.html">文章</a><span aria-hidden="true">/</span><span>研究周报</span></nav>
-          <h1>Research 周报<span class="subtitle">2026 年 9 月 11 日至 9 月 17 日</span></h1><p class="article-deck">从营销与研发实践，读到 DSH 更新和工具调用研究；补读维护任务如何改写后续 Agent 加载的共享模型、Jev 如何替代先生成文本再解析的决策接口；补读Jev 选择浏览器动作，省时是否也省钱？。</p>
+          <h1>Research 周报<span class="subtitle">2026 年 9 月 11 日至 9 月 17 日</span></h1><p class="article-deck">从营销与研发实践，读到 DSH 更新、工具调用可靠性，以及 Jev 在浏览器任务中的时间与费用权衡。</p>
           <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-17">2026 年 9 月 17 日</time><span>5,032 字 · 9 项一手资料</span><span class="visit-stat" data-view-count="busuanzi_page_pv" hidden>本篇浏览 <span class="visit-value" data-count-value role="status">加载中</span></span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
