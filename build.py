@@ -70,7 +70,11 @@ def site_header(prefix, active, article=False):
 
 
 def site_footer(prefix):
-    return f'''<footer class="site-footer"><span>{BRAND}</span><span>技术笔记</span><nav aria-label="页脚导航"><a href="{prefix}archive/index.html">归档</a><a href="{prefix}about/index.html">关于</a><a href="https://github.com/SaltAdamW/blog">GitHub {icon('arrow-up-right')}</a><a href="{prefix}feed.xml">{icon('rss')} RSS</a></nav></footer>'''
+    return f'''<footer class="site-footer"><span>{BRAND}</span>{visit_counter('site_pv', '本站访问')}<nav aria-label="页脚导航"><a href="{prefix}archive/index.html">归档</a><a href="{prefix}about/index.html">关于</a><a href="https://github.com/SaltAdamW/blog">GitHub {icon('arrow-up-right')}</a><a href="{prefix}feed.xml">{icon('rss')} RSS</a></nav></footer>'''
+
+
+def visit_counter(metric, text):
+    return f'<span class="visit-stat" data-view-count="busuanzi_{metric}" hidden>{text} <span class="visit-value" data-count-value role="status">加载中</span></span>'
 
 
 def page_shell(title, description, path, prefix, active, body, *, article=False):
@@ -93,6 +97,7 @@ def page_shell(title, description, path, prefix, active, body, *, article=False)
 <link rel="icon" href="{prefix}assets/avatar.jpg" type="image/jpeg">
 <link rel="stylesheet" href="{prefix}{versioned_asset('assets/style.css')}">
 <script src="{prefix}{versioned_asset('assets/site.js')}" defer></script>
+<script src="{prefix}{versioned_asset('assets/analytics.js')}" defer></script>
 <title>{escape(title)}</title>
 </head><body id="top" class="{'article-page' if article else 'index-page'}">
 <a class="skip-link" href="#{'article-content' if article else 'main-content'}">跳到正文</a>
@@ -158,7 +163,7 @@ def render_article(post):
         <header class="article-header">
           <nav class="breadcrumbs" aria-label="面包屑导航"><a href="{prefix}index.html">文章</a><span aria-hidden="true">/</span><span>{escape(post['category'])}</span></nav>
           <h1>{escape(primary)}{subtitle_html}</h1><p class="article-deck">{escape(post['deck'])}</p>
-          <div class="article-byline"><a class="author" href="{prefix}about/index.html"><img src="{prefix}assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="{post['date']}">{date_label(post['date'])}</time><span>{post['word_count']:,} 字{source_count}</span></div><div class="article-tools">{tool('copy-link', '复制文章链接', 'link')}<a class="icon-button" href="{prefix}{post['source']}" download aria-label="下载 Markdown 原稿">{icon('download')}<span class="tooltip" role="tooltip">下载原稿</span></a></div></div>
+          <div class="article-byline"><a class="author" href="{prefix}about/index.html"><img src="{prefix}assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="{post['date']}">{date_label(post['date'])}</time><span>{post['word_count']:,} 字{source_count}</span>{visit_counter('page_pv', '本篇浏览')}</div><div class="article-tools">{tool('copy-link', '复制文章链接', 'link')}<a class="icon-button" href="{prefix}{post['source']}" download aria-label="下载 Markdown 原稿">{icon('download')}<span class="tooltip" role="tooltip">下载原稿</span></a></div></div>
         </header>
         <article id="article-content" class="prose" tabindex="-1">{content}</article>
         <footer class="article-footer"><span class="end-mark" aria-hidden="true">∎</span>{ending}<div><a href="{prefix}index.html">{icon('arrow-left')} 返回全部文章</a><a href="{prefix}{post['source']}" download>{icon('download')} 下载原稿</a></div></footer>
@@ -219,6 +224,8 @@ def render_archive(posts):
 
 def render_about(posts):
     body = f'''<main id="main-content" class="blog-main about-main" tabindex="-1"><header class="index-heading"><p class="section-eyebrow">ABOUT</p><h1>关于 Adam</h1></header><div class="about-author"><img src="../assets/avatar.jpg" width="72" height="72" alt="Adam 的头像"><div><h2>Adam</h2><a href="https://github.com/SaltAdamW">@SaltAdamW {icon('arrow-up-right')}</a></div></div><div class="about-copy"><p>这里是 {BRAND}，记录开源系统、架构与实现的技术笔记。</p><p>从一个具体问题出发，沿着源码和一手资料，理解系统为什么这样设计，以及每个选择的适用条件与代价。</p><p>目前已发布 {len(posts)} 篇文章。</p></div><div class="about-links"><a href="../index.html">浏览全部文章 {icon('arrow-up-right')}</a><a href="../feed.xml">{icon('rss')} RSS 订阅</a><a href="https://github.com/SaltAdamW/blog">博客仓库 {icon('arrow-up-right')}</a></div></main>'''
+    privacy = '<section class="about-copy privacy-note" aria-labelledby="privacy-title"><h2 id="privacy-title">访问统计与隐私</h2><p>本站使用 <a href="https://busuanzi.cc/doc.php">不蒜子（busuanzi.cc）</a> 累计浏览量，自 2026 年 9 月 18 日接入。刷新也会计数，浏览量不等于读者人数；接入前的访问无法补算。</p><p>统计请求仅提交公开页面地址，不包含搜索词、URL 参数或来源页，不发送 Cookie。统计服务仍可见请求 IP 与浏览器信息。开启浏览器「请勿追踪」或 Global Privacy Control 后，本站不发送统计请求。</p></section>'
+    body = body.replace('</main>', privacy + '</main>')
     return page_shell(f"关于 Adam | {BRAND}", DESCRIPTION, "about/", "../", "about", body)
 
 

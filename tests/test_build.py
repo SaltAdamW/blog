@@ -151,6 +151,16 @@ class BlogBuildTest(unittest.TestCase):
         for page in self.root.rglob("*.html"):
             self.assertIn(build.versioned_asset("assets/site.js"), page.read_text())
 
+    def test_visit_counters_are_shared_and_hidden_without_javascript(self):
+        self.build()
+        for page in self.root.rglob("*.html"):
+            text = page.read_text()
+            self.assertEqual(text.count('data-view-count="busuanzi_site_pv" hidden'), 1)
+            self.assertEqual(text.count(build.versioned_asset("assets/analytics.js")), 1)
+            self.assertEqual(text.count('data-view-count="busuanzi_page_pv" hidden'), int("posts" in page.parts))
+            self.assertNotIn('<script src="https://cdn.busuanzi.cc', text)
+        self.assertIn("访问统计与隐私", (self.root / "about/index.html").read_text())
+
 
 if __name__ == "__main__":
     unittest.main()

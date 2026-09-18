@@ -101,6 +101,10 @@ h1 .subtitle > span { display: inline-block; }
 .author { display: flex; align-items: center; gap: 10px; color: var(--heading); font-size: 14px; font-weight: 600; }
 .author img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: var(--surface); }
 .article-meta { display: flex; flex-direction: column; gap: 5px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.visit-stat { display: inline-flex; align-items: baseline; gap: 6px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.visit-value { display: inline-block; min-width: 8ch; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.privacy-note { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 40px; }
+.privacy-note h2 { font-size: 18px; }
 .article-tools { margin-left: auto; display: flex; gap: 4px; }
 .icon-button { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 4px; background: transparent; color: var(--muted); cursor: pointer; flex: 0 0 44px; }
 .icon-button:hover { background: var(--surface); color: var(--accent); }
@@ -140,7 +144,7 @@ h1 .subtitle > span { display: inline-block; }
 .site-footer { max-width: var(--page-width); padding: 24px 28px; margin: 64px auto 0; display: flex; align-items: center; gap: 24px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
 .site-footer > span:first-child { font: 600 17px Georgia, serif; color: var(--heading); }
 .site-footer a { margin-left: auto; min-height: 44px; display: flex; align-items: center; gap: 8px; }
-.site-footer { width: 100%; }
+.site-footer { width: 100%; flex-wrap: wrap; }
 .site-footer nav { display: flex; align-items: center; gap: 24px; margin-left: auto; }
 .site-footer nav a { margin-left: 0; }
 .sidebar-home { display: flex; align-items: center; gap: 10px; min-height: 44px; margin: 0 0 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
@@ -296,7 +300,6 @@ h1 .subtitle > span { display: inline-block; }
   .code-block .code-bar { padding-left: 18px; }
   .code-block .icon-button { min-height: 44px; }
   .site-footer { padding: 20px 22px; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
-  .site-footer > span:nth-child(2) { display: none; }
   .back-to-top { right: 16px; bottom: 18px; }
   .article-footer p { font-size: 20px; }
   .blog-main { padding: 0 22px; margin-top: 32px; }

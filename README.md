@@ -40,9 +40,16 @@ python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 .venv/bin/python build.py
 .venv/bin/python -m unittest discover -s tests -v
+node --test tests/test_analytics.cjs
 ```
 
-直接打开 `index.html` 即可预览全部页面。页面不依赖服务端，也不会向第三方请求字体或脚本。禁用 JavaScript 后，文章列表、归档、正文、目录和来源链接仍可阅读；搜索和主题切换需要 JavaScript。
+直接打开 `index.html` 即可预览全部页面。字体和脚本均为本地资源。正式站点会向第三方统计接口发送一次请求；本地预览不计数。禁用 JavaScript 后，文章列表、归档、正文、目录和来源链接仍可阅读；搜索、主题切换和访问统计需要 JavaScript。
+
+## 访问统计
+
+2026 年 9 月 18 日接入不蒜子（`busuanzi.cc`）JSON 接口。文章日期旁显示本篇浏览量，所有页面页脚显示本站访问量。数据由服务端保存，并非浏览器本地累加；刷新会增加 PV，不代表独立读者人数，历史访问无法补算。本站数值按域名聚合，同域名下若有其他页面接入同一服务，也会计入。
+
+`assets/analytics.js` 只在正式域名的 `/blog/` 页面运行，按 canonical 地址计数，合并目录链接与 `index.html`，丢弃查询参数、片段和来源页；不发送 Cookie，不加载第三方脚本。统计方仍可见 IP 和浏览器信息。尊重 DNT/GPC；失败或超时显示「暂不可用」，不伪造零值、不自动重试。无 JavaScript、本地预览不显示数字。服务故障、拦截器或禁用追踪会造成漏计，因此数字只用于大致观察，不作为审计或计费依据。
 
 GitHub Pages 从 `main` 分支根目录发布。正文或清单变化后，重新生成并一并提交首页、归档、关于页、文章页和 RSS。
 
