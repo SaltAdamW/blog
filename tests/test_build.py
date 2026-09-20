@@ -107,12 +107,38 @@ class BlogBuildTest(unittest.TestCase):
     def test_article_text_is_preserved(self):
         post = build.load_posts()[0]
         parser = build.MarkdownIt("commonmark", {"html": True})
+        if post.get("markdown_tables"):
+            parser.enable("table")
         tokens = parser.parse((self.root / post["source"]).read_text())[3:]
         original = parser.renderer.render(tokens, parser.options, {})
         expected = Document(f'<article id="article-content">{original}</article>').article_text
         actual = Document(build.render_article(post)).article_text
         normalize = lambda chunks: " ".join("".join(chunks).split())
         self.assertEqual(normalize(actual), normalize(expected))
+
+    def test_markdown_tables_are_opt_in_and_keep_cell_content(self):
+        post = dict(build.load_posts()[0], source="table-test.md", figures={})
+        (self.root / post["source"]).write_text(
+            f'# {post["title"]}\n\n## 比较\n\n'
+            '| 方法 | 准确率 |\n| --- | ---: |\n| kev | 0.790 |\n'
+        )
+        without = build.render_article(dict(post, markdown_tables=False))
+        self.assertNotIn('<table>', without)
+        with_tables = build.render_article(dict(post, markdown_tables=True))
+        self.assertIn('<div class="prose-table" tabindex="0"><table>', with_tables)
+        self.assertIn('<td>kev</td>', with_tables)
+        self.assertIn('0.790</td>', with_tables)
+        self.assertNotIn('| --- |', with_tables)
+
+    def test_jev_longform_has_tables_figures_and_source_links(self):
+        post = next(post for post in build.load_posts() if post["slug"] == "jev-understanding-and-generation")
+        rendered = build.render_article(post)
+        self.assertEqual(rendered.count('<table>'), 2)
+        self.assertEqual(rendered.count('<figure class="entry-figure">'), 3)
+        self.assertIn('https://docs.typesafe.ai/primitives', rendered)
+        self.assertIn('https://aclanthology.org/2024.emnlp-main.491/', rendered)
+        self.assertIn('data-view-count="busuanzi_page_pv"', rendered)
+        self.assertNotIn('[s1]', rendered)
 
     def test_a_second_post_updates_all_collections(self):
         posts = json.loads((self.root / "posts.json").read_text())

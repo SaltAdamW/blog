@@ -1,0 +1,154 @@
+{
+  "title": "Jev：解耦 LLM 的理解和生成",
+  "checkedAt": "2026-09-20",
+  "verification": "作者核读与自审；区分官方披露、社区实现和分析推断，未独立复现模型实验。",
+  "paper_years": [
+    2024,
+    2025,
+    2026
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "TypeSafe Primitives",
+      "url": "https://docs.typesafe.ai/primitives",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。"
+    },
+    {
+      "id": "s2",
+      "title": "Grammar-Aligned Decoding (NeurIPS 2024)",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/2bdc2267c3d7d01523e2e17ac0a754f3-Paper-Conference.pdf",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。"
+    },
+    {
+      "id": "s3",
+      "title": "kev model.py",
+      "url": "https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。",
+      "commit": "20fa6268c8ceb226530be2fb5266ab2c36b37724",
+      "source_sha256": "839dd7632ec291ac4740035c86f780f8f13da2b74b54a146ce90ff0ce8de527b"
+    },
+    {
+      "id": "s4",
+      "title": "simple-jev RFDT",
+      "url": "https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/RFDT/README.md",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。",
+      "commit": "0dd5396ffce671ab7c4bfc031506d8e558cf8d23",
+      "source_sha256": "0ef8e5d40b88f65dce5eda5daf1e1139bbf1091fbd834ce3b20eabaf2af5eea8"
+    },
+    {
+      "id": "s5",
+      "title": "Hydragen (2024)",
+      "url": "https://arxiv.org/html/2402.05099v2",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。"
+    },
+    {
+      "id": "s6",
+      "title": "Jev's Architecture Unmasked",
+      "url": "https://archerhume.com/posts/jevs-architecture-unmasked/",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。"
+    },
+    {
+      "id": "s7",
+      "title": "kev train.py",
+      "url": "https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/train.py",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。",
+      "commit": "20fa6268c8ceb226530be2fb5266ab2c36b37724",
+      "source_sha256": "e0df6503506d6a0cb5ccd35ae38bb072a6103383adf7beab4269bb1a1f5fcdce"
+    },
+    {
+      "id": "s8",
+      "title": "kev README",
+      "url": "https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。",
+      "commit": "20fa6268c8ceb226530be2fb5266ab2c36b37724",
+      "source_sha256": "82cc07d7a4b50dbdb8cd4dd18a082dc4f57c342049431e6a00632ea4437b1dc3"
+    },
+    {
+      "id": "s9",
+      "title": "TypeSafe Machine Learning Primer",
+      "url": "https://docs.typesafe.ai/introduction/machine-learning-primer",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。"
+    },
+    {
+      "id": "s10",
+      "title": "TechCrunch 创始人采访 (2026-09-18)",
+      "url": "https://techcrunch.com/2026/09/18/a-new-kind-of-ai-model-from-a-chatgpt-inventor-is-thrilling-developers/",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "仅采用创始人采访中的合成数据及未公开范围线索，不作为训练配方。"
+    },
+    {
+      "id": "s11",
+      "title": "FIRST (EMNLP 2024)",
+      "url": "https://aclanthology.org/2024.emnlp-main.491/",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。"
+    },
+    {
+      "id": "s12",
+      "title": "JevBench v1.2 results",
+      "url": "https://github.com/fstandhartinger/jevbench/blob/e105a48f8cdb7f3babb3594424f73e5d7bdc97b9/RESULTS-v1.2.md",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。",
+      "commit": "e105a48f8cdb7f3babb3594424f73e5d7bdc97b9",
+      "source_sha256": "d3a748814a43d28e8eae5670f19189f10daafe38c630ebd092c3447105ed8ba1"
+    },
+    {
+      "id": "s13",
+      "title": "TypeSafe Confidence",
+      "url": "https://docs.typesafe.ai/confidence",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。"
+    },
+    {
+      "id": "s14",
+      "title": "BTZSC pilot v1",
+      "url": "https://github.com/AbdelStark/jev-benchmarks/blob/0d610cc53e79bcbec691312b0c4adb4a0e371642/results/reports/btzsc-pilot-v1.md",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。",
+      "commit": "0d610cc53e79bcbec691312b0c4adb4a0e371642",
+      "source_sha256": "f91e9352038d01da41acc4c3c3d2f709df0174dc2a0cd5c6dfccdef89eed5534"
+    },
+    {
+      "id": "s15",
+      "title": "How Jev Chooses the Next Browser Action",
+      "url": "https://rtrvr.ai/blog/jev-browser-agent-benchmark",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。"
+    },
+    {
+      "id": "s16",
+      "title": "WindTunnel Jev + Mercury provenance",
+      "url": "https://github.com/nekuda-ai/WindTunnel/blob/5ca8644e23826ebb30108e7bad240b61043bfe67/results/2026-09-18-jev-mercury/PROVENANCE.md",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。",
+      "commit": "5ca8644e23826ebb30108e7bad240b61043bfe67",
+      "source_sha256": "073be56dc596b5434b1441495507a084bf7669e33c3d4386540a8ace7caa3d52"
+    },
+    {
+      "id": "kev-plan",
+      "title": "kev 研究日志",
+      "url": "https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/PLAN.md",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。",
+      "commit": "20fa6268c8ceb226530be2fb5266ab2c36b37724",
+      "source_sha256": "4122b540a22a6d503e5f782fef35ebf15f1d2389e78e28b30c78a1b1285dc48f"
+    },
+    {
+      "id": "first-method",
+      "title": "FIRST 方法正文 v2",
+      "url": "https://arxiv.org/html/2406.15657v2",
+      "review_status": "author_reviewed_sections",
+      "reading_scope": "按正文对应问题核读原文或公开代码；实验结果未独立复现。"
+    }
+  ]
+}

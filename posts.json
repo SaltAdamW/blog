@@ -117,5 +117,52 @@
     "word_count": 2712,
     "source": "agent-research-weekly-2026-09-10.md",
     "source_manifest": "agent-research-weekly-2026-09-10.sources.json"
+  },
+  {
+    "slug": "jev-understanding-and-generation",
+    "title": "Jev：解耦 LLM 的理解和生成",
+    "date": "2026-09-20",
+    "category": "技术长文",
+    "tags": [
+      "Jev",
+      "决策模型",
+      "模型训练",
+      "概率校准"
+    ],
+    "description": "输入的表达和情境不断变化，输出却常常只有有限选项。从 Jev 出发，结合 kev、simple-jev 与 FIRST，解释直接决策的计算、训练、评测和适用边界。",
+    "deck": "输入开放，输出有限：理解之后，是否还需要生成一段回答？",
+    "word_count": 8089,
+    "source": "longform-jev-understanding-and-generation.md",
+    "source_manifest": "longform-jev-understanding-and-generation.sources.json",
+    "markdown_tables": true,
+    "figures": {
+      "assets/longform/jev/01-paths.png": {
+        "width": 2000,
+        "height": 1040,
+        "mobile": "assets/longform/jev/01-paths-mobile.png",
+        "mobile_width": 768,
+        "mobile_height": 1820,
+        "diagram": "assets/longform/jev/01-paths.drawio",
+        "caption": "两种结果出口：教学示意，不代表 Jev 内部架构。"
+      },
+      "assets/longform/jev/02-kev.png": {
+        "width": 2000,
+        "height": 1440,
+        "mobile": "assets/longform/jev/02-kev-mobile.png",
+        "mobile_width": 768,
+        "mobile_height": 1532,
+        "diagram": "assets/longform/jev/02-kev.drawio",
+        "caption": "kev 公开实现：共享状态、隔离问题分支、候选读出。"
+      },
+      "assets/longform/jev/03-training.png": {
+        "width": 2000,
+        "height": 1250,
+        "mobile": "assets/longform/jev/03-training-mobile.png",
+        "mobile_width": 768,
+        "mobile_height": 1850,
+        "diagram": "assets/longform/jev/03-training.drawio",
+        "caption": "公开监督训练示意：不是 Jev 的 RLCD 配方。"
+      }
+    }
   }
 ]

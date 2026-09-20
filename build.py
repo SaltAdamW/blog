@@ -150,6 +150,10 @@ def render_article(post):
     manifest = json.loads((ROOT / post["source_manifest"]).read_text()) if post.get("source_manifest") else {"sources": []}
     source_urls = {source["url"] for source in manifest["sources"]}
     parser = MarkdownIt("commonmark", {"html": True})
+    if post.get("markdown_tables"):
+        parser.enable("table")
+        parser.renderer.rules["table_open"] = lambda *_: '<div class="prose-table" tabindex="0"><table>\n'
+        parser.renderer.rules["table_close"] = lambda *_: '</table></div>\n'
     default_code = parser.renderer.rules["code_inline"]
 
     def inline_code(tokens, index, options, env):
