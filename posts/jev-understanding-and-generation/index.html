@@ -3,17 +3,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="输入的表达和情境不断变化，输出却常常只有有限选项。从 Jev 出发，结合 kev、simple-jev 与 FIRST，解释直接决策的计算、训练、评测和适用边界。">
+<meta name="description" content="从开放输入与有限输出出发，介绍 Jev 的特点、工作方式、CUA 与证据核查应用；结合开源实现和同题评测，解释判断质量、效率及幻觉边界。">
 <meta name="author" content="Adam">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Jev：解耦 LLM 的理解和生成 | Adam‘s blog">
-<meta property="og:description" content="输入的表达和情境不断变化，输出却常常只有有限选项。从 Jev 出发，结合 kev、simple-jev 与 FIRST，解释直接决策的计算、训练、评测和适用边界。">
+<meta property="og:description" content="从开放输入与有限输出出发，介绍 Jev 的特点、工作方式、CUA 与证据核查应用；结合开源实现和同题评测，解释判断质量、效率及幻觉边界。">
 <meta property="og:url" content="https://saltadamw.github.io/blog/posts/jev-understanding-and-generation/">
 <meta property="og:site_name" content="Adam‘s blog">
 <link rel="canonical" href="https://saltadamw.github.io/blog/posts/jev-understanding-and-generation/">
 <link rel="alternate" type="application/rss+xml" title="Adam‘s blog" href="../../feed.xml">
 <link rel="icon" href="../../assets/avatar.jpg" type="image/jpeg">
-<link rel="stylesheet" href="../../assets/style.css?v=687c667aee50">
+<link rel="stylesheet" href="../../assets/style.css?v=57faf8d63467">
 <script src="../../assets/site.js?v=6dee74f69ee7" defer></script>
 <script src="../../assets/analytics.js?v=23a2bb2f0950" defer></script>
 <title>Jev：解耦 LLM 的理解和生成 | Adam‘s blog</title>
@@ -40,7 +40,7 @@
   <path d="M8 19h13" />
 </svg><span>本篇目录</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-chevron-down" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="m6 9 6 6 6-6" />
-</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-6" data-section="section-6"><span class="toc-number">01</span><span>一、软件需要的是理解，还是一段回答</span></a></li><li><a href="#section-48" data-section="section-48"><span class="toc-number">02</span><span>二、从开放的上下文，到有限候选的分布</span></a></li><li><a href="#section-125" data-section="section-125"><span class="toc-number">03</span><span>三、换了结果出口，判断能力怎样学出来</span></a></li><li><a href="#section-195" data-section="section-195"><span class="toc-number">04</span><span>四、这和“小模型加分类器”究竟差在哪里</span></a></li><li><a href="#section-272" data-section="section-272"><span class="toc-number">05</span><span>五、少生成以后，实际获得了什么</span></a></li><li><a href="#section-379" data-section="section-379"><span class="toc-number">06</span><span>六、让选择和生成各自承担合适的工作</span></a></li><li><a href="#section-406" data-section="section-406"><span class="toc-number">07</span><span>原文与实现</span></a></li></ol></nav></details>
+</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-12" data-section="section-12"><span class="toc-number">01</span><span>一、Jev 是什么：一个把上下文变成判断的模型</span></a></li><li><a href="#section-46" data-section="section-46"><span class="toc-number">02</span><span>二、特点是什么：动态定义、有限作答、集中判断</span></a></li><li><a href="#section-118" data-section="section-118"><span class="toc-number">03</span><span>三、方法是什么：理解输入以后，怎样直接读出选择</span></a></li><li><a href="#section-221" data-section="section-221"><span class="toc-number">04</span><span>四、能做什么：把有限判断放进完整工作流</span></a></li><li><a href="#section-305" data-section="section-305"><span class="toc-number">05</span><span>五、效果怎么样：效率、判断质量与可信度分别看</span></a></li><li><a href="#section-556" data-section="section-556"><span class="toc-number">06</span><span>原文与实现</span></a></li></ol></nav></details>
         <div class="sidebar-bottom"><p>技术长文 / 架构与实现</p><a class="download-link" href="../../longform-jev-understanding-and-generation.md" download><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -54,7 +54,7 @@
         <header class="article-header">
           <nav class="breadcrumbs" aria-label="面包屑导航"><a href="../../index.html">文章</a><span aria-hidden="true">/</span><span>技术长文</span></nav>
           <h1>Jev<span class="subtitle">解耦 LLM 的理解和生成</span></h1><p class="article-deck">输入开放，输出有限：理解之后，是否还需要生成一段回答？</p>
-          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-20">2026 年 9 月 20 日</time><span>8,089 字 · 18 项一手资料</span><span class="visit-stat" data-view-count="busuanzi_page_pv" hidden>本篇浏览 <span class="visit-value" data-count-value role="status">加载中</span></span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-20">2026 年 9 月 20 日</time><span>9,988 字 · 21 项一手资料</span><span class="visit-stat" data-view-count="busuanzi_page_pv" hidden>本篇浏览 <span class="visit-value" data-count-value role="status">加载中</span></span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
 </svg><span class="tooltip" role="tooltip">复制文章链接</span></button><a class="icon-button" href="../../longform-jev-understanding-and-generation.md" download aria-label="下载 Markdown 原稿"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -63,250 +63,314 @@
   <path d="m7 10 5 5 5-5" />
 </svg><span class="tooltip" role="tooltip">下载原稿</span></a></div></div>
         </header>
-        <article id="article-content" class="prose" tabindex="-1"><p>输入往往是开放的，输出却常常只有有限选项。真正值得重新设计的，是两者之间的计算。</p>
-<p><em>资料截至 2026 年 9 月 20 日。本文区分 Jev 官方披露、社区公开实现与作者分析；所引用研究论文均发表于或公开于 2024 至 2026 年。</em></p>
-<h2 id="section-6">一、软件需要的是理解，还是一段回答</h2>
-<p>假设我们让一个助手处理网页上的订单。用户说：“这笔订单我不想取消了，只想把收货地址改成公司。”页面同时有“修改地址”“取消订单”“再次购买”三个按钮。</p>
-<p>软件最终需要的结果很短：选择“修改地址”，返回对应的按钮引用。它不需要一句“根据您的描述，我认为应该点击修改地址”。可是，要得到这个短结果，模型仍然需要理解否定、意图变化，以及页面上的三个操作分别意味着什么。</p>
-<p>这正是很多模型应用的不对称之处：<strong>输入的表达和情境可以不断变化，当前允许的输出却是一个明确的有限集合。</strong> 这里的“开放输入”不是无限长的上下文，而是我们无法事先列完用户会怎样表达、规则会怎样组合、环境会出现什么状态。相反，只要进入这一次决策，按钮、工具、路由或判断等级通常可以列出来。</p>
-<p>有限集合也不等于简单问题。判断一段程序是否符合一项复杂约束，最后可能只有“是”或“否”；理解一份长记录之后决定下一步，最后也可能只需选择三个动作之一。答案有几个字，与得到答案需要多少知识和推理，是两回事。</p>
-<p>Jev 把这种任务单独做成了一类模型服务：给它状态、问题和本次可选的结果，取回选择及相关概率，而不是一段自由回答。官方把重点放在有明确边界的快速判断上。<a href="https://docs.typesafe.ai/primitives">1</a> 标题里的“解耦”，说的是把<strong>理解输入的要求</strong>与<strong>生成回答文本的方式</strong>分开设计，并不是说已经在神经网络中找到了彼此独立的“理解模块”和“生成模块”。</p>
-<h3 id="section-24">生成不是唯一的结果出口</h3>
-<p>常见的生成式做法，是把用户请求和页面信息放入提示词，让语言模型返回动作。它可以先解释，再输出 JSON；也可以不解释，只生成一个受约束的标签。后者已经是很强的对照，不能为了凸显决策模型，就假设所有 LLM 都要长篇大论。</p>
-<p>但即使把回答限制为 JSON，仍然有两个不同的问题：结果是否符合接口要求，以及结果是否符合真实意图。三个按钮的引用都可以是合法字符串，只有其中一个符合当前请求。Schema 解决的是可表达的结果边界，不负责证明选中了正确结果。2024 年的 Grammar-Aligned Decoding 进一步指出，满足语法约束与保持原模型在合法输出上的条件分布，也不是同一件事。<a href="https://proceedings.neurips.cc/paper_files/paper/2024/file/2bdc2267c3d7d01523e2e17ac0a754f3-Paper-Conference.pdf">2</a></p>
-<p>另一条路是分类。若任务始终只有固定标签，已有监督分类器就是直接方案；若把问题和候选描述一起作为输入，条件分类也能面对新规则、新标签。我们不必先发明一个和分类完全不同的数学类别，才能讨论 Jev 的价值。</p>
-<p>真正的问题更具体：能否利用语言模型已经学到的上下文表示，直接计算这次候选的分数，不再把分数和结果通过一串文本表达出来？这改变的是结果读出的路径。它可能减少答案序列的生成工作，却没有免除读取输入、比较选项和处理规则的计算。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a><a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/RFDT/README.md">4</a></p>
-<figure class="entry-figure">
-      <a class="figure-open" href="../../assets/longform/jev/01-paths.png" target="_blank" rel="noopener" aria-label="在新窗口查看完整机制图">
-        <picture><source media="(max-width: 719px)" srcset="../../assets/longform/jev/01-paths-mobile.png" width="768" height="1820">
-          <img src="../../assets/longform/jev/01-paths.png" alt="生成路径与直接读出路径：两者都处理输入，区别在于如何形成软件消费的结果。教学示意，不代表 Jev 已公开内部架构。" width="2000" height="1040" loading="lazy" decoding="async">
-        </picture>
-      </a>
-      <figcaption><p>两种结果出口：教学示意，不代表 Jev 内部架构。</p><div class="figure-tools">
-        <a class="icon-button" href="../../assets/longform/jev/01-paths.png" download aria-label="下载机制图 PNG"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-  <path d="M12 15V3" />
-  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-  <path d="m7 10 5 5 5-5" />
-</svg><span class="tooltip" role="tooltip">下载 PNG</span></a>
-        <a class="icon-button" href="../../assets/longform/jev/01-paths.drawio" download aria-label="下载可编辑图源"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-copy" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-</svg><span class="tooltip" role="tooltip">可编辑图源</span></a>
-      </div></figcaption>
-    </figure>
-<p><em>图 1：上方保留答案 token 的生成过程，下方直接读出候选分布。生成式基线也可以只有一个答案 token；图中的差别不能直接换算成加速倍数。</em></p>
-<p>这个区别还有另一面。生成有时不只是把已经完成的判断说出来，生成出的中间步骤也会继续进入后续计算。若任务依赖这样的多步展开，删掉它们以后，不能仅凭“答案很短”就认定能力不会改变。后面讨论训练和评测时，我们需要同时问：少做了什么工作，又是否少做了原来必要的工作。</p>
-<h2 id="section-48">二、从开放的上下文，到有限候选的分布</h2>
-<p>先看一条完整的决策路径。下面是教学数据，不是某次真实 API 调用，也不是官方 SDK 语法：</p>
-<pre><code class="language-text">状态：用户不想取消订单，希望修改收货地址。
-      页面包含修改地址、取消订单、再次购买三个按钮。
+        <article id="article-content" class="prose" tabindex="-1"><p>输入可以千变万化，下一步需要的答案，却常常已经在几个选项之中。</p>
+<p>让一个浏览器助手查航班，它需要理解出发地、目的地、日期和你的偏好。但当页面已经列出几个输入框时，“下一步填哪里”并不需要一段新文字，只需要从现有控件里选一个。选好控件以后，“应该填什么”才可能需要生成。</p>
+<p>Jev 关注的就是前一种工作：保留对语言和上下文的理解，让结果直接成为程序可以使用的判断。它把“当前应该做什么”的选择，与“需要创造什么内容”的生成分开，为软件提供另一种使用模型的方式。</p>
+<p>资料截至 2026 年 9 月 20 日。本文依据官方文档、公开实现和第三方实验展开；实验数字来自对应作者报告，不是本文重新运行的结果。Jev 的内部架构尚未公开，下文会把官方能力与社区实现分别说明。</p>
+<h2 id="section-12">一、Jev 是什么：一个把上下文变成判断的模型</h2>
+<p>回到查航班这件事。程序已经拿到用户目标，也知道页面上哪些元素是按钮、哪些可以输入。现在要回答的是：“为了继续完成目标，应该对哪个控件做什么？”</p>
+<p>调用生成模型当然也能解决这个问题。我们可以让它读页面、输出操作名和目标，再由程序执行。Jev 改变的不是“这件事是否需要理解”，而是理解之后的结果出口：调用方先说明本次允许的答案，模型返回其中的选择或相应概率，不生成解释、代码或一整段回复。<a href="https://docs.typesafe.ai/primitives">1</a><a href="https://docs.typesafe.ai/concepts/system-one">18</a></p>
+<p><strong>Jev 是 TypeSafe 提供的、面向软件的结构化决策模型。</strong> 官方将它称为 System One model，强调快速、聚焦的判断。这是产品定位，不是已经得到证实的类脑架构；也不能由这个名字推导出它内部一定没有复杂计算。<a href="https://docs.typesafe.ai/concepts/system-one">18</a></p>
+<p>一次判断可以用三个部分理解：<strong>状态告诉模型发生了什么，问题说明要判断什么，候选定义这次怎样回答。</strong> 状态可以包含用户要求、页面内容、已有记录和适用规则；问题可以是选择下一步操作，也可以是判断一段材料是否支持某个结论。程序收到结果后，决定执行、继续收集信息，或者转向其他处理路径。<a href="https://docs.typesafe.ai/primitives">1</a></p>
+<p>例如，下面是一份教学用的输入，省略了实际接口字段：</p>
+<pre><code class="language-text">状态：用户要查苏黎世到伦敦的单程航班。
+      页面上的出发地仍为 San Francisco，目的地为空。
 
-问题：当前应该选择哪个操作？
+问题：下一步应先修改哪个控件？
 
-候选：
-  edit_address  修改这笔订单的收货地址
-  cancel_order  取消这笔订单
-  buy_again     按原商品创建新订单
-  none          以上操作都不符合当前目标
+候选：origin      出发地输入框
+      destination 目的地输入框
+      trip_type   单程 / 往返开关
+      none        现有信息不足以确定
+
+返回：候选 ID，以及候选之间的概率分布。
 </code></pre>
-<p>状态提供判断证据，问题规定要判断什么，候选定义结果的含义。换一个网页，可以换一组候选；换一个目标，同样的页面也可能得到不同选择。<strong>输出空间在这一次调用中是有限的，不意味着它在训练前就已经固定。</strong> Jev 的 Choice 接口正是由调用方提供选项和含义。<a href="https://docs.typesafe.ai/primitives">1</a></p>
-<p>官方还提供两种相邻形式：Noul 表达二元判断中“是”的概率；Score 根据有序等级返回位置以及相应分布和置信信息。<a href="https://docs.typesafe.ai/primitives">1</a> 它们让软件直接消费判断，不必从一段说明中提取数字。不过，接口告诉我们返回什么，并没有完整交代神经网络怎样计算。</p>
-<p>要讲清内部过程，可以看社区项目 kev。它公开了骨干、输入组织、读出头和训练代码，因而能作为这条路线的可检查实例。<strong>下面的架构属于 kev，不是 Jev 官方架构。</strong><a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a></p>
-<h3 id="section-64">候选不只是输出标签，也进入了计算</h3>
-<p>kev 采用 Qwen 骨干，把状态、问题和各个候选编码成 token。它不使用原来的词表输出头来生成答案，而是取得骨干在不同位置产生的隐藏向量，再用专门的读出头评分。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a></p>
-<p>隐藏向量可以理解为模型读到某个位置时，对当前可见上下文形成的一组数值表示。这里并不存在先把自然语言完全理解好、再调用另一个确定性程序的边界；状态、规则和候选如何影响这些表示，本身就是网络要学会的事情。</p>
-<p>其中两个位置最关键：每个候选的结束位置，以及放在全部候选之后的决策位置。前者提供对应候选的表示，后者能够读取本问题的全部候选。kev 将两类向量分别投影，再计算缩放点积：<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a></p>
-<pre><code class="language-text">q   = project_question(h_decide)
-k_i = project_option(h_option_i)
-z_i = dot(q, k_i) / sqrt(pointer_dimension)
-p   = softmax([z_1, ..., z_K])
-</code></pre>
-<p>这里的 <code>z_i</code> 是尚未归一化的候选分数，通常称为 logit；<code>p</code> 是在当前 K 个候选上归一化的分布。程序可以取最大值对应的候选，再把候选 ID 和概率封装成接口结果。不需要让神经网络逐个生成大括号、字段名和小数位。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a></p>
-<p>这里的“一次前向”仍然要穿过骨干的全部网络层，计算输入各位置的表示，并不是只运行最后一个分类层。它省去的是后续答案序列的自回归生成，不是把理解变成零成本操作。输入很长或候选很多时，前面的计算仍然可能占据主要开销。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a></p>
-<p>为什么不只为“修改地址”“取消订单”各训练一个固定权重？因为下一次调用可能出现完全不同的操作。kev 的评分参数在候选之间共享，候选含义由本次输入的文字和上下文表示。增加一个候选，增加的是一个需要编码和评分的对象，不必为这个业务类别单独增加一个输出神经元。这使结构能够接受动态候选；是否理解新候选，仍取决于模型表示与训练。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a></p>
-<p>决策位置为什么放在全部候选后面，也有直接原因。在因果注意力下，一个位置不能读取后面的文本。如果它还没看到最后几个选项就开始决定，后来的信息便无法参与这次读出。“以上都不符合”尤其需要比较整个集合，不能只看这个短语本身。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a></p>
-<p>同样，候选之间未必可以完全独立评分。“最便宜且能按时送达”要比较多个方案，而不是分别判断每个方案看起来是否不错。kev 默认的候选表示保留顺序相关上下文，末尾决策位置再读取完整列表；它也提供隔离候选的实验配置。这是两种可检验的设计选择，不能把某个配置的性质推广到所有版本。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a></p>
-<h3 id="section-92">同一份状态，可以支持多道独立问题</h3>
-<p>处理一份长记录时，软件可能同时要问：该交给哪个工具？信息是否齐全？紧急程度属于哪一档？每个问题都使用同一份状态，但不一定需要看其他问题的内容。</p>
-<p>kev 把状态放在共享前缀，各问题接在独立分支中。注意力掩码允许分支读取状态和自己的前文，禁止它读取其他问题分支；不同分支的位置编号也从状态末尾重新开始。这样，一个问题的附加说明不会因为排在前面，就意外进入另一个问题的判断。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a></p>
+<p>这里最重要的不是把返回文本缩短到 <code>origin</code>，而是让这个结果直接指向程序已经知道的一个对象。程序不需要从“我认为应当先修改出发地”这句话里恢复动作意图，也不需要把模型临时编写的控件名称再猜测性地对应回页面。</p>
+<p>不过，Jev 本身不是浏览器助手。它不负责发现页面元素，不直接点击，也不负责把城市名称写进输入框。当前官方接口接受文本、JSON 对象和文本数组，不原生接收图像、音频或视频。浏览器要先把页面整理成它能读的状态，执行和必要的文本生成则由外部程序完成。<a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/README.md">3</a><a href="https://docs.typesafe.ai/concepts/system-one">18</a></p>
 <figure class="entry-figure">
-      <a class="figure-open" href="../../assets/longform/jev/02-kev.png" target="_blank" rel="noopener" aria-label="在新窗口查看完整机制图">
-        <picture><source media="(max-width: 719px)" srcset="../../assets/longform/jev/02-kev-mobile.png" width="768" height="1532">
-          <img src="../../assets/longform/jev/02-kev.png" alt="kev 的共享状态、隔离问题分支和 pointer 读出。代码对应的公开实现，不是 Jev 内部结构复原。" width="2000" height="1440" loading="lazy" decoding="async">
+      <a class="figure-open" href="../../assets/longform/jev/v4/01-workflow.png" target="_blank" rel="noopener" aria-label="在新窗口查看完整机制图">
+        <picture><source media="(max-width: 719px)" srcset="../../assets/longform/jev/v4/01-workflow-mobile.png" width="768" height="2300">
+          <img src="../../assets/longform/jev/v4/01-workflow.png" alt="页面或原文被整理成状态，Jev 返回有限判断，程序组合结果，按需生成内容并执行检查。" width="2000" height="1660" loading="lazy" decoding="async">
         </picture>
       </a>
-      <figcaption><p>kev 公开实现：共享状态、隔离问题分支、候选读出。</p><div class="figure-tools">
-        <a class="icon-button" href="../../assets/longform/jev/02-kev.png" download aria-label="下载机制图 PNG"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <figcaption><p>Jev 在应用中的位置：语义判断、按需生成、执行与结果检查分别完成。</p><div class="figure-tools">
+        <a class="icon-button" href="../../assets/longform/jev/v4/01-workflow.png" download aria-label="下载机制图 PNG"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
   <path d="m7 10 5 5 5-5" />
 </svg><span class="tooltip" role="tooltip">下载 PNG</span></a>
-        <a class="icon-button" href="../../assets/longform/jev/02-kev.drawio" download aria-label="下载可编辑图源"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-copy" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <a class="icon-button" href="../../assets/longform/jev/v4/01-workflow.drawio" download aria-label="下载可编辑图源"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-copy" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
   <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
 </svg><span class="tooltip" role="tooltip">可编辑图源</span></a>
       </div></figcaption>
     </figure>
-<p><em>图 2：两道问题共享状态，各自读取问题和候选，分别形成分布。图中画出默认计算路径；候选隔离属于另一项可选配置。</em></p>
-<p>这也创造了复用计算的机会：共享状态不必为每个问题重复构造一套前缀表示。但每个问题仍然要读取这份状态，并处理自己的候选。kev 使用显式注意力掩码，图上的分支不等于生产服务已经采用了最优稀疏算子。Hydragen 在 2024 年研究了共享前缀下的注意力分解与批处理，说明底层执行还有单独的优化空间；它不是 Jev 使用了该算法的证据。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a><a href="https://arxiv.org/html/2402.05099v2">5</a></p>
-<p>独立分支也划定了适用范围。如果第二个问题要根据第一个答案才能定义，就不能把它们当成已经获得顺序依赖信息的并行判断。此时应先完成第一步，再把答案加入后续输入。Jev 官方文档也要求这样处理有依赖的问题。<a href="https://docs.typesafe.ai/primitives">1</a></p>
-<h3 id="section-113">哪些行为已经在 Jev 上被观察到</h3>
-<p>社区黑盒探针提供了一些对应线索：把证据移入另一个问题分支，可能不再影响当前答案；写在后部候选中的信息可以影响前部选项；加入一个候选，也可能改变原有两个候选之间的概率比。<a href="https://archerhume.com/posts/jevs-architecture-unmasked/">6</a></p>
-<p>最后一项值得仔细理解。假设原来两个选项的分数始终不变，温度也不变，只是给 softmax 多加一项，那么它们的概率都会被重新缩放，但相互的比值不会改变。观察到比值变化，说明这个简单假设不够解释结果，可能有上下文交互或其他随候选集变化的计算。</p>
-<p>但这不能唯一识别 pointer head，也不能反推出 MoE、具体基座或解码步数。不同实现可以产生相似的外部行为。我们现在能说的是：公开代码展示了一条完整可行的计算路线，黑盒行为与其中部分信息依赖相容；两者尚不足以把 Jev 的内部图画实。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a><a href="https://archerhume.com/posts/jevs-architecture-unmasked/">6</a></p>
-<h2 id="section-125">三、换了结果出口，判断能力怎样学出来</h2>
-<p>上一节说明了怎样从隐藏表示得到候选分布，却没有回答一个更难的问题：这些分数为什么应该符合调用方临时给出的规则？</p>
-<p>考虑同一份教学状态：一项申请总额为 120 元，其中运费 30 元。规则一要求“含运费总额不超过 100 元才通过”，答案应当拒绝；规则二要求“商品金额不超过 100 元才通过”，答案应当通过。两次输入里的商品和金额都一样，改变的只是判断规则。</p>
-<p>如果训练数据总是让某类词语对应某个标签，模型可能学到一个足够拟合数据的捷径，却没有学会随规则变化。这也是为什么“骨干很强，再加一个分类头”只是结构起点：新读出头需要学会怎样利用表示，骨干也可能需要适应问题、候选和边界标记的组织方式。kev 的公开训练同时更新读出头和骨干上的 LoRA 参数。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a><a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/train.py">7</a></p>
-<h3 id="section-137">一条监督信号怎样改变模型</h3>
-<p>最直接的数据形式，是给每条状态、问题和候选集合标出正确选项。例如，上面的两条规则分别配上“拒绝”和“通过”。模型算出候选 logits 后，训练使用交叉熵惩罚正确选项概率过低的情况。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/train.py">7</a></p>
-<pre><code class="language-text">logits = decision_model(state, question, candidates)
-loss = cross_entropy(logits, correct_candidate_index)
-loss.backward()
-optimizer.step()
+<p>图 1：Jev 在应用中的位置。图中画的是已公开的接口与应用关系，不是内部神经网络；需要新信息时，程序重新观察，再发起下一轮判断。<a href="https://docs.typesafe.ai/primitives">1</a><a href="https://docs.typesafe.ai/patterns/fan-out">2</a><a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/README.md">3</a></p>
+<p>这就是标题里“解耦”的准确含义：<strong>把语义判断与文本生成分开安排，而不是把一个已经发现的“理解模块”从 LLM 中拆下来。</strong> 理解用户意图、比较候选、遵守规则，仍然需要模型计算；只是这些计算不必都以生成新内容结束。</p>
+<h2 id="section-46">二、特点是什么：动态定义、有限作答、集中判断</h2>
+<h3 id="section-49">候选可以随请求改变，任务不必固定在训练时</h3>
+<p>一个只识别固定意图的分类器，可以把请求分到“查航班”“改地址”“查订单”。但知道用户要查航班，并不能直接回答当前页面应该点哪个控件。页面变了，可操作的对象也会变。</p>
+<p>Jev 允许调用方在本次请求里提供问题、候选 ID 和自然语言描述。模型要结合这些描述与状态判断，而不是始终对着一份永久固定的标签表。当前页面可以选控件，下一次请求可以选工具，再下一次可以判断几段证据中哪一段更相关。<a href="https://docs.typesafe.ai/primitives">1</a></p>
+<p>“输入开放、输出有限”由此变得具体。开放的是用户表达、规则组合、文档内容和候选含义，不能在设计系统时逐一穷举；有限的是<strong>这一次</strong>允许返回的结果。输入仍然受上下文长度限制，候选也需要由程序提供，不是模型在后台自己寻找了所有可能答案。</p>
+<p>因此，把 Jev 理解为一种通用的、条件化的分类或决策方式是成立的；把它理解为一个只能完成固定标签任务的分类器，就过窄了。反过来，动态标签也不是 Jev 独有的能力。能读取标签描述的分类模型、语言模型的候选评分，同样可以做这类事。区别最终要落到任务质量、多问题组织和实际效率上，不能仅靠“生成模型”与“决策模型”的名字划线。<a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/README.md">10</a><a href="https://github.com/logan-markewich/jeff/blob/34b32f99a727c47b679adde33f4702a001e02979/README.md">14</a></p>
+<h3 id="section-64">三种结果，对应三种不同的问题</h3>
+<p>程序有时需要选一个，有时需要打等级，还有时需要判断一项陈述是否成立。Jev 用 Choice、Score 和 Noul 表达这三种需求。<a href="https://docs.typesafe.ai/primitives">1</a></p>
+<p><strong>Choice 解决候选之间的选择。</strong> 比如从当前可操作控件中选出出发地输入框。返回值包括所选候选和候选分布，程序可以把选择映射回实际对象。</p>
+<p><strong>Score 解决沿明确标准的分级。</strong> 比如将一段材料对问题的支持程度定义为“不支持”“部分支持”“充分支持”。它返回分布及数值评分，评分可以落在相邻等级之间。这个数表示材料在等级上的位置，不是“本次判断有多少概率正确”。</p>
+<p><strong>Noul 解决一项陈述为真的可能性。</strong> 比如“材料是否明确提供了可下载的实现”。接近 1 表示倾向于真，接近 0 表示倾向于假，0.5 表示对真假同样不确定，而不是“提供了一半实现”。<a href="https://docs.typesafe.ai/primitives">1</a></p>
+<p>题型会影响结果的含义。Choice 问“哪一段最相关”，即使所有段落都不相关，也可能存在一个相对最接近的候选；逐段问 Noul“它是否提供回答所需的证据”，则允许所有段落都得到很低的支持概率。如果任务需要拒选，应在候选里明确提供“以上都不是”或“证据不足”，而不是希望模型自行突破结果类型。<a href="https://docs.typesafe.ai/model-jaggedness/jev-1.13">17</a></p>
+<p>Choice 和 Score 还返回 <code>confidence</code>。官方将它解释为从概率分布计算出的统计量：分布越集中，模型越明确偏向某个结果；分布越平坦，区分候选的把握越低。它不是在候选分布之外，另有一个模型对“这次是否正确”进行了验证，也不能直接当作最大候选概率。Noul 没有这个独立字段。<a href="https://docs.typesafe.ai/confidence.md">20</a></p>
+<p>这一设计让程序能够观察模型的犹豫，但“有没有犹豫”和“有没有答错”仍是两件事。后面的评测会看到，模型确实可能分布很集中，却选择错误。</p>
+<h3 id="section-88">多个问题共享状态，答案由程序组合</h3>
+<p>假设一篇文章要检查三个条件：是否讨论 Agent 的执行机制、是否有公开代码、是否有对照实验。三个问题都需要读原文，但彼此不必依赖对方的答案。</p>
+<p>Jev 可以在一个请求里接收多个问题，让它们共享同一份状态，并按各自的定义返回结果。这里的独立，首先是问题之间的信息关系：后一个问题不以先一个问题的答案为推理步骤。哪些条件决定保留文章、哪些只用于标记，交给程序明确组合。<a href="https://docs.typesafe.ai/primitives">1</a></p>
+<p>这不仅适用于几个互不相干的问题，也适用于<strong>当前已能定义的条件分支</strong>。浏览器可以同时问“下一步做什么”和“假如要输入，填哪个控件”。如果最后选择点击，就忽略输入目标；如果选择输入，就直接使用对应结果。官方称之为 speculative fan-out，即提前展开可能需要的判断。<a href="https://docs.typesafe.ai/patterns/fan-out">2</a></p>
+<p>减少等待的原因在这里：条件目标原本要等操作类型返回后再问，现在两者基于相同的已知状态一起问，一次网络往返就能拿到答案。代价是可能算出一些不会被使用的分支，是否合算取决于批量判断的开销。</p>
+<p>它不能消除真正的信息依赖。点击以后才出现的新菜单，在当前状态里还不存在；如果下一步必须阅读新菜单，就仍需执行、观察，再判断。集中提问改变的是调用组织，不是让模型提前获得未来信息。<a href="https://docs.typesafe.ai/primitives">1</a><a href="https://docs.typesafe.ai/patterns/fan-out">2</a></p>
+<h3 id="section-106">有限答案，使一类错误无法表达</h3>
+<p>如果程序只提供三个真实的文档 ID，遵守接口约束的结果就不能凭空返回第四个。如果只允许 CLICK、TYPE_TEXT、DONE 等操作，也不必再解析一个临时编造的操作名。这是限制输出集合带来的直接收益。<a href="https://docs.typesafe.ai/primitives">1</a></p>
+<p>但选中真实文档，不等于文档支持结论；选中真实按钮，也不等于它符合用户目标。有限输出压缩了可以表达的错误形式，没有消除理解和判断的错误。</p>
+<p>这个区别也解释了 Jev 的能力边界。一个只有“是”和“否”的题目，仍可能需要很长的推理。答案空间小，不代表求解过程简单。官方把 Jev 定位于快速、聚焦判断，并在 Jev 1.13 的局限说明中列出计数、精确算术、日期比较和复杂间接关系等弱项。可以直接计算的量，仍应交给程序计算，不需要为了使用判断模型把它们重新变成语义问题。<a href="https://docs.typesafe.ai/model-jaggedness/jev-1.13">17</a><a href="https://docs.typesafe.ai/concepts/system-one">18</a></p>
+<h2 id="section-118">三、方法是什么：理解输入以后，怎样直接读出选择</h2>
+<h3 id="section-121">不写答案，不等于不运行语言模型</h3>
+<p>要回答“这种模型怎么做”，先拆开两个经常被混在一起的过程：<strong>处理输入</strong>，以及<strong>逐步生成输出</strong>。</p>
+<p>语言模型读完状态、问题和候选后，会得到一组包含上下文信息的内部表示。普通生成路径用这些表示预测下一个 token，再把生成的 token 接回上下文，继续预测后面的内容。如果任务只需要在几个候选里选择，就可以在读完输入以后直接取出候选分数，不再生成后续答案文本。<a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/README.md">10</a></p>
+<p>这给出了同类模型的一条可实现路径，却还不是 Jev 内部架构的解密。官方公开的是状态、问题、结果类型、多问题语义，以及名为 RLCD 的训练方向；没有在这些材料中给出足以重建模型的网络、数据和训练配方。下面用开源实现说明，已经有哪些办法能把这种接口变成真实计算。<a href="https://docs.typesafe.ai/primitives">1</a><a href="https://docs.typesafe.ai/introduction/machine-learning-primer">19</a></p>
+<h3 id="section-133">第一种办法：从现成语言模型读取候选 token 的分数</h3>
+<p>假设把三个控件标成 A、B、C，并在输入中解释每个字母对应什么。模型处理完问题后，本来就需要预测“下一个 token 是什么”。如果读取 A、B、C 对应的分数，就已经拿到了对这三个候选的相对偏好。</p>
+<p>simple-jev 正是这样使用现成开源语言模型的。它使用模型原有的聊天模板组织输入，读取允许答案 token 的 logits，也就是归一化之前的分数，再在这些候选之间转换为概率分布。选中的 ID 和最终 JSON 都由程序构造，不让模型把 JSON 一字一字写出来。<a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/README.md">10</a></p>
+<p>这个计算发生在 prefill 之后。Prefill 是对输入序列的处理，它本身就能产出下一个 token 的 logits；因此，这条路线不需要先生成一个答案，再把答案取回来评分，也不需要额外运行一段自回归解码循环。<a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/README.md">10</a></p>
+<p>这里省掉了什么，取决于原来的对照。如果原方案会生成一段解释和一整份 JSON，那么它确实跳过了这段输出的逐 token 计算和解析；如果原方案本来只输出一个 A，两边已经共享了大部分计算，不能仅凭“没有生成”推出巨大的速度优势。</p>
+<p>同一份输入要回答多题时，还有一块可省的重复工作。simple-jev 先找出各题分词后完全相同的前缀，只处理一次，然后保存注意力计算需要的键和值，即 KV cache。每道题在这份缓存上继续处理自己的后缀，再读取自己的答案分数；不同问题不把彼此的答案接入上下文。<a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/README.md">10</a></p>
+<p>这不是把原文压成一句万能摘要。每个问题仍然要读取共享缓存，并计算自己的问题和候选；缓存复制、批次填充也需要时间。实现复用的是相同前缀的已有计算，不是承诺新增问题免费。</p>
+<p>这条路线的意义在于：<strong>不必先训练一个新模型，已经可以实验“理解之后直接选择”。</strong> 它的限制也来自原有模型：模型是否懂问题、答案字母怎样分词、提示方式是否适合，都影响结果。当前项目要求每个答案标识能用一个可区分的 token 表示；可选的 RFDT 适配用来进一步训练判断，但不是这条推理路径成立的前提。<a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/README.md">10</a></p>
+<h3 id="section-157">第二种办法：不经答案字母，直接比较问题与候选表示</h3>
+<p>答案字母是一种方便的桥接方法，但 A、B、C 本身没有业务含义。另一种做法，是直接从输入中取得候选的上下文表示，为本次候选计算分数。kev 展示了这条公开路线：以 Qwen 为骨干，加入少量可训练的 LoRA 适配参数，以及一个专用的 pointer 读出头。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md">11</a><a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">12</a></p>
+<p>可以先把一题的输入想成下面的顺序。这里的边界标记是示意，不是要求应用照抄的提示词：</p>
+<pre><code class="language-text">共享状态
+
+问题：下一步应修改哪个控件？
+  &lt;候选&gt; origin：出发地输入框 &lt;/候选&gt;
+  &lt;候选&gt; destination：目的地输入框 &lt;/候选&gt;
+  &lt;候选&gt; none：没有合适目标 &lt;/候选&gt;
+&lt;决策位置&gt;
 </code></pre>
-<p>这段是训练过程的教学伪代码，不是可直接执行的训练脚本。关键不在四行代码本身，而在梯度经过哪里：损失先作用于候选分数，再传回 pointer 读出，以及影响上下文表示的可训练参数。LoRA 通过附加的低秩参数调整骨干计算，不需要在这条配置下更新全部原始权重。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/train.py">7</a></p>
-<p>也就是说，训练并非只让最后一层记住“通过”对应哪个 ID。它还试图改变模型如何读取规则、组合金额信息，以及让决策位置形成适合比较候选的表示。交叉熵给出了优化方向，真正能学到哪些关系，取决于训练样本覆盖和模型容量，不能由损失名称直接保证。</p>
+<p>骨干运行以后，每个位置都有自己的上下文向量。kev 从每个候选的<strong>结束标记</strong>取出一个向量，再从最后的<strong>决策位置</strong>取出另一个向量。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">12</a></p>
+<p>为什么不是从候选开头取？在这种因果读取顺序下，开头还没有读到后面的候选说明；结束位置则已经看过该候选的完整文本，以及允许读取的前文。为什么另设决策位置？因为它排在全部候选之后，能在看完本题所有候选后形成用于比较的表示。这两个位置分别承担“这个候选是什么”和“这道题应怎样选择”的信息汇集作用。</p>
+<p>读出头随后将决策向量和候选向量投影到相同维度，逐候选做缩放点积，得到分数，再通过 softmax 转成总和为 1 的候选概率分布。可以把它理解成：<strong>用模型读完问题后形成的查询，去比较模型读完各候选后形成的表示。</strong> 这里比较的是经过上下文计算和任务适配的向量，不只是把原始句子做一次词面相似度检索。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">12</a></p>
+<p>这种读出为什么支持动态候选？因为参与评分的是本次输入提供的候选向量。新页面增加一个按钮，就增加一个可评分的向量，不需要给网络永久增设一个名为“某网页第三个按钮”的输出类别。它也不需要先把候选映射到整个词表中的一个答案字母。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">12</a></p>
+<h3 id="section-179">共享状态与问题隔离，怎样同时成立</h3>
+<p>如果将几道题简单拼成一条普通的因果序列，后面的题就能读取前面的题。这样虽然只放了一份状态，却改变了题目之间的信息关系：添加一道无关题，也可能改变另一道题看到的内容。</p>
+<p>kev 用分支注意力限制解决这个问题。共享状态先形成公共前缀；每个问题分支只允许读取这个前缀和本题已经出现的位置，不允许读取其他问题分支。各分支的位置编号也从共享状态之后重新开始，而不是让第二道题因为排在后面就平移到另一段位置。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">12</a></p>
 <figure class="entry-figure">
-      <a class="figure-open" href="../../assets/longform/jev/03-training.png" target="_blank" rel="noopener" aria-label="在新窗口查看完整机制图">
-        <picture><source media="(max-width: 719px)" srcset="../../assets/longform/jev/03-training-mobile.png" width="768" height="1850">
-          <img src="../../assets/longform/jev/03-training.png" alt="监督训练示意：配对样本或目标分布形成损失，更新读出头与 LoRA。公开训练机制与教学样例，不是 RLCD 配方。" width="2000" height="1250" loading="lazy" decoding="async">
+      <a class="figure-open" href="../../assets/longform/jev/v4/03-method.png" target="_blank" rel="noopener" aria-label="在新窗口查看完整机制图">
+        <picture><source media="(max-width: 719px)" srcset="../../assets/longform/jev/v4/03-method-mobile.png" width="768" height="2320">
+          <img src="../../assets/longform/jev/v4/03-method.png" alt="kev 共享状态的表示，各问题分支只读取状态与自身前文；候选末尾和决策位置分别提供向量，经 pointer 读出得到各题分布。" width="2000" height="2120" loading="lazy" decoding="async">
         </picture>
       </a>
-      <figcaption><p>公开监督训练示意：不是 Jev 的 RLCD 配方。</p><div class="figure-tools">
-        <a class="icon-button" href="../../assets/longform/jev/03-training.png" download aria-label="下载机制图 PNG"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <figcaption><p>kev 公开实现：共享状态、问题分支隔离和动态候选读出；不是 Jev 内部架构复原。</p><div class="figure-tools">
+        <a class="icon-button" href="../../assets/longform/jev/v4/03-method.png" download aria-label="下载机制图 PNG"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <path d="M12 15V3" />
   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
   <path d="m7 10 5 5 5-5" />
 </svg><span class="tooltip" role="tooltip">下载 PNG</span></a>
-        <a class="icon-button" href="../../assets/longform/jev/03-training.drawio" download aria-label="下载可编辑图源"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-copy" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <a class="icon-button" href="../../assets/longform/jev/v4/03-method.drawio" download aria-label="下载可编辑图源"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-copy" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
   <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
 </svg><span class="tooltip" role="tooltip">可编辑图源</span></a>
       </div></figcaption>
     </figure>
-<p><em>图 3：训练的目标是让预测与任务标签或目标分布相符。虚线表示梯度更新；采用何种样本和目标，是训练效果的重要变量。</em></p>
-<h3 id="section-156">数据要迫使模型注意真正会改变答案的因素</h3>
-<p>上面的规则对照是一种最小配对：保持背景不变，只改变会翻转答案的条件。另一种配对是保留与删除正确候选。保留时应该选中它，删除后应该选“以上都不符合”。如果两种情况都拒选，或者都选语义最近的干扰项，就说明模型没有真正掌握我们期望的判断关系。</p>
-<p>kev 的训练代码和研究记录包含这类程序化规则、候选扰动和 none 配对，并记录了在已见任务上的改善。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/train.py">7</a><a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md">8</a> 它们的作用不是给模型增加一种神奇能力，而是让依赖表面相关性的办法更难同时答对训练样本。测试时还必须换用未出现过的规则组合，才能判断它是否只记住了配对模板。</p>
-<p>对动态候选，还有一个容易忽略的问题：换一下顺序，含义没变，结果却可能变。kev 提供了对候选重排后的分布施加一致性约束的可选损失；对于有序等级，还提供利用等级顺序的可选损失。这些选项解决不同误差，默认值和实验配置并不相同，不能把代码里存在的所有损失都当成某次训练同时启用的配方。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/train.py">7</a></p>
-<h3 id="section-168">标签训练与概率训练，不是两种互不相关的事情</h3>
-<p>硬标签只告诉模型哪个答案正确。大量样本上的交叉熵训练已经作用于整个预测分布，不只是最大值位置。软标签则进一步规定各候选应分到多少概率，例如两个标注者群体长期存在分歧时，用一个分布表达目标，比强行指定唯一答案保留了更多信息。</p>
-<p>simple-jev 的 RFDT 提供了另一种公开路径：保留语言模型的词表输出头，把候选映射到允许的答案 token，读取提示词末尾位置对应的 logits，仅在这些答案 token 上归一化，再与硬标签或软目标分布比较。它没有新加一个分类头，但同样可以把训练集中在决策结果上，而不是训练模型拼出完整回答。<a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/RFDT/README.md">4</a></p>
-<p>不过，软目标来自哪里非常重要。教师模型写下“选项 A 的概率是 0.8”，不等于读取到了教师内部真实的 token 分布，更不等于 A 在实际任务中真的有 80% 正确率。RFDT 文档明确区分教师用文字提供的概率与实际测得的分布。<a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/RFDT/README.md">4</a> 学生可以很忠实地学会教师的偏差，所以师生一致率不能代替带真实标签的测试。</p>
-<h3 id="section-180">RLCD 到底公开了什么</h3>
-<p>Jev 官方将 RLCD 描述为面向校准决策的训练路线，目标是判断和概率，而不是生成文本。<a href="https://docs.typesafe.ai/introduction/machine-learning-primer">9</a> 但截至本文资料日期，所核读的公开材料仍不足以重建其具体损失、奖励、采样过程、训练阶段和数据构造。<strong>我们知道官方希望训练出什么，还不知道完整地怎样训练。</strong></p>
-<p>这意味着不能把上面的交叉熵、LoRA 或教师蒸馏重新命名为“RLCD 解密”。它们说明这一类模型可以怎样做，不证明 Jev 就是这样做的。关于合成数据的创始人采访也没有给出足以区分各训练阶段的配方，不能据此补齐空白。<a href="https://techcrunch.com/2026/09/18/a-new-kind-of-ai-model-from-a-chatgpt-inventor-is-thrilling-developers/">10</a> 本文的机制解释依靠可检查的社区实现，而不是替一个训练名称编造内部细节。</p>
-<p>更重要的是，即使复用了原来的骨干，能力也不会原封不动地保留下来。kev 在同一批 MMLU 知识选择题上，未微调 Qwen3-8B 基线为 0.75，kev-8B 为 0.70；这与它在混合迁移集上的总成绩改善同时存在。项目还观察到，降低学习率可以缓解部分知识题退化，增加规则结构多样性可以改善某些未见组合，但日期运算仍然困难。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md">8</a></p>
-<p>这些结果把“保留理解能力”变成了具体问题：保留哪些知识，在什么规则和输入分布上保留？针对决策任务的更新，可能让一类判断更准，同时让另一类判断变差。换头、换训练目标和保留原有能力，是三件需要分别验证的事。</p>
-<h2 id="section-195">四、这和“小模型加分类器”究竟差在哪里</h2>
-<p>现在可以正面回答这个问题。如果所谓分类器只接受一句文本，并输出训练前固定好的业务标签，那么面对临时规则和新候选时，原来的输出定义可能已经不够用。但如果这个分类器本来就把上下文、问题和候选描述一起输入语言模型，再计算条件分数，它与前面介绍的路线完全可能属于同一类结构。</p>
-<p><strong>“决策模型”描述了一种任务定位，不足以证明它与分类模型存在不可跨越的算法边界。</strong> 要判断 Jev 与某个具体小模型的差别，必须看骨干表示、训练数据、规则组合能力、候选交互和推理预算；不能只看最后是否有一个分类头。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a><a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/RFDT/README.md">4</a></p>
-<p>世界知识当然可能影响结果。没有接触过某个概念，模型可能连问题都理解不对。但即使知识都在输入里，模型也可能因为没处理好否定、数值关系和优先级而选错。kev 的研究同时出现了知识题退化、规则组合改善和日期运算困难，已经足以说明差距不能统一归结为“知道得更多”。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md">8</a></p>
-<p>从实现上看，至少有三种值得分开的选择：</p>
+<p>图 2：公开实现 kev 的计算方法。每个输入位置仍需经过骨干各层；图中展开问题 A 的读出细节，问题 B 使用相同参数。问题之间隔离，不代表同一道题内部的候选排列天然无关。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">12</a></p>
+<p>这个设计同时保留了两件事：多个问题使用同一份状态计算，问题又不会把其他题当成自己的前文。若完全分开执行，可以获得信息隔离，但会重复处理状态；若直接拼接、没有分支限制，则失去这种隔离。这是注意力结构影响行为和计算组织的具体位置。</p>
+<p>还要区分“问题隔离”和“候选隔离”。在 kev 的默认排列里，同一道题后面的候选仍可读取前面的候选。代码另有候选隔离选项，但不能仅由上图的两题分支推导出“调换候选顺序一定不改变结果”。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">12</a></p>
+<p>专用读出头也不会凭空产生判断能力。kev 以有标签的问题训练读出头和 LoRA，用交叉熵推动正确候选获得更高概率；LoRA 让骨干的部分表示计算适应判断任务，而不必更新全部基础权重。骨干本身不再挂接用于生成文本的词表输出头，但仍然需要计算状态、问题和候选。这说明“没有输出生成”与“没有语言模型计算”相差很远。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">12</a><a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/train.py">13</a></p>
+<h3 id="section-203">与“小模型加分类器”的区别，不在分类头这个名字</h3>
+<p>前两种办法已经说明，候选评分可以保留词表输出头，也可以换成专用读出。还有更小的路线：jeff 使用 400M 参数的 GLiFormer 编码模型，提供与 Jev 相近的判断接口。应用不用因为模型较小就放弃自然语言问题或多种结果类型。<a href="https://github.com/logan-markewich/jeff/blob/34b32f99a727c47b679adde33f4702a001e02979/README.md">14</a></p>
+<p>真正需要比较的是三个层面。第一，模型能否读懂当前任务需要的上下文与规则；第二，读出方式能否表达动态候选及相应概率；第三，多问题服务如何复用输入，是否保持所需的信息隔离。小模型可以实现接口和评分，但这些实现本身不能补齐复杂阅读、规则组合或知识上的能力差距。</p>
+<p>例如，jeff 默认让 Choice 和 Score 问题共享一次编码，问题之间可能相互影响；要隔离所有问题，需要额外计算。simple-jev 将最大候选概率作为 confidence，而 Jev 的官方字段是对分布形状的统计。看似相同的返回字段，背后可能是不同的计算与语义。<a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/README.md">10</a><a href="https://github.com/logan-markewich/jeff/blob/34b32f99a727c47b679adde33f4702a001e02979/README.md">14</a><a href="https://docs.typesafe.ai/confidence.md">20</a></p>
+<p>因此，目前不能把 Jev 与小模型的差距归因于“多了世界知识”，也不能断言它只是换了一个分类头。Jev 的内部参数规模和完整训练细节在本文所读材料中没有披露。官方把 RLCD 展开为 Reinforcement learning for calibrated decisions，说明目标是产生判断及经过校准的概率，但没有给出可复现的奖励构造、优化过程和数据配方。<a href="https://docs.typesafe.ai/introduction/machine-learning-primer">19</a></p>
+<p>我们已经能够用开源代码解释并实现许多相近特点，却还不能声称这些代码就是 Jev 的实现方法。理解这个界限以后，方法部分就不必停在“黑盒所以什么都不知道”，也不必用一个社区方案填补所有未知。</p>
+<h2 id="section-221">四、能做什么：把有限判断放进完整工作流</h2>
+<h3 id="section-224">CUA：先让选择对应到真实界面</h3>
+<p>Computer Use Agent，简称 CUA，需要把用户目标转成连续的界面操作。在浏览器里，一次操作是否成功，不只取决于模型有没有理解目标，也取决于模型选的对象能不能对应到真实控件。</p>
+<p>browser-use 的 jev-ultrafast 从常见 HTML 控件和 ARIA 无障碍标记获取类型、名称、当前值等信息，整理成带编号的元素表，同时保留到 DOM 真实节点的引用。默认决策循环读取的是这份结构化观察，不是截图；演示里的截图标记用来展示执行过程。<a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/README.md">3</a></p>
+<p>由此，前面使用的“候选”在应用里有了来源。程序把当前可输入的控件作为输入目标候选，把可点击的控件作为点击目标候选。Jev 返回某个编号以后，执行器将它解析回本轮已经观察到的节点，检查目标仍然有效，再执行操作。<a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/README.md">3</a></p>
+<p>这一步不能只靠模型约束来替代。候选集合的有效性首先来自观察器：漏掉的按钮不会成为可选目标，页面更新也可能使旧节点失效。该项目尚未覆盖 shadow roots、frames、canvas 等情况，因此它展示的是结构化网页操作，而不是所有桌面界面的通用视觉操作。<a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/README.md">3</a></p>
+<h3 id="section-239">一次请求，既选操作，也准备条件目标</h3>
+<p>在当前页面里，程序已经知道哪些控件支持点击、输入或下拉选择。于是，它可以把以下问题放进一次 Jev 请求：下一步执行什么操作；如果点击，点哪里；如果输入，填哪里；有相应控件时，如果进行下拉选择，选哪个目标。<a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/README.md">3</a></p>
+<p>这些问题不用相互读取答案，因为“如果点击”和“如果输入”已经写进各自的问题。返回以后，程序按操作类型取用匹配的目标，其余答案不会执行。若目标还要等新页面出现后才能知道，就留到下一轮。<a href="https://docs.typesafe.ai/patterns/fan-out">2</a><a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/README.md">3</a></p>
+<figure class="entry-figure">
+      <a class="figure-open" href="../../assets/longform/jev/v4/02-cua.png" target="_blank" rel="noopener" aria-label="在新窗口查看完整机制图">
+        <picture><source media="(max-width: 719px)" srcset="../../assets/longform/jev/v4/02-cua-mobile.png" width="768" height="2360">
+          <img src="../../assets/longform/jev/v4/02-cua.png" alt="CUA 在同一状态上询问操作和条件目标，由程序选择执行分支，需要文本时调用生成模型，执行后重新观察。" width="2000" height="2100" loading="lazy" decoding="async">
+        </picture>
+      </a>
+      <figcaption><p>Jev Ultrafast：同次请求判断操作与条件目标，执行后再观察。</p><div class="figure-tools">
+        <a class="icon-button" href="../../assets/longform/jev/v4/02-cua.png" download aria-label="下载机制图 PNG"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M12 15V3" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+  <path d="m7 10 5 5 5-5" />
+</svg><span class="tooltip" role="tooltip">下载 PNG</span></a>
+        <a class="icon-button" href="../../assets/longform/jev/v4/02-cua.drawio" download aria-label="下载可编辑图源"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-copy" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+</svg><span class="tooltip" role="tooltip">可编辑图源</span></a>
+      </div></figcaption>
+    </figure>
+<p>图 3：Jev Ultrafast 的操作循环。它将可以基于当前观察判断的分支提前提问，却没有省略操作后的观察，也没有让 Jev 生成需要输入的文字。<a href="https://docs.typesafe.ai/patterns/fan-out">2</a><a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/README.md">3</a></p>
+<p>选中目的地输入框，只解决了“填哪里”。项目在 TYPE_TEXT 分支调用文本生成模型，依据目标和状态生成实际内容，随后再输入。点击、选择等已有操作则不需要先生成一段文字。演示中的城市名称是实际生成的，不是预先写死的字符串。<a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/README.md">3</a><a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/docs/performance.md">4</a></p>
+<p>由此形成完整循环：页面观察产生真实目标候选，Jev 返回操作和目标，程序仅取用被选中的分支，必要时生成内容，执行后取得新状态。每一轮判断都重新建立在当前页面上。</p>
+<p>完成条件也在这条关系中。模型选择 DONE，只表示它认为已经结束；航班演示另行检查出发地、目的地、日期、单程设置和结果是否出现。不能因为 DONE 是一个合法候选，就把它当成任务完成的外部证据。<a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/docs/performance.md">4</a></p>
+<h3 id="section-263">材料筛选：选择记录，保留原文</h3>
+<p>把页面控件换成文档记录，同样的模式也可以用于信息处理。jgrep 允许用自然语言描述条件，判断输入的行、段落或代码单元，并输出匹配的原始内容，而不是重新写一份摘要。<a href="https://github.com/keltokhy/jgrep/blob/bc0dc8ddb63f9ae940490d436123775d08217b6b/README.md">5</a></p>
+<p>比如在研究材料里分别检查“是否解释执行机制”“是否提供可检查代码”“是否有同题对照实验”，再由程序保留符合条件的原文及来源。这是对其能力的一种应用推导。多个条件不必挤成一个模糊总分，也不必让模型决定所有编辑偏好。</p>
+<p>这里的好处是，判断结果附着在原记录上。后续写作还能回到原文核查，而不是只剩一段已经丢失证据关系的摘要。不过，筛选器只看得到交给它的材料。搜索漏掉的内容、没有取回的正文，不能靠改进判断模型补回来。发现、获取、筛选和写作仍是不同的工作。</p>
+<h3 id="section-275">证据判断：在生成前后检查不同的问题</h3>
+<p>检索增强生成，即 RAG，通常先找材料，再让模型根据材料回答。TypeSafe 的官方示例在两者之间加了一层 Jev 判断：对于每一对“用户问题与检索段落”，同时问是否相关、是否包含回答证据、是否反驳问题前提，以及是否含有提示注入内容。<a href="https://docs.typesafe.ai/cookbooks/classifying_rag_passages">9</a></p>
+<p>这四个问题不是四种互斥标签。一段文字可能既有回答证据，又在反驳问题的假设。程序先排除识别出的注入内容，再保留冲突证据，随后按普通证据条件筛选其余材料。生成模型会分别看到普通证据和冲突证据，而不是把所有检索段落混在一起。<a href="https://docs.typesafe.ai/cookbooks/classifying_rag_passages">9</a></p>
+<p>为什么“反驳前提”值得单独处理？因为用户可能问“这个功能为什么默认开启”，原文却说根本没有这个功能。若筛选标准只寻找顺着问题回答的段落，就可能漏掉最需要呈现的事实。把前提冲突作为独立判断，可以让生成步骤有机会先纠正问题，而不是继续补全错误假设。</p>
+<p>这个示例使用 Jev 1.12，于 2026 年 8 月 27 日记录结果：六个用户查询，每个从 81 段语料中检索 12 段，再对每个查询与段落组合问上述四个 Noul 问题。它展示了可检查的处理流程，还不是大规模幻觉评测。<a href="https://docs.typesafe.ai/cookbooks/classifying_rag_passages">9</a></p>
+<p>生成以后还可以检查另一件事：<strong>答案中的引用，是否真的支持它所附着的陈述。</strong> 官方的 citation-check 示例实现了这条路径。<a href="https://docs.typesafe.ai/cookbooks/citation_check.md">21</a></p>
+<p>它先用代码检查直接引文能否在原文中找到，统一引号和空白后仍找不到，就不必让模型猜测引文是否存在。引文存在时，再把所在章节与待验证陈述交给 Jev，由 Choice 在“支持”“反驳”“没有涉及”中选择；只注明章节而没有逐字引文的引用，则直接进入语义判断。<a href="https://docs.typesafe.ai/cookbooks/citation_check.md">21</a></p>
+<p>前一层检查文本是否存在，后一层检查文本的含义。一个真实句子也可能被用于证明原文没有说过的结论，仅通过字符串匹配无法识别这种错误。反过来，模型也不需要接手代码已经能精确检查的引文定位。</p>
+<p>示例用 Jev 1.12 在 2026 年 8 月 16 日检查了八条引用：四条准确引用被判为支持；一条不存在的引文由代码拦下；一条与原文相反的陈述被判为反驳；两条不受支持的陈述得到较低 confidence，进入人工确认。这里的人工阈值 0.8 是示例设置，不是跨任务适用的安全值。逐字检查也会把截短或改写的引文判为不匹配，不能直接用来否定正常转述。<a href="https://docs.typesafe.ai/cookbooks/citation_check.md">21</a></p>
+<p>这些应用共同利用的不是“Jev 会写更好的回答”，而是它能对已有状态提出一组边界明确的问题，让生成步骤使用经过区分的材料，或让程序检查生成结果。这可以针对某些幻觉路径设置检查，但检查器自身是否可靠，仍需看下面的效果证据。</p>
+<h2 id="section-305">五、效果怎么样：效率、判断质量与可信度分别看</h2>
+<h3 id="section-308">多问题是否比连续调用更划算</h3>
+<p>前面的条件分支模式有一个实际前提：提前问一些可能用不上的问题，其额外成本不能抵消减少往返的收益。willkelly/jev-evaluation 在 2026 年 9 月 19 日测试了 Jev 1.13.0 的多问题表现，每个数量条件运行 300 次。批次包含一个括号嵌套合法性问题和其他填充问题，以下是 E3 汇总中的三个条件。<a href="https://github.com/willkelly/jev-evaluation/blob/534c837b017fe670c5b70a558604dee171dc88b1/README.md">6</a><a href="https://github.com/willkelly/jev-evaluation/blob/534c837b017fe670c5b70a558604dee171dc88b1/runs/full-20260919/e3_result.json">7</a></p>
 <div class="prose-table" tabindex="0"><table>
 <thead>
 <tr>
-<th>路线</th>
-<th>分数从哪里来</th>
-<th>需要承担什么约束</th>
+<th>每次请求的问题数</th>
+<th style="text-align:right">平均输入 token</th>
+<th style="text-align:right">请求延迟中位数</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>simple-jev / RFDT</td>
-<td>语言模型现有词表头中，允许的答案 token 的 logits</td>
-<td>答案标识要满足 tokenizer 与提示模板约定；候选含义与标识的对应关系必须正确</td>
+<td>1</td>
+<td style="text-align:right">3,667</td>
+<td style="text-align:right">132 毫秒</td>
 </tr>
 <tr>
-<td>kev</td>
-<td>决策向量与候选向量，经共享 pointer head 得分</td>
-<td>新读出头及相应表示需要训练；分支掩码与运行时执行还需实现</td>
+<td>16</td>
+<td style="text-align:right">5,005</td>
+<td style="text-align:right">177 毫秒</td>
 </tr>
 <tr>
-<td>FIRST</td>
-<td>列表重排任务中，第一个候选标识位置的 logits</td>
-<td>针对候选标识和排序目标设计；排序分数不是通用的正确率估计</td>
+<td>255</td>
+<td style="text-align:right">26,523</td>
+<td style="text-align:right">387 毫秒</td>
 </tr>
 </tbody>
 </table></div>
-<p>前两项是围绕 Jev 接口与任务出现的社区实现。第三项 FIRST 来自 EMNLP 2024，时间上更早，是相邻研究，不是 Jev 的衍生项目。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a><a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/RFDT/README.md">4</a><a href="https://aclanthology.org/2024.emnlp-main.491/">11</a></p>
-<p>FIRST 处理的是文档重排：给定查询与候选文档，模型本来可以生成完整的文档次序。但软件真正需要的是候选之间的相关性顺序。FIRST 读取第一个标识位置上各候选 token 的 logits 来形成排序，并结合语言建模和排序监督训练，不必把整个排名逐项生成出来。<a href="https://aclanthology.org/2024.emnlp-main.491/">11</a></p>
-<p>这与本文的主问题相接：某些输出看似是一段序列，应用实际需要的却是这段序列背后的选择或排序关系。一旦关系可以从模型分数中直接读出，就可以研究是否保留必要的判断、减少结果表达过程。但 FIRST 的检索目标不等于 Jev 的通用决策，排序实验也不等于概率校准实验。</p>
-<p>因此，选择答案 token 路线还是专用读出头，并没有脱离任务的标准答案。前者复用现有输出接口，适合先验证一个基座在候选判断上的表现；后者给输入组织、分支隔离和候选表示留下更直接的设计空间，同时承担新增训练和执行实现的成本。这是依据公开实现得到的工程比较，不是 Jev 团队已经公布的选型过程。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">3</a><a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/RFDT/README.md">4</a></p>
-<h2 id="section-272">五、少生成以后，实际获得了什么</h2>
-<p>计算路径说明一种方案为何值得尝试，评测才告诉我们它在哪些任务上值得采用。目前的公开证据不支持把质量、速度、价格和校准压缩成一个结论。最好逐项看，而且先问每项数字测的是什么。</p>
-<h3 id="section-278">能做复杂判断，但不是所有困难题都占优</h3>
-<p>kev 的 transfer-v4 开发集包含 764 条记录，涵盖该项目未训练的公共任务来源和保留的程序化规则结构。它试图检查：训练后能否处理不只是原训练类别的判断。在同一套开发数据上，报告结果如下。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md">8</a></p>
+<p>从 1 题增加到 16 题，整次请求中位延迟增加了 45 毫秒，而不是乘以 16。这个结果支持集中判断能够摊薄单题的服务开销。但从 1 题到 255 题，输入量仍约增加到 7.23 倍，延迟约增加到 2.94 倍；它不是无限免费扩题，也不能用于推算任意长度、任意难度任务的固定速度。<a href="https://github.com/willkelly/jev-evaluation/blob/534c837b017fe670c5b70a558604dee171dc88b1/runs/full-20260919/e3_result.json">7</a></p>
+<p>同一组实验还比较了 3,000 个问题合并请求和分别请求的答案。准确率分别约为 97.77% 和 97.80%，有 5 个问题的离散答案改变。在这一样本上，合并没有表现出明显的准确率损失；但这不等于服务在不同请求组织下逐次返回完全相同的数值。仓库提供实验代码和汇总，未公开全部逐请求日志，这里采用作者报告的结论范围。<a href="https://github.com/willkelly/jev-evaluation/blob/534c837b017fe670c5b70a558604dee171dc88b1/README.md">6</a><a href="https://github.com/willkelly/jev-evaluation/blob/534c837b017fe670c5b70a558604dee171dc88b1/runs/full-20260919/e3_result.json">7</a></p>
+<p>这些数据验证的是外部行为，不能反向证明 Jev 内部就使用了 kev 的注意力分支。不同实现可以表现出相似的批量延迟曲线，内部结构仍需独立证据。</p>
+<h3 id="section-373">从毫秒级判断到完整浏览器任务</h3>
+<p>Jev Ultrafast 的航班演示记录了 7.073 秒的运行，其中有 17 次 Jev 请求、两次文本生成，以及浏览器操作和页面等待；Jev 请求的中位延迟是 178 毫秒。计时从初始页面观察后的第一次预测开始，到接受 DONE 为止，不包括浏览器启动、初始导航和结束后的独立复核。<a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/docs/performance.md">4</a></p>
+<p>这说明快速选择可以进入连续交互，但不能把 178 毫秒直接当成一步操作的全部时间。页面读取、候选更新、实际点击和加载都在影响完整任务。</p>
+<p>项目还用相同 Jev 与文本模型做了三对运行框架对照。六次运行均通过独立结果检查，中位任务时间从 9.450 秒降为 7.092 秒，约降低 25%；浏览器协议调用的中位数从 1,092 次降到 101 次，Jev 请求从 22 次降到 17 次。<a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/docs/performance.md">4</a></p>
+<p>这次改善来自观察与执行方式：集中读取页面快照，减少逐节点调用；避免把无关动画都视为决策失效；等待组合框建议出现，再选择真实可用的候选。它说明的是<strong>同一个快速模型，在减少重复观察和无效重试后，整项任务还能缩短</strong>，不是“Jev 比另一个 LLM 快 25%”。三对单任务运行也不能给出通用 CUA 成功率。<a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/docs/performance.md">4</a></p>
+<h3 id="section-388">与其他判断模型同题比较，优势有多大</h3>
+<p>一个 Jev 1.13.0 与 GLiNER2.5 的公开实验，从新闻主题、客服意图和情绪分类数据中，各抽取 100 条近似类别均衡样本，比较相同输入上的准确率。这个尺度适合观察差异，不足以代表所有语言判断。<a href="https://github.com/AbdelStark/jev-benchmarks/blob/0d610cc53e79bcbec691312b0c4adb4a0e371642/results/reports/btzsc-pilot-v1.md">8</a></p>
 <div class="prose-table" tabindex="0"><table>
 <thead>
 <tr>
-<th>模型</th>
-<th style="text-align:right">准确率</th>
-<th style="text-align:right">Brier，越低越好</th>
+<th>任务切片</th>
+<th style="text-align:right">GLiNER2.5</th>
+<th style="text-align:right">Jev</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>新闻主题，AG News</td>
+<td style="text-align:right">70%</td>
+<td style="text-align:right">91%</td>
+</tr>
+<tr>
+<td>客服意图，Banking77/BTZSC</td>
+<td style="text-align:right">61%</td>
+<td style="text-align:right">87%</td>
+</tr>
+<tr>
+<td>情绪分类，DAIR Emotion</td>
+<td style="text-align:right">44%</td>
+<td style="text-align:right">48%</td>
+</tr>
+</tbody>
+</table></div>
+<p>Jev 在前两个切片的优势明显，情绪分类的差异区间则仍跨过零，没有给出明确的优势证据。客服意图实验实际使用 72 个候选，并排除了范围外样本，不能据此判断“没有合适候选时能否拒选”。硬件和服务条件也不同，不宜把延迟差解释成仅由架构导致。<a href="https://github.com/AbdelStark/jev-benchmarks/blob/0d610cc53e79bcbec691312b0c4adb4a0e371642/results/reports/btzsc-pilot-v1.md">8</a></p>
+<p>开源路线走到哪一步，可以看 kev 作者的另一组同题实验。在 transfer-v4 开发集的 764 条记录上，作者同时测试了未适配的 Qwen3-8B、专用 kev 和 Jev。这些记录来自 kev 没有用于适配训练的公开来源与保留规则结构，涉及知识、句意、情绪和规则判断。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md">11</a></p>
+<div class="prose-table" tabindex="0"><table>
+<thead>
+<tr>
+<th>模型或方法</th>
+<th style="text-align:right">准确率</th>
+<th style="text-align:right">Brier 分数，越低越好</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qwen3-8B 基座，直接读取答案 token 分数</td>
+<td style="text-align:right">72.6%</td>
+<td style="text-align:right">0.366</td>
+</tr>
+<tr>
 <td>kev-4B</td>
-<td style="text-align:right">0.790</td>
+<td style="text-align:right">79.0%</td>
 <td style="text-align:right">0.328</td>
 </tr>
 <tr>
 <td>kev-8B</td>
-<td style="text-align:right">0.796</td>
+<td style="text-align:right">79.6%</td>
 <td style="text-align:right">0.337</td>
 </tr>
 <tr>
 <td>Jev</td>
-<td style="text-align:right">0.857</td>
+<td style="text-align:right">85.7%</td>
 <td style="text-align:right">0.211</td>
 </tr>
 </tbody>
 </table></div>
-<p>Brier 比较预测分布与真实标签之间的平方误差，错得很自信会受到较大惩罚；它反映整体概率预测质量，不是纯粹的校准度量。表中 Jev 在这份数据上同时有更高准确率和更低 Brier，但这是开发集结果，且 Jev 是否接触过公共数据未知，不能改写成无污染的域外泛化证明。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md">8</a></p>
-<p>这份研究更有价值的地方，是没有用总分遮住具体失败。增加模型容量和规则结构多样性确实改善了部分结果，但各随机种子尚未全部达到项目预先规定的规则配对发布条件。能应对不少新问题，与可靠地处理每一类新规则，之间仍有距离。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md">8</a></p>
-<p>JevBench 提供了另一种压力测试。其 534 道决策中，220 道属于困难部分，包含较长的多条件规则、歧义、多跳查找、日期和数字推理；其中 111 道公开、109 道保留。按照报告里的模型标识，Jev 的困难准确率为 74.1%，SemIf 为 59.5%，而 GPT-5.6 Luna（low）和 DeepSeek V4.1 Flash 分别为 94.5% 和 95.0%。<a href="https://github.com/fstandhartinger/jevbench/blob/e105a48f8cdb7f3babb3594424f73e5d7bdc97b9/RESULTS-v1.2.md">12</a></p>
-<p>这说明在该实验中，低延迟决策路线没有消除更强生成模型在困难判断上的价值。但它也不能证明差距就是“取消生成”造成的，因为基座、训练、推理预算和实现都变了。要隔离生成式推理本身的贡献，应在同一个基座和尽量一致的数据条件下，比较直接读出、单 token 回答与允许中间推理的结果。</p>
-<p>这份榜单还对某些自托管延迟做了估算调整，小模型存在输入长度和配置差异；因此本文只使用可明确解释的分项结果，不把综合排名当成架构定论。<a href="https://github.com/fstandhartinger/jevbench/blob/e105a48f8cdb7f3babb3594424f73e5d7bdc97b9/RESULTS-v1.2.md">12</a></p>
-<h3 id="section-349">有概率，不意味着知道何时会错</h3>
-<p>假设一个系统在大量相似任务中，把某些选择都报为约 80% 的把握。如果这些选择最后约有 80% 正确，我们才有理由在这个范围内说概率和实际频率比较接近。这是校准要检查的关系。它讨论一组预测的统计表现，不是给某一次选择附上一张正确证明。</p>
-<p>Jev 官方的 confidence 是对输出分布的摘要，不是另一个独立验证器。<a href="https://docs.typesafe.ai/confidence">13</a> 如果分布本身过度集中，对它再做摘要也不能自动发现错误。模型选对多少，与它是否准确地表达了自己的不确定性，应分别测量。</p>
-<p>BTZSC pilot 在新闻主题、用户意图、情绪三个切片上，各比较了 100 条样本。Jev 在前两项准确率上分别为 0.91 和 0.87，GLiNER2.5 为 0.70 和 0.61。但到情绪任务，二者准确率为 0.48 和 0.44，差异区间跨零；Jev 的 ECE 却为 0.351，高于对照的 0.117，Brier 也更差。<a href="https://github.com/AbdelStark/jev-benchmarks/blob/0d610cc53e79bcbec691312b0c4adb4a0e371642/results/reports/btzsc-pilot-v1.md">14</a></p>
-<p>ECE 按预测置信程度分组，再比较每组平均置信与实际正确率。这个小样本结果提示的是：Jev 在这项任务上的概率表现并未随其他任务的准确率优势一起迁移。它不足以给所有情绪任务下定论，却足以反驳“模型能返回概率，所以任何任务都能直接按概率放行”。报告还说明，部分阈值在同一切片上选取和评价，不能原样当成部署保障。<a href="https://github.com/AbdelStark/jev-benchmarks/blob/0d610cc53e79bcbec691312b0c4adb4a0e371642/results/reports/btzsc-pilot-v1.md">14</a></p>
-<p>在实际系统里，应先用独立、贴近使用分布的数据检查概率和错误率，再确定什么情况下自动接受，什么情况下重新求解或交给人。任务、候选数量、文本风格变化后，这条关系都需要重新检查，而不是沿用一个看起来整齐的阈值。</p>
-<h3 id="section-367">减少生成工作，也未必减少整条链路费用</h3>
-<p>直接读出可能省掉结果序列的生成，但输入仍然需要处理。如果为了选择动作，先额外调用模型筛选上下文，再评估候选，每一步都可能新增费用。最终是否更省，要把这些调用一起算。</p>
-<p>rtrvr 的浏览器集成记录正好展示了这种分离：GLM 负责规划和需要生成的内容，Jev 负责从当前动作菜单中选择。在两个任务、每种配置各运行一次的记录中，总耗时分别下降 31% 和 43%，估算费用却上升 38% 和 51%；上下文筛选使用的 Score 调用占 Jev 费用的 78.7%。<a href="https://rtrvr.ai/blog/jev-browser-agent-benchmark">15</a></p>
-<p>这是四次运行的集成观察，不是稳定收益估计。基线先运行，页面状态和计划存在差异，也没有独立捕获的最终状态证明。但它清楚说明了一件事：缩短动作选择的等待，与降低端到端成本不是同一个优化目标。不能只因为某个模型“不生成文本”，就推断整个 Agent 更便宜。</p>
-<h2 id="section-379">六、让选择和生成各自承担合适的工作</h2>
-<p>回到开头的网页任务。识别用户想改地址之后，当前页面若已经列出可执行按钮，就适合把“选哪个”做成有限决策。但新地址写什么、需要给对方解释什么、缺少操作时怎样提出新方案，仍然可能需要开放式生成。</p>
-<p>这给出了一个比“所有事情都换成决策模型”更有用的分工：<strong>已经有明确候选时，检验直接选择是否足够；还需要创造候选、补充内容或展开推理时，保留生成。</strong> 不必为了遵循这个原则就强制部署两个模型，同一个模型的不同读出方式也可以成为对照。边界应由任务需求和实测结果决定。</p>
-<p>有限输出有一个无法靠选择器自身补齐的前提：正确动作必须能在当前候选空间里表达。在 rtrvr 的例子中，菜单缺少直接导航动作时，系统需要把任务委派回生成模型。<a href="https://rtrvr.ai/blog/jev-browser-agent-benchmark">15</a> 给十个错误候选打出再精确的相对概率，也不会产生第十一个正确操作。因此，“都不符合”、补充候选、重新观察或升级处理，都是这类分工需要考虑的出口。</p>
-<p>浏览器社区的 WindTunnel 结果还说明，模型之外的组织方式会显著改变终端表现。同样使用 Jev 与 Mercury 的模型快照，两套完整执行框架各跑 49 个任务、每个任务尝试三次：WebMCP 方案有 49 个任务达到多数尝试成功，141/147 次尝试通过；DOM 方案是 25 个任务、76/147 次通过。<a href="https://github.com/nekuda-ai/WindTunnel/blob/5ca8644e23826ebb30108e7bad240b61043bfe67/results/2026-09-18-jev-mercury/PROVENANCE.md">16</a></p>
-<p>这不是只改一个接口的受控消融，不能把全部差距归功于 WebMCP。但它提醒我们，呈现什么候选、如何填写参数、如何执行和确认结果，共同决定了任务是否完成。选择了合法按钮，不等于网页接受了操作；执行返回成功，也不等于用户的目标已经满足。<a href="https://github.com/nekuda-ai/WindTunnel/blob/5ca8644e23826ebb30108e7bad240b61043bfe67/results/2026-09-18-jev-mercury/PROVENANCE.md">16</a></p>
-<p>从这个角度看，Jev 值得关注，不是因为它证明了分类器已经过时，也不是因为它已经公开一种能够消除错误的新训练算法。它把一个长期存在却常被统一塞进聊天接口的问题突出出来：<strong>软件需要的经常不是一段回答，而是基于开放上下文的一次有边界判断。</strong></p>
-<p>公开的社区实现让我们可以进一步拆开研究：哪一部分知识和上下文表示能够复用，决策分数怎样读出，训练怎样让模型跟随新规则，以及省去结果生成后哪些能力仍然成立。Jev 自身的内部细节尚有空白，这些问题却已经可以通过代码和实验逐项回答。</p>
-<p>输入开放，输出有限，是重新设计模型接口和计算路径的理由；它不是任务简单、概率可靠或可以取消错误处理的保证。让理解与生成按任务分别承担工作，价值就在这条边界上。</p>
-<h2 id="section-406">原文与实现</h2>
-<p>下列链接指向原始文档、论文或实验作者的报告。GitHub 引用固定到本文核读的提交，避免后续修改使正文失去对应；实验数字均为原报告结果，本文没有重新调用模型复现。</p>
+<p>Brier 计算预测分布与真实标签之间的平方误差。它同时受到选择是否正确、概率怎样分配的影响，不是纯粹的校准指标。这里 Jev 在两项上领先，kev 已能完成相当一部分同类判断，但还没有达到同等水平。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md">11</a></p>
+<p>把同一个 8B 基座放进比较很重要：总准确率从 72.6% 到 79.6%，说明这一套适配和读出在该开发集上有收益；但知识切片 MMLU 从 75% 降到 70%，句意切片 PAWS 从 84% 降到 78%。总分进步与部分原有能力损失可以同时发生，不能把专用化写成没有代价的增强，也不能仅由总分分离出分类头与训练各自的贡献。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md">11</a></p>
+<p>这仍然是参与模型选择的开发集结果，不是完全未接触的最终测试。Jev 是否见过相关公开数据未知，kev 的 4B、8B 也是研究预览。它们提供了有价值的开源实验，而不是已经证明等价的 Jev 复刻。<a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md">11</a></p>
+<p>更小的 jeff 在所报告的 JevBench 220 道困难题上为 37.7%，Jev 为 74.1%。题目包含长规则、多步关联和时间数值判断，差距不能直接外推到简单路由。mini-jev 则用冻结量化的 Qwen 模型做候选 token 评分，在自建日文题集上报告 2,238/2,400，即 93.25%；题目不同，不能把这个更高的数字排在 Jev 前面，其当前多问题执行也没有共享前缀。<a href="https://github.com/logan-markewich/jeff/blob/34b32f99a727c47b679adde33f4702a001e02979/bench/RESULTS.md">15</a><a href="https://github.com/UpHash-Network/mini-jev/blob/ec7e980ff6f35af4503892e61ef423ca9c74cbce/README.md">16</a></p>
+<p>由此能回答“小模型加分类器有什么区别”了：接口层面可以做得很像，动态候选也可以实现；在这些公开任务中，困难语言判断仍有明显差距。世界知识是部分任务需要的能力，但阅读理解、规则组合、适配造成的能力变化同样重要。现有对比没有隔离这些变量，不能把 Jev 的优势归结为一个已知原因。</p>
+<h3 id="section-526">幻觉少了哪一类，又留下了什么</h3>
+<p>有限输出直接减少的是候选外的编造：程序给定的操作名、控件 ID、文档 ID，不再由模型自由创造。但无依据判断仍然可以发生，而且完全符合返回类型。</p>
+<p>例如，输入只说“用户询问物流”，候选却只有“已发货”“未发货”。模型无论选哪项都合法，但两项都没有证据。这是教学例子。加入“未说明”让正确的拒选可以表达；模型能否真正选中它，则取决于缺信息情况下的判断能力，不能由候选定义保证。</p>
+<p>概率也需要这样区分。在前面的情绪分类实验里，Jev 的准确率为 48%，所选标签的平均概率却约为 0.819，校准误差 ECE 为 0.351；GLiNER2.5 的 ECE 为 0.117。ECE 比较不同概率区间中，模型给出的把握与实际答对频率是否接近，越低越好。这说明在该切片上，Jev 不仅会错，还可能高估自己的正确程度。<a href="https://github.com/AbdelStark/jev-benchmarks/blob/0d610cc53e79bcbec691312b0c4adb4a0e371642/results/reports/btzsc-pilot-v1.md">8</a></p>
+<p>注意，这里的 0.819 是所选标签概率，不是 Jev 另行返回的 confidence。后者汇总的是分布集中程度，也不能自行修正概率失准。一个集中了大部分概率的错误答案，仍可能有很高 confidence；官方文档中的阈值示例不能替代实际任务的校准检查。<a href="https://docs.typesafe.ai/confidence.md">20</a></p>
+<p>jev-evaluation 的 Choice 工单测试还观察到：删去必要信息会使 confidence 下降，但语法通顺、由虚构词语组成的内容未必同样触发下降；其他题型的反应也不相同。另一项测试在 200 条工单中加入声称“主管已经决定”的诱导文字，147 条答案改变。返回值的形式仍然正确，决策依据却受到了不该成为授权的输入影响。<a href="https://github.com/willkelly/jev-evaluation/blob/534c837b017fe670c5b70a558604dee171dc88b1/README.md">6</a></p>
+<p>这不是说分类错误、无依据断言和提示注入都是同一种“幻觉”。它们对应不同的失败原因：可能是读错了已有证据，可能是没有证据仍作答，也可能是将不可信内容当成了指令。官方局限文档也明确提到对抗内容与无关上下文的影响。限制输出集合，没有自动隔离输入里的这些影响。<a href="https://docs.typesafe.ai/model-jaggedness/jev-1.13">17</a></p>
+<p>因此，前面 RAG 与引用核查的价值，应理解为增加了<strong>可分别检查的环节</strong>：检索段落是否支持回答，陈述是否被引用支撑，缺证据时是否拒选。八条引用示例展示了这条路径能运行，没有给出通用的“幻觉下降率”，更不能声称 Jev 模型独自检出了所有错误，因为其中一项由代码发现，两项还进入人工确认。<a href="https://docs.typesafe.ai/cookbooks/citation_check.md">21</a></p>
+<p>综合这些公开材料，Jev 是一个面向软件的、有边界输出的语义决策模型；动态候选、多问题和概率信息，使它可以参与浏览器操作、材料筛选与证据核对；现成语言模型读分数、专用候选读出和小编码模型，都已提供部分可检查的开源方法。公开实验显示了批量效率和部分任务的质量优势，也显示了任务差异、校准不足和上下文干扰。</p>
+<p><strong>需要理解，不一定需要生成；不再生成，也不等于已经正确。</strong> Jev 最值得关注的变化，是把原来混在一次文本回答中的几件事分开：模型负责语义选择，生成模型负责新内容，程序负责确定性计算和执行，证据与环境反馈负责检查结果。读懂这种分工，才既能看到它能做什么，也能知道什么时候不能只相信一个合法的答案。</p>
+<h2 id="section-556">原文与实现</h2>
 <ol>
-<li><a href="https://docs.typesafe.ai/primitives">TypeSafe：Primitives</a>。状态、问题、Choice / Score / Noul，以及独立问题的接口约定。</li>
-<li><a href="https://proceedings.neurips.cc/paper_files/paper/2024/file/2bdc2267c3d7d01523e2e17ac0a754f3-Paper-Conference.pdf">Grammar-Aligned Decoding，NeurIPS 2024</a>。语法约束与条件分布的区别。</li>
-<li><a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">kev：model.py</a>。<code>encode</code>、<code>branch_mask_batch</code>、<code>PointerHead</code> 与 <code>_readout</code>。</li>
-<li><a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/RFDT/README.md">simple-jev：RFDT</a>。答案 token 训练、硬软目标以及教师概率的来源。</li>
-<li><a href="https://arxiv.org/html/2402.05099v2">Hydragen，2024</a>。共享前缀注意力与批处理研究。</li>
-<li><a href="https://archerhume.com/posts/jevs-architecture-unmasked/">Archer Hume：Jev's Architecture Unmasked</a>。黑盒探针和推断边界。</li>
-<li><a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/train.py">kev：train.py</a>。交叉熵、LoRA 训练及可选损失。</li>
-<li><a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md">kev：README 与实验结果</a>，另见 <a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/PLAN.md">研究日志</a>。迁移集、能力保留与规则对照。</li>
-<li><a href="https://docs.typesafe.ai/introduction/machine-learning-primer">TypeSafe：Machine Learning Primer</a>。官方对 RLCD 目标的描述。</li>
-<li><a href="https://techcrunch.com/2026/09/18/a-new-kind-of-ai-model-from-a-chatgpt-inventor-is-thrilling-developers/">TechCrunch：创始人采访，2026-09-18</a>。仅用于合成数据及未公开范围的线索，不作为训练算法来源。</li>
-<li><a href="https://aclanthology.org/2024.emnlp-main.491/">FIRST，EMNLP 2024 正式论文记录</a>，另见 <a href="https://arxiv.org/html/2406.15657v2">方法正文</a>。首个标识位置的排序读出。</li>
-<li><a href="https://github.com/fstandhartinger/jevbench/blob/e105a48f8cdb7f3babb3594424f73e5d7bdc97b9/RESULTS-v1.2.md">JevBench：v1.2 结果及 v1.2.2 更新</a>。困难题分项与比较限制。</li>
-<li><a href="https://docs.typesafe.ai/confidence">TypeSafe：Confidence</a>。分布与置信摘要的关系。</li>
-<li><a href="https://github.com/AbdelStark/jev-benchmarks/blob/0d610cc53e79bcbec691312b0c4adb4a0e371642/results/reports/btzsc-pilot-v1.md">BTZSC pilot v1：Jev vs GLiNER2.5</a>。三个任务切片的准确率和概率质量。</li>
-<li><a href="https://rtrvr.ai/blog/jev-browser-agent-benchmark">rtrvr：How Jev Chooses the Next Browser Action</a>。浏览器集成、四次运行及费用拆分。</li>
-<li><a href="https://github.com/nekuda-ai/WindTunnel/blob/5ca8644e23826ebb30108e7bad240b61043bfe67/results/2026-09-18-jev-mercury/PROVENANCE.md">WindTunnel：Jev + Mercury 结果溯源</a>。两套完整执行框架的结果和边界。</li>
+<li><a href="https://docs.typesafe.ai/primitives">TypeSafe：Primitives</a>。问题类型、结果含义、多问题与依赖边界。</li>
+<li><a href="https://docs.typesafe.ai/patterns/fan-out">TypeSafe：Speculative fan-out</a>。提前询问条件分支，再由程序取用结果。</li>
+<li><a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/README.md">browser-use/jev-ultrafast：README</a>。结构化页面观察、动态目标、生成与执行循环。</li>
+<li><a href="https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/docs/performance.md">Jev Ultrafast：Performance</a>。航班演示、同模型对照、计时范围与限制。</li>
+<li><a href="https://github.com/keltokhy/jgrep/blob/bc0dc8ddb63f9ae940490d436123775d08217b6b/README.md">keltokhy/jgrep</a>。自然语言筛选及原始记录保留。</li>
+<li><a href="https://github.com/willkelly/jev-evaluation/blob/534c837b017fe670c5b70a558604dee171dc88b1/README.md">willkelly/jev-evaluation</a>。2026 年 9 月 19 日实验、校准与对抗输入观察。</li>
+<li><a href="https://github.com/willkelly/jev-evaluation/blob/534c837b017fe670c5b70a558604dee171dc88b1/runs/full-20260919/e3_result.json">Jev evaluation：E3 汇总</a>。问题数、输入量、延迟及合并请求的答案变化。</li>
+<li><a href="https://github.com/AbdelStark/jev-benchmarks/blob/0d610cc53e79bcbec691312b0c4adb4a0e371642/results/reports/btzsc-pilot-v1.md">BTZSC pilot v1：Jev vs GLiNER2.5</a>。同题准确率、概率质量、采样与范围外限制。</li>
+<li><a href="https://docs.typesafe.ai/cookbooks/classifying_rag_passages">TypeSafe：Classifying RAG passages</a>。四种段落判断、六个查询，Jev 1.12 示例。</li>
+<li><a href="https://github.com/featherless-ai/simple-jev/blob/0dd5396ffce671ab7c4bfc031506d8e558cf8d23/README.md">featherless-ai/simple-jev</a>。Prefill 读分数、共享前缀与可选 RFDT。</li>
+<li><a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/README.md">jaredpalmer/kev：README</a>。模型方法、同题结果、任务差异与预览状态。</li>
+<li><a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/model.py">kev/model.py</a>。候选末尾读出、决策位置、分支注意力与 pointer 计算。</li>
+<li><a href="https://github.com/jaredpalmer/kev/blob/20fa6268c8ceb226530be2fb5266ab2c36b37724/kev/train.py">kev/train.py</a>。LoRA 与读出头的监督适配。</li>
+<li><a href="https://github.com/logan-markewich/jeff/blob/34b32f99a727c47b679adde33f4702a001e02979/README.md">jeff：实现与行为差异</a>。编码模型、多问题隔离和返回语义。</li>
+<li><a href="https://github.com/logan-markewich/jeff/blob/34b32f99a727c47b679adde33f4702a001e02979/bench/RESULTS.md">jeff：测试结果</a>。任务切片及 JevBench 困难题比较。</li>
+<li><a href="https://github.com/UpHash-Network/mini-jev/blob/ec7e980ff6f35af4503892e61ef423ca9c74cbce/README.md">UpHash-Network/mini-jev</a>。冻结模型评分与自建日文实验。</li>
+<li><a href="https://docs.typesafe.ai/model-jaggedness/jev-1.13">TypeSafe：Jev 1.13 jaggedness</a>。2026 年 9 月 17 日复核的模型局限。</li>
+<li><a href="https://docs.typesafe.ai/concepts/system-one">TypeSafe：System One</a>。定位、文本输入范围及生成边界。</li>
+<li><a href="https://docs.typesafe.ai/introduction/machine-learning-primer">TypeSafe：AI primer</a>。RLCD 的名称与目标，不包含可复现配方。</li>
+<li><a href="https://docs.typesafe.ai/confidence.md">TypeSafe：Confidence</a>。分布统计与阈值含义；页面演示公式仅为近似。</li>
+<li><a href="https://docs.typesafe.ai/cookbooks/citation_check.md">TypeSafe：Double-checking citations</a>。代码查引文、模型查支持关系，Jev 1.12 示例。</li>
 </ol>
 </article>
         <footer class="article-footer"><span class="end-mark" aria-hidden="true">∎</span><div><a href="../../index.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">

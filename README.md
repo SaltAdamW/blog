@@ -4,6 +4,14 @@
 
 ## 文章
 
+### 技术长文
+
+- [Jev：解耦 LLM 的理解和生成](https://saltadamw.github.io/blog/posts/jev-understanding-and-generation/) · [Markdown 原稿](longform-jev-understanding-and-generation.md) · [原文来源](longform-jev-understanding-and-generation.sources.json)
+
+2026 年 9 月 20 日更新：按“是什么、特点、方法、应用、效果”介绍 Jev，展开动态候选读出、CUA 操作循环与证据核查，包含三张机制图和 21 项原文。官方披露与开源方法分开说明，效果来自公开实验报告，未独立复现。
+
+### Research 周报
+
 Research 周报按周独立选编材料，不预设专题。多轮开放搜索后沿项目、作者和引用补扫，内容不限于固定信源入口。每条附原文链接与发布日期，每期分别保存 Markdown 正文和公开来源清单，入口由 `posts.json` 维护。
 
 选题范围不包含医学、医疗、病理、基因及生物医学应用；正文、简讯和原文索引均按此筛选，不为凑篇数补入范围外材料。

@@ -126,6 +126,8 @@ h1 .subtitle > span { display: inline-block; }
 @media (max-width: 560px) {
   .prose-table table { font-size: 13px; }
   .prose-table th, .prose-table td { padding: 10px 7px; }
+  .prose-table th:first-child, .prose-table td:first-child { width: 48%; }
+  .prose-table th:nth-child(2), .prose-table td:nth-child(2) { width: 32%; }
 }
 .entry-figure { margin: 32px 0; padding: 12px 0 16px; border-block: 1px solid var(--line); }
 .entry-figure .figure-open, .entry-figure picture { display: block; }

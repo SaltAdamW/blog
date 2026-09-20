@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="Codex" version="26.0.0">
+  <diagram id="03-method" name="kev：从上下文表示读出候选分数">
+    <mxGraphModel page="1" pageScale="1" pageWidth="1000" pageHeight="1060" grid="0" background="#FFFFFF" adaptiveColors="none">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="v2" value="kev：从上下文表示读出候选分数" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=25;fontStyle=1;fontColor=#243138;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="20" width="952" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="v3" value="公开实现，不是 Jev 内部架构 | 输入各位置均经过 Qwen 骨干与 LoRA 计算" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=15;fontStyle=0;fontColor=#5E6A70;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="65" width="952" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="v4" value="共享状态前缀&#10;用户目标 / 页面或文档 / 规则" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=18;fontColor=#243138;fillColor=#EDF3FA;strokeColor=#5988AD;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="140" y="130" width="720" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="v5" value="问题 A：说明 + 各候选文本 + 末尾决策位置&#10;只读取共享状态与本题前文" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=18;fontColor=#243138;fillColor=#EDF3FA;strokeColor=#5988AD;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="30" y="286" width="620" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="v6" value="问题 B 分支&#10;只读取共享状态&#10;与本题前文" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=17;fontColor=#243138;fillColor=#EDF3FA;strokeColor=#5988AD;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="715" y="286" width="255" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.28;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v4" target="v5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.92;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v4" target="v6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v9" value="每个候选的结束位置&#10;取得候选向量 h1, h2, ..." style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=17;fontColor=#243138;fillColor=#F4F6F7;strokeColor=#AEB9C0;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="30" y="470" width="285" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="v10" value="全部候选后的决策位置&#10;取得决策向量 hD" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=17;fontColor=#243138;fillColor=#F4F6F7;strokeColor=#AEB9C0;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="365" y="470" width="285" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.23;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v5" target="v9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.77;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v5" target="v10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v13" value="pointer 读出&#10;投影到相同维度，再逐候选做缩放点积" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=17;fontColor=#243138;fillColor=#FFF5D9;strokeColor=#B29336;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="125" y="665" width="440" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.5;exitY=1;entryX=0.2;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v9" target="v13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.5;exitY=1;entryX=0.8;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v10" target="v13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v16" value="同样的候选读出&#10;使用同一组参数" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=17;fontColor=#243138;fillColor=#FFF5D9;strokeColor=#B29336;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="715" y="665" width="255" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v6" target="v16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v18" value="softmax → 问题 A 的候选分布" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=18;fontColor=#243138;fillColor=#E9F5EE;strokeColor=#4C8D69;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="125" y="836" width="440" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="v19" value="softmax&#10;问题 B 的候选分布" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=16;fontColor=#243138;fillColor=#E9F5EE;strokeColor=#4C8D69;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="715" y="836" width="255" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v13" target="v18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v16" target="v19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v22" value="蓝：上下文计算   灰：从指定位置取向量   黄：候选评分   绿：返回分布" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=15;fontStyle=0;fontColor=#243138;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="30" y="957" width="940" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="v23" value="分支位置编号从共享状态后重启；问题互不可见，不等于本题内候选之间也隔离。" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=16;fontStyle=0;fontColor=#243138;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1000" width="940" height="34" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

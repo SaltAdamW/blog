@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="Codex" version="26.0.0">
+  <diagram id="02-cua-mobile" name="一次请求，选操作&#10;和条件目标">
+    <mxGraphModel page="1" pageScale="1" pageWidth="384" pageHeight="1180" grid="0" background="#FFFFFF" adaptiveColors="none">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="v2" value="一次请求，选操作&#10;和条件目标" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=21;fontStyle=1;fontColor=#243138;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="20" width="336" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="v3" value="Jev Ultrafast | 含下拉控件的 DOM 示例" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=13;fontStyle=0;fontColor=#5E6A70;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="82" width="336" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="v4" value="同一次观察&#10;控件编号 / 类型 / 名称 + 目标" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=15;fontColor=#243138;fillColor=#F4F6F7;strokeColor=#AEB9C0;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="32" y="132" width="320" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="v5" value="同一请求，分别问四个问题&#10;&#10;operation：执行什么操作？&#10;click_target：若点击，点哪个？&#10;type_text_target：若输入，填哪里？&#10;select_target：若选择，选哪个？" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=14;fontColor=#243138;fillColor=#EDF3FA;strokeColor=#5988AD;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="32" y="276" width="320" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="v6" value="按 operation 取用匹配的目标&#10;未选中分支的答案不执行" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=15;fontColor=#243138;fillColor=#E9F5EE;strokeColor=#4C8D69;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="32" y="534" width="320" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="v7" value="CLICK / SELECT&#10;检查目标&#10;执行已有操作" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=14;fontColor=#243138;fillColor=#F4F6F7;strokeColor=#AEB9C0;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="18" y="701" width="164" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="v8" value="TYPE_TEXT&#10;生成实际文本&#10;检查并输入" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=14;fontColor=#243138;fillColor=#FFF5D9;strokeColor=#B29336;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="202" y="701" width="164" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="v9" value="执行后重新观察&#10;DONE 仍需独立结果检查" style="rounded=1;arcSize=6;whiteSpace=wrap;html=0;align=center;verticalAlign=middle;spacing=10;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=15;fontColor=#243138;fillColor=#F4F6F7;strokeColor=#AEB9C0;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="32" y="902" width="320" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v4" target="v5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v5" target="v6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.25;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v6" target="v7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.5;exitY=1;entryX=0.25;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v7" target="v9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.75;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v6" target="v8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#677C85;strokeWidth=1.8;exitX=0.5;exitY=1;entryX=0.75;entryY=0;exitPerimeter=1;entryPerimeter=1;dashed=0;" edge="1" parent="1" source="v8" target="v9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#AE5C48;strokeWidth=1.8;exitX=0;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;dashed=1;" edge="1" parent="1" source="v9" target="v4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="8" y="945" />
+              <mxPoint x="8" y="172" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v17" value="蓝：同次问题   绿：取用结果&#10;黄：生成   灰：观察 / 执行&#10;虚线：下一轮" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=13;fontStyle=0;fontColor=#243138;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="1016" width="336" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="v18" value="新页面尚未出现的目标，&#10;必须等下一次观察。" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial,Microsoft YaHei,PingFang SC,Droid Sans Fallback,sans-serif;fontSize=15;fontStyle=0;fontColor=#243138;spacing=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="24" y="1102" width="336" height="52" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

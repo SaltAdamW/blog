@@ -126,42 +126,42 @@
     "tags": [
       "Jev",
       "决策模型",
-      "模型训练",
+      "CUA",
       "概率校准"
     ],
-    "description": "输入的表达和情境不断变化，输出却常常只有有限选项。从 Jev 出发，结合 kev、simple-jev 与 FIRST，解释直接决策的计算、训练、评测和适用边界。",
+    "description": "从开放输入与有限输出出发，介绍 Jev 的特点、工作方式、CUA 与证据核查应用；结合开源实现和同题评测，解释判断质量、效率及幻觉边界。",
     "deck": "输入开放，输出有限：理解之后，是否还需要生成一段回答？",
-    "word_count": 8089,
+    "word_count": 9988,
     "source": "longform-jev-understanding-and-generation.md",
     "source_manifest": "longform-jev-understanding-and-generation.sources.json",
     "markdown_tables": true,
     "figures": {
-      "assets/longform/jev/01-paths.png": {
+      "assets/longform/jev/v4/01-workflow.png": {
         "width": 2000,
-        "height": 1040,
-        "mobile": "assets/longform/jev/01-paths-mobile.png",
+        "height": 1660,
+        "mobile": "assets/longform/jev/v4/01-workflow-mobile.png",
         "mobile_width": 768,
-        "mobile_height": 1820,
-        "diagram": "assets/longform/jev/01-paths.drawio",
-        "caption": "两种结果出口：教学示意，不代表 Jev 内部架构。"
+        "mobile_height": 2300,
+        "diagram": "assets/longform/jev/v4/01-workflow.drawio",
+        "caption": "Jev 在应用中的位置：语义判断、按需生成、执行与结果检查分别完成。"
       },
-      "assets/longform/jev/02-kev.png": {
+      "assets/longform/jev/v4/03-method.png": {
         "width": 2000,
-        "height": 1440,
-        "mobile": "assets/longform/jev/02-kev-mobile.png",
+        "height": 2120,
+        "mobile": "assets/longform/jev/v4/03-method-mobile.png",
         "mobile_width": 768,
-        "mobile_height": 1532,
-        "diagram": "assets/longform/jev/02-kev.drawio",
-        "caption": "kev 公开实现：共享状态、隔离问题分支、候选读出。"
+        "mobile_height": 2320,
+        "diagram": "assets/longform/jev/v4/03-method.drawio",
+        "caption": "kev 公开实现：共享状态、问题分支隔离和动态候选读出；不是 Jev 内部架构复原。"
       },
-      "assets/longform/jev/03-training.png": {
+      "assets/longform/jev/v4/02-cua.png": {
         "width": 2000,
-        "height": 1250,
-        "mobile": "assets/longform/jev/03-training-mobile.png",
+        "height": 2100,
+        "mobile": "assets/longform/jev/v4/02-cua-mobile.png",
         "mobile_width": 768,
-        "mobile_height": 1850,
-        "diagram": "assets/longform/jev/03-training.drawio",
-        "caption": "公开监督训练示意：不是 Jev 的 RLCD 配方。"
+        "mobile_height": 2360,
+        "diagram": "assets/longform/jev/v4/02-cua.drawio",
+        "caption": "Jev Ultrafast：同次请求判断操作与条件目标，执行后再观察。"
       }
     }
   }

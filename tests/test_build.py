@@ -133,10 +133,27 @@ class BlogBuildTest(unittest.TestCase):
     def test_jev_longform_has_tables_figures_and_source_links(self):
         post = next(post for post in build.load_posts() if post["slug"] == "jev-understanding-and-generation")
         rendered = build.render_article(post)
-        self.assertEqual(rendered.count('<table>'), 2)
+        self.assertEqual(rendered.count('<table>'), 3)
         self.assertEqual(rendered.count('<figure class="entry-figure">'), 3)
         self.assertIn('https://docs.typesafe.ai/primitives', rendered)
-        self.assertIn('https://aclanthology.org/2024.emnlp-main.491/', rendered)
+        self.assertIn('https://docs.typesafe.ai/cookbooks/citation_check.md', rendered)
+        self.assertIn('assets/longform/jev/v4/03-method.png', rendered)
+        manifest = json.loads((self.root / post['source_manifest']).read_text())
+        self.assertEqual(manifest['article_revision'], 4)
+        self.assertEqual(len(manifest['sources']), 21)
+        self.assertEqual(len({source['url'] for source in manifest['sources']}), 21)
+        self.assertEqual([source['citation_number'] for source in manifest['sources']], list(range(1, 22)))
+        parser = build.MarkdownIt('commonmark').enable('table')
+        env = {}
+        tokens = parser.parse((self.root / post['source']).read_text(), env)
+        self.assertEqual({source['url'] for source in manifest['sources']},
+                         {reference['href'] for reference in env['references'].values()})
+        headings = [tokens[i + 1].content for i, token in enumerate(tokens)
+                    if token.type == 'heading_open' and token.tag == 'h2']
+        self.assertEqual(len(headings), 6)
+        for question, heading in zip(('是什么', '特点是什么', '方法是什么', '能做什么', '效果怎么样'), headings):
+            self.assertIn(question, heading)
+        self.assertNotIn('03-training.png', rendered)
         self.assertIn('data-view-count="busuanzi_page_pv"', rendered)
         self.assertNotIn('[s1]', rendered)
 
