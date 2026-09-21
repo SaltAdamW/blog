@@ -1,0 +1,83 @@
+{
+  "window": {
+    "start": "2026-09-14",
+    "end": "2026-09-20"
+  },
+  "sources": [
+    {
+      "id": "15249db687e009782afcba29",
+      "title": "The Bitter Lesson of Browser Agents",
+      "url": "https://browser-use.com/posts/bitter-lesson-browser-agents",
+      "published_at": "2026-09-15",
+      "review_status": "primary_sections_read",
+      "reading_scope": "正文取材范围 55/55 个原文块，由另一次模型调用复核，未复现实验。",
+      "source_sha256": "d881c9d2b7b00f8c27cbca058cd4b8a8b1c68f453706c92c610ff0d2c4db0733"
+    },
+    {
+      "id": "e3ca07c46bb94d95f848b922",
+      "title": "Escaping the OpenAI Codex sandbox, twice",
+      "url": "https://accomplish.ai/blog/escaping-the-openai-codex-sandbox-twice/",
+      "published_at": "2026-09-15",
+      "review_status": "primary_sections_read",
+      "reading_scope": "正文取材范围 33/33 个原文块，由另一次模型调用复核，未复现实验。",
+      "source_sha256": "ff0d1e0f339b5c6baa3e7044dbb4102228e03da62237cd3e9c97fda6ef15a008"
+    },
+    {
+      "id": "484414d01e2c5b21fa3b5330",
+      "title": "Migrating the GitHub Copilot runtime to Rust, using Copilot",
+      "url": "https://github.blog/ai-and-ml/generative-ai/migrating-the-github-copilot-runtime-to-rust-using-copilot/",
+      "published_at": "2026-09-16",
+      "review_status": "primary_sections_read",
+      "reading_scope": "正文取材范围 264/330 个原文块，由另一次模型调用复核，未复现实验。",
+      "source_sha256": "5da90503c288f5e33e814579a94bd28d65cd758f437b153a1982f447c813817a"
+    },
+    {
+      "id": "e33ae0d1fcdb8955882a9ae5",
+      "title": "What It Takes to Put a Screenshot in an Agent's Memory",
+      "url": "https://hindsight.vectorize.io/blog/2026/09/16/screenshot-agent-memory",
+      "published_at": "2026-09-16",
+      "review_status": "primary_sections_read",
+      "reading_scope": "正文取材范围 77/77 个原文块，由另一次模型调用复核，未复现实验。",
+      "source_sha256": "46ae2eadd0200c6f15596a8e8542681a897fd39f986b572480abdf395f76e39a"
+    },
+    {
+      "id": "7a77a40db47f4a1697e9b03a",
+      "title": "JevBench v1.2.3 Cost Correction Artifact",
+      "url": "https://github.com/fstandhartinger/jevbench/blob/main/results/v1.2/cost-correction-v1.2.3.json",
+      "published_at": "2026-09-20",
+      "review_status": "primary_sections_read",
+      "reading_scope": "正文取材范围 415/415 个原文块，由另一次模型调用复核，未复现实验。",
+      "source_sha256": "91701e8e67e8a004ea694a080a5e60046f5e303c79863077f5b0cbe8222d3539"
+    },
+    {
+      "id": "f9a7094aa10b8c5e002ab042",
+      "title": "The new AgentCore Runtime is now available in Amazon Bedrock AgentCore",
+      "url": "https://aws.amazon.com/about-aws/whats-new/2026/09/new-agentcore-runtime-generally-available/",
+      "published_at": "2026-09-18",
+      "review_status": "primary_sections_read",
+      "reading_scope": "正文取材范围 6/6 个原文块，由另一次模型调用复核，未复现实验。",
+      "source_sha256": "d2f1764fc809d5abca06221b44da18fa01634442146ab24d6610f13249706de2"
+    },
+    {
+      "id": "a4f49789ccbc3f29036c2ba3",
+      "title": "Introducing Gemini 3.8 Live and Gemini 3.8 Live Extended Thinking",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking/",
+      "published_at": "2026-09-17",
+      "review_status": "primary_sections_read",
+      "reading_scope": "正文取材范围 113/113 个原文块，由另一次模型调用复核，未复现实验。",
+      "source_sha256": "8fdac7ef269a8ef30c9509afbb767df012a5d9e75f63655ada2315f039a01740"
+    }
+  ],
+  "verification": "各条目核读原文，并由另一次模型调用复核事实，未复现实验。",
+  "coverage": "多轮开放检索后的选读，不预设专题，不声称穷尽。",
+  "checkedAt": "2026-09-21",
+  "latest_update": {
+    "run_id": "2026-W39-20260921T090033-030338",
+    "scope": "weekly",
+    "search_rounds": 5,
+    "recorded_queries": 49,
+    "unprocessed_candidates": 200,
+    "source_gaps": 6,
+    "note": "选读不等于穷尽；未处理材料不代表低质量。"
+  }
+}

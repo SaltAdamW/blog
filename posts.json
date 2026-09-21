@@ -164,5 +164,24 @@
         "caption": "Jev Ultrafast：同次请求判断操作与条件目标，执行后再观察。"
       }
     }
+  },
+  {
+    "slug": "weekly-agent-research-2026-09-20",
+    "title": "Research 周报：2026 年 9 月 14 日至 2026 年 9 月 20 日",
+    "date": "2026-09-20",
+    "category": "研究周报",
+    "tags": [
+      "页面按钮为何对 Agent 不可见",
+      "Codex 的补丁授权与只读工具为何曾越过沙箱边界",
+      "编码 Agent 如何在持续发版中迁移共享运行时",
+      "截图进入记忆后，怎样关联到具体事实？",
+      "JevBench 为什么会算错每千次决策成本？",
+      "AgentCore V2 如何减少容器冷启动中的重复初始化"
+    ],
+    "description": "本期选读页面按钮为何对 Agent 不可见、Codex 的补丁授权与只读工具为何曾越过沙箱边界、编码 Agent 如何在持续发版中迁移共享运行时、截图进入记忆后，怎样关联到具体事实？、JevBench 为什么会算错每千次决策成本？、AgentCore V2 如何减少容器冷启动中的重复初始化、工具尚未完成，语音 Agent 如何继续对话等材料。",
+    "deck": "本期选读页面按钮为何对 Agent 不可见、Codex 的补丁授权与只读工具为何曾越过沙箱边界、编码 Agent 如何在持续发版中迁移共享运行时、截图进入记忆后，怎样关联到具体事实？、JevBench 为什么会算错每千次决策成本？、AgentCore V2 如何减少容器冷启动中的重复初始化、工具尚未完成，语音 Agent 如何继续对话等材料。",
+    "source": "agent-research-weekly-2026-09-20.md",
+    "source_manifest": "agent-research-weekly-2026-09-20.sources.json",
+    "word_count": 4311
   }
 ]
