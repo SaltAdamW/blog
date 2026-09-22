@@ -202,5 +202,23 @@
     "word_count": 1661,
     "source": "agent-experience-five-lessons.md",
     "source_manifest": "agent-experience-five-lessons.sources.json"
+  },
+  {
+    "slug": "weekly-agent-experience-2026-09-20",
+    "title": "Agent 研究周报：六个具体场景里的尝试、失败与调整",
+    "date": "2026-09-22",
+    "category": "研究周报",
+    "tags": [
+      "场景实践",
+      "历史轨迹学习",
+      "工具与观察",
+      "验收与成本"
+    ],
+    "description": "9 月 14 日至 20 日的场景实践选读：数据库工具拒绝、历史轨迹训练、浏览器观察、代码迁移、协作等待与规划评测。复算公开计数，区分作者报告、历史实验与未验证推断。",
+    "deck": "六个具体场景：遇到了什么失败，怎样调整，数据支持到哪里。选读窗口为 2026 年 9 月 14 日至 20 日。",
+    "word_count": 5454,
+    "source": "agent-experience-weekly-2026-09-20.md",
+    "source_manifest": "agent-experience-weekly-2026-09-20.sources.json",
+    "markdown_tables": true
   }
 ]

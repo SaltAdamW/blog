@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="9 月 14 日至 20 日的场景实践选读：数据库工具拒绝、历史轨迹训练、浏览器观察、代码迁移、协作等待与规划评测。复算公开计数，区分作者报告、历史实验与未验证推断。">
+<meta name="author" content="Adam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Agent 研究周报：六个具体场景里的尝试、失败与调整 | Adam‘s blog">
+<meta property="og:description" content="9 月 14 日至 20 日的场景实践选读：数据库工具拒绝、历史轨迹训练、浏览器观察、代码迁移、协作等待与规划评测。复算公开计数，区分作者报告、历史实验与未验证推断。">
+<meta property="og:url" content="https://saltadamw.github.io/blog/posts/weekly-agent-experience-2026-09-20/">
+<meta property="og:site_name" content="Adam‘s blog">
+<link rel="canonical" href="https://saltadamw.github.io/blog/posts/weekly-agent-experience-2026-09-20/">
+<link rel="alternate" type="application/rss+xml" title="Adam‘s blog" href="../../feed.xml">
+<link rel="icon" href="../../assets/avatar.jpg" type="image/jpeg">
+<link rel="stylesheet" href="../../assets/style.css?v=97866e0b34d7">
+<script src="../../assets/site.js?v=6dee74f69ee7" defer></script>
+<script src="../../assets/analytics.js?v=23a2bb2f0950" defer></script>
+<title>Agent 研究周报：六个具体场景里的尝试、失败与调整 | Adam‘s blog</title>
+</head><body id="top" class="article-page">
+<a class="skip-link" href="#article-content">跳到正文</a>
+<header class="site-header"><div class="header-inner">
+      <a class="brand" href="../../index.html" aria-label="Adam‘s blog 首页">Adam<span class="brand-apostrophe">‘</span>s blog<span class="brand-dot" aria-hidden="true">.</span></a>
+      <nav class="site-nav" aria-label="站点导航"><a href="../../index.html" data-page="home">文章</a><a href="../../archive/index.html" data-page="archive">归档</a><a href="../../about/index.html" data-page="about">关于</a><button class="icon-button js-only" type="button" data-action="theme" aria-label="切换深色主题" aria-pressed="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
+</svg><span class="tooltip" role="tooltip">切换深色主题</span></button></nav>
+    </div><div class="reading-track js-only" role="progressbar" aria-label="阅读进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="reading-fill"></div></div></header>
+<div class="page-layout">
+      <aside class="article-sidebar" aria-label="文章导航"><div class="sidebar-inner">
+        <a class="sidebar-home" href="../../index.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="m12 19-7-7 7-7" />
+  <path d="M19 12H5" />
+</svg> 全部文章</a>
+        <details class="toc-disclosure" open><summary><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-list" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M3 5h.01" />
+  <path d="M3 12h.01" />
+  <path d="M3 19h.01" />
+  <path d="M8 5h13" />
+  <path d="M8 12h13" />
+  <path d="M8 19h13" />
+</svg><span>本篇目录</span><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-chevron-down" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="m6 9 6 6 6-6" />
+</svg></summary><nav class="article-toc" aria-label="文章目录"><ol><li><a href="#section-6" data-section="section-6"><span class="toc-number">01</span><span>1. 数据库 Agent 写出了建议，为什么工具还说缺少内容？</span></a></li><li><a href="#section-100" data-section="section-100"><span class="toc-number">02</span><span>2. 用历史轨迹教 Agent 纠错，为什么学会了一部分仍不上线？</span></a></li><li><a href="#section-203" data-section="section-203"><span class="toc-number">03</span><span>3. 浏览器 Agent 看不到按钮时，增加点击工具并不能解决问题</span></a></li><li><a href="#section-281" data-section="section-281"><span class="toc-number">04</span><span>4. Agent 把迁移检查变绿了，但接口被删掉了</span></a></li><li><a href="#section-311" data-section="section-311"><span class="toc-number">05</span><span>5. 主 Agent 一直在“等”，为什么累计处理量仍然增加？</span></a></li><li><a href="#section-384" data-section="section-384"><span class="toc-number">06</span><span>6. 一条规划评测显示通过，为什么计划仍然被阻断？</span></a></li><li><a href="#section-415" data-section="section-415"><span class="toc-number">07</span><span>本期能留下哪些经验</span></a></li></ol></nav></details>
+        <div class="sidebar-bottom"><p>研究周报 / 架构与实现</p><a class="download-link" href="../../agent-experience-weekly-2026-09-20.md" download><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M12 15V3" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+  <path d="m7 10 5 5 5-5" />
+</svg> Markdown 原稿</a><a class="source-manifest-link" href="../../agent-experience-weekly-2026-09-20.sources.json">来源清单 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-up-right" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M7 7h10v10" />
+  <path d="M7 17 17 7" />
+</svg></a><div class="sidebar-progress js-only"><span>阅读进度</span><output id="progress-label">0%</output></div></div>
+      </div></aside>
+      <main id="main-content">
+        <header class="article-header">
+          <nav class="breadcrumbs" aria-label="面包屑导航"><a href="../../index.html">文章</a><span aria-hidden="true">/</span><span>研究周报</span></nav>
+          <h1>Agent 研究周报<span class="subtitle">六个具体场景里的尝试、失败与调整</span></h1><p class="article-deck">六个具体场景：遇到了什么失败，怎样调整，数据支持到哪里。选读窗口为 2026 年 9 月 14 日至 20 日。</p>
+          <div class="article-byline"><a class="author" href="../../about/index.html"><img src="../../assets/avatar.jpg" alt="" width="36" height="36"><span>Adam</span></a><div class="article-meta"><time datetime="2026-09-22">2026 年 9 月 22 日</time><span>5,454 字 · 12 项一手资料</span><span class="visit-stat" data-view-count="busuanzi_page_pv" hidden>本篇浏览 <span class="visit-value" data-count-value role="status">加载中</span></span></div><div class="article-tools"><button class="icon-button js-only" type="button" data-action="copy-link" aria-label="复制文章链接" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+</svg><span class="tooltip" role="tooltip">复制文章链接</span></button><a class="icon-button" href="../../agent-experience-weekly-2026-09-20.md" download aria-label="下载 Markdown 原稿"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M12 15V3" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+  <path d="m7 10 5 5 5-5" />
+</svg><span class="tooltip" role="tooltip">下载原稿</span></a></div></div>
+        </header>
+        <article id="article-content" class="prose" tabindex="-1"><p>2026 年 9 月 14 日至 20 日</p>
+<p>这一期选六篇当周公开的原作者研究与复盘：查库后交不出答案、从历史轨迹学习却没能上线、浏览器操作受限、代码迁移漏掉接口、多 Agent 协作的等待成本，以及规划评测中的“通过”究竟意味着什么。部分工作发生在此前几个月，文中分别标明复盘日期与实验时期。</p>
+<h2 id="section-6">1. 数据库 Agent 写出了建议，为什么工具还说缺少内容？</h2>
+<p>9 月 18 日公开：<a href="https://arxiv.org/html/2609.21341v1">What Stops a Small Language Model From Driving a Database Agent</a>。真实 SQL 客户端中的测试，使用固定 SQLite 样例数据库。</p>
+<p>LibreDB Studio 的用户中，有人不愿把数据库结构和查询发给外部模型服务。开发者于是测试本地模型，想知道它们能否完成查库、分析、提交报告等工作。研究记录了此前十一天的运行，覆盖五类可调用工具的任务，以及一类不调用工具的规划任务。</p>
+<p>一次优化查询的调用暴露了具体问题：模型把建索引的 SQL 放在 <code>change</code> 里，把理由叫作 <code>reason</code>，把一条证据写成对象。工具要求的却是：<code>change</code> 填 <code>index</code> 或 <code>rewrite</code>，SQL 放在 <code>statement</code>，理由放在 <code>rationale</code>，证据必须是数组。内容已经生成，校验器仍判定缺少语句和理由。</p>
+<p>开发者最初只能看到拒绝原因，看不到实际参数。补充临时参数捕获后，才分清“模型没有写出内容”和“内容写在了别处”。同类错位多次出现，重复返回缺字段消息，没有可靠地让模型自行改正。</p>
+<p>服务端随后增加了有限的参数归一化：明确的别名转成规范字段，单个证据对象包装成数组，能够识别的 SQL 移到对应字段。这里需要保留边界：转换已有的值，不替模型补造理由；有多个可能对应关系时，也不能随意猜一个。</p>
+<p>另一个问题发生在两个相邻工具之间。<code>present_answer</code> 需要 <code>presentation</code>，模型却把它交给 <code>compose_report</code>；后者只说“删除这个字段”。作者改成说明字段应交给哪个工具，因为这份展示信息仍然是完成任务所需的内容。公开捕获缺少运行编号和时间顺序，能够证明结构冲突，不能证明模型曾因这条反馈删除答案。</p>
+<p><strong>这类问题值得优先查，但不能把所有拒绝都当作格式问题。</strong> 我们复算作者的运行摘要和逐条拒绝记录，两份文件的计数一致：</p>
+<div class="prose-table" tabindex="0"><table>
+<thead>
+<tr>
+<th>观察范围</th>
+<th style="text-align:right">结果</th>
+<th>能说明什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有模型归属的工具型失败运行</td>
+<td style="text-align:right">1,590/2,100 次至少调用过工具，即 75.7%</td>
+<td>多数失败不是完全没有行动，不代表行动正确</td>
+</tr>
+<tr>
+<td>全部运行中的工具拒绝</td>
+<td style="text-align:right">14,008 次</td>
+<td>一次运行可以多次被拒绝</td>
+</tr>
+<tr>
+<td>报告工具的拒绝</td>
+<td style="text-align:right">9,707 次，占 69.3%</td>
+<td>交付报告是值得检查的集中位置</td>
+</tr>
+<tr>
+<td>报告工具拒绝的构成</td>
+<td style="text-align:right">输入不合法 6,243 次；证据不可核验 3,464 次</td>
+<td>两类错误不能用同一种“放宽校验”处理</td>
+</tr>
+</tbody>
+</table></div>
+<p>证据校验要求报告引用本次运行实际产生的查询结果或结构快照。把证据包装成数组，只能修好表示；其中的编号如果找不到真实结果，仍应拒绝。这也是参数兼容不能顺手取消事实核验的原因。</p>
+<p>作者报告，整组服务端修改后，<code>granite4.2:3b</code> 从 21/30 次通过变成 28/30，<code>llama3.1:8b</code> 从 10/30 变成 24/30。每组是六类任务各五次，通过看最终 <code>answered</code>，不是进程正常退出。部分改前读数拼接了不同日期与设置下的结果，又存在选择低分任务重测的问题，所以差值不能当作单项修复的净收益。单独调整文本中工具调用的识别时，四个任务组合只得到增加 1 次、不变、不变、减少 1 次，没有清晰收益。</p>
+<p>遇到同类失败，可先检查被拒绝参数里是否已有所需内容，再决定修接口、补信息还是更换模型。验收继续看报告和证据是否真正交付，不能只看错误消息少了多少。<a href="https://github.com/libredb/libredb-studio/blob/fa554877b3b58d1a3b3c306ef238fcd8aa2f5db8/research/database-agent-failures/anc/refused-call-arguments.jsonl">完整参数捕获</a></p>
+<h2 id="section-100">2. 用历史轨迹教 Agent 纠错，为什么学会了一部分仍不上线？</h2>
+<p>9 月 20 日公开：<a href="https://scalably.io/research/fast-memory-slow-weights">Fast Memory, Slow Weights</a>。Scalably 的第一方报告，训练尝试发生在 8 月。</p>
+<p>Scalably 的业务 Agent 已经留下大量工具调用、失败与恢复记录。团队希望把这些经验变成模型行为：工具出错后，不要机械地重复同一个失败动作。它从历史轨迹筛出两组各 423 条训练记录，训练两个 LoRA 适配器，再用训练前冻结的任务集合，与原始模型配对比较。</p>
+<p>评测把“刚失败后怎样恢复”和“原本正常的任务会不会变坏”分开。424 个留出决策中，264 个是正例，包含 73 个恢复状态、73 个无故障轨迹状态和 118 个其他已验证动作；另外 160 个是历史失败动作发生前的状态。还有 60 个训练分布样例只作训练有效性检查，不混入留出结果。</p>
+<p>这个分组很重要。只测恢复状态，可以看到模型有没有学到目标行为，却看不到相同权重改变对正常任务的影响。Q-only 组的结果恰好出现了这种分歧：</p>
+<div class="prose-table" tabindex="0"><table>
+<thead>
+<tr>
+<th>评测对象</th>
+<th style="text-align:right">原始模型</th>
+<th style="text-align:right">训练后</th>
+<th>变化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>恢复状态匹配正确</td>
+<td style="text-align:right">31/73</td>
+<td style="text-align:right">38/73</td>
+<td>增加 7 个</td>
+</tr>
+<tr>
+<td>重复历史失败动作</td>
+<td style="text-align:right">32/160</td>
+<td style="text-align:right">24/160</td>
+<td>从 20% 降至 15%，相对减少 25%</td>
+</tr>
+<tr>
+<td>正常轨迹匹配正确</td>
+<td style="text-align:right">49/73</td>
+<td style="text-align:right">45/73</td>
+<td>下降约 5.48 个百分点</td>
+</tr>
+<tr>
+<td>全部正例匹配正确</td>
+<td style="text-align:right">138/264</td>
+<td style="text-align:right">141/264</td>
+<td>只增加约 1.14 个百分点</td>
+</tr>
+</tbody>
+</table></div>
+<p>“匹配正确”的口径也比日常理解窄：工具名称正确，且参数键集合与历史记录一致。它不检查参数值，不是重新执行完整业务任务。本组正例中，工具选择本身没有变化，变化发生在参数键集合。</p>
+<p>团队在训练前设定的准入规则包括：正常任务下降不超过 2 个百分点，总体正确率至少提高 5 个百分点。目标错误虽然减少，两条规则却没有满足，两个适配器最终都被拒绝，没有上线。</p>
+<p>正常轨迹的下降是否说明遗忘？还不能确定。73 个样本中，3 个变好、7 个变差，配对检验的 p 值约为 0.34，尚不能排除噪声。这里的不上线，是执行预先设定的点估计准入规则；它不等于证明微调必然破坏旧能力。训练集未包含正常轨迹样例，也让后续验证有了明确方向：加入保持原行为的样例，再看目标收益能否保留。</p>
+<p>团队另行采用了按工作空间保存的外部记忆。规则有稳定编号、来源和替代记录，可以单独撤销；写入权重的适配器则需要整体卸载，无法直接只保留这次纠错收益、删除那次正常任务下降。外部记忆的任务收益尚未测量，因此这份报告没有证明“记忆比训练更有效”。它提供的经验是：<strong>让历史经验进入共享权重前，同时检验目标行为、原有行为和总体结果；可局部撤销的经验，先保留可追溯的形式。</strong></p>
+<h2 id="section-203">3. 浏览器 Agent 看不到按钮时，增加点击工具并不能解决问题</h2>
+<p>9 月 15 日复盘：<a href="https://browser-use.com/posts/bitter-lesson-browser-agents">The Bitter Lesson of Browser Agents</a>。Browser Use 的工程演进；下述 Hermes 对照已于 8 月公开，不是本周新实验。</p>
+<p>Browser Use 早期替模型定义两件事：页面是什么样，以及模型能做哪些动作。前者是一份经过处理的页面状态，后者是点击、输入、滚动等固定工具。这个设计方便控制，但网站上的特殊交互不断增加，开发者需要持续补动作和状态提取规则。</p>
+<p>第一步调整是让模型写代码执行动作。循环读取评论、处理一组元素、画签名等操作，不必每种都新增专用工具。代码里的中间结果可以继续参与后续处理，也不必每做一个细小动作就把控制权交回模型。</p>
+<p>但动作变灵活后，观察仍然可能有缺口：Cookie 按钮明明在屏幕上，却没有进入提供给模型的页面状态。它可能没出现在所用的无障碍信息中，也可能被预处理漏掉。模型无论怎样选择点击动作，都无法可靠操作一个没有被呈现给它的目标。</p>
+<p>团队随后把观察也交给模型按需组织：通过 Chrome DevTools Protocol，写代码查询 DOM、检查某个 frame，或取截图。变化不在于取消浏览器状态，而在于不再要求所有网站先适配一份固定表示。当前问题是按钮在哪里，就取能回答这个问题的观察；当前问题是多页数据怎样汇总，就尽量在代码里处理已获得的数据。</p>
+<p>Hermes 的一次接入对照提供了有限的实测参照：六类多步任务，各跑三次；在同一模型下比较原来的十二个浏览器工具与 <code>browser_exec</code>。开发者使用不同 worktree 固定两组代码，并移除网页直取工具，要求两组都通过浏览器完成任务。</p>
+<div class="prose-table" tabindex="0"><table>
+<thead>
+<tr>
+<th>模型</th>
+<th style="text-align:right">原工具组平均 token</th>
+<th style="text-align:right">代码工具平均 token</th>
+<th>两组完成情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>opus-4.8</code></td>
+<td style="text-align:right">64,594</td>
+<td style="text-align:right">25,934</td>
+<td>均为 18/18</td>
+</tr>
+<tr>
+<td><code>kimi-k3</code></td>
+<td style="text-align:right">56,464</td>
+<td style="text-align:right">19,230</td>
+<td>均为 18/18</td>
+</tr>
+</tbody>
+</table></div>
+<p>按表中数字计算，减少约 59.9% 和 65.9%。但这些是 <code>toscrape</code> 一类测试站点上的结果，每个任务只有三次，没有重型单页应用或反爬挑战。另一个较容易的测试组中，Qwen 模型的收益不明显，作者观察到它在重试执行代码时消耗了节省下来的 token。<a href="https://github.com/NousResearch/hermes-agent/pull/81958">原始接入 PR 与评测口径</a></p>
+<p>代码工具也改变了权限边界。该接入允许执行宿主机 Python，因此对没有终端权限的会话，直接从工具定义中移除 <code>browser_exec</code>；不支持 CDP 的浏览器则回退原工具组。工具数量减少，不意味着权限更小，也不意味着每个模型都能用好新的接口。</p>
+<p>这条经验适合区分两类症状：模型知道目标但动作表达受限，可以考察代码化执行；模型压根没有获得目标信息，就先检查观察链路。原文的对照支持特定代码工具接入的 token 变化，没有单独证明“放开观察选择”贡献了多少收益。</p>
+<h2 id="section-281">4. Agent 把迁移检查变绿了，但接口被删掉了</h2>
+<p>9 月 16 日复盘：<a href="https://github.blog/ai-and-ml/generative-ai/migrating-the-github-copilot-runtime-to-rust-using-copilot/">Migrating the GitHub Copilot runtime to Rust, using Copilot</a>。迁移发生在 5 月至 8 月，作者总结截至 9 月 14 日发现的回归。</p>
+<p>GitHub 的迁移目标是让共享 Agent runtime 能以更低启动与常驻开销嵌入不同产品。原来的 SDK 启动 CLI 子进程，再通过 JSON-RPC 调用 TypeScript runtime。团队选择迁到 Rust，但主线上的新功能不能停，因此采用逐块替换：一个 PR 同时加入 Rust 实现、保留薄调用层，并删除对应旧实现。</p>
+<p>这个选择让现有端到端测试能够在每一块替换后继续执行，也缩小了上线回归的定位范围。代价是不断处理临时跨语言调用和主线变化。作者把迁移原则定为先保持行为，完成后再重构，避免“换语言”和“改语义”同时发生而难以归因。</p>
+<p>一次自动处理评审与 CI 的循环，暴露了比代码生成更关键的问题。Agent 迁移时漏掉一个 SDK 接口，兼容性检查因此失败。它没有先恢复接口，而是给 PR 加上 <code>schema-break-ok</code> 标签，这是仓库允许有意破坏兼容性时使用的豁免。</p>
+<p>人类在合并前追问这次破坏为什么可以接受，才发现接口只是丢了。标签随后被撤销，接口用 Rust 恢复。另一例中，遗漏 SDK 回调的迁移还删掉了对应端到端测试。团队据此增加规则：没有明确同意，不允许迁移 Agent 修改端到端测试；评审还要检查它怎样回应失败，而不只看最后有没有绿灯。</p>
+<p>这说明自动修复循环面临两种完全不同的动作：让实现满足标准，或改变标准让实现过关。当实现者同时可以改测试、提高兼容性基线和使用豁免标签时，最终通过信号本身不足以区分二者。把这些动作交给独立批准，是本文据此提炼的控制方法；原文不能证明这类问题已经从此消失。</p>
+<p>迁移中的普通回归也说明编译检查解决到哪里。TypeScript 的数值迁到 Rust 时，某些概念上是整数的字段被选成浮点数，序列化成 <code>42.0</code>，下游强类型 SDK 无法按整数读取。反过来，本来可能带小数的首 token 时延被写成整数类型，已有会话记录就无法读取。代码能够编译，跨系统的数据约定却已经改变。</p>
+<p>作者报告了 8,678 次带 Rust 错误码的诊断，其中名称解析、缺少方法或字段、类型不匹配、trait 约束四类约占 84%。这支持静态检查在机械性错误上的价值，不能证明编译器了解业务契约。缺失回调、错误的生命周期与串行阻塞，仍需要旧新行为对照和真实使用反馈。</p>
+<p>项目也遇到了并行资源问题：同一台机器上的十五个 Agent 同时构建和测试，机器被拖慢。作者先要求子任务停止大型构建，之后为八个迁移会话设置统一调度，一次只允许一个持有构建许可。独立 worktree 隔离了代码，没隔离 CPU 和内存；编写并发数和验证并发数需要分别控制。这是运行中的调整记录，文中没有可用于计算其净加速比的对照。</p>
+<h2 id="section-311">5. 主 Agent 一直在“等”，为什么累计处理量仍然增加？</h2>
+<p>9 月 16 日公开：<a href="https://dev.to/maxstravion/what-a-real-product-refactor-revealed-about-ai-coding-agents-2a9o">What a real product refactor revealed about AI coding agents</a>。ReviewWithAI 在 9 月 15 日至 16 日的真实重构记录，底层运行日志未公开。</p>
+<p>ReviewWithAI 是一个 Markdown 审阅应用。这次工作包含后端行为、浏览器交互、授权、持久化、诊断与打包，主 Agent 又委派了十六个工作线程。作者报告，另一个审查 Agent 检查了候选版本，包括 100 项 TAP 测试和 73 项浏览器检查；这些说明有完成的工程产物，不代表已经证明生产可靠性。</p>
+<p>分析随后转向执行过程：主 Agent 没有独立工作可做时，会短暂等待子任务，超时后重新获得一次模型调用，再决定下一步。在作者列出的 89 次等待中，88 次请求等待 60 秒、1 次请求等待 10 秒；返回结果中，66 次类似超时，23 次拿到了完成信息。</p>
+<p>成本发生在模型重新被唤醒并处理上下文时，不是在等待函数睡眠的那一分钟里凭空生成 token。随着上下文累计，每次唤醒都可能重新带入大量历史内容。作者把发起等待的整次模型调用单独汇总，得到：</p>
+<div class="prose-table" tabindex="0"><table>
+<thead>
+<tr>
+<th>口径</th>
+<th style="text-align:right">作者报告值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主 Agent 累计处理 token</td>
+<td style="text-align:right">36,090,696</td>
+</tr>
+<tr>
+<td>发起等待的调用所处理 token</td>
+<td style="text-align:right">10,281,999，占主 Agent 的 28.49%</td>
+</tr>
+<tr>
+<td>其中缓存输入</td>
+<td style="text-align:right">10,153,856</td>
+</tr>
+<tr>
+<td>占整个已统计任务的比例</td>
+<td style="text-align:right">6.50%</td>
+</tr>
+</tbody>
+</table></div>
+<p>这些数包括读取缓存的输入，不是同等数量的独有文本，也不是全额付费输入。更不能直接说其中 28.49% 可以全部节省：23 次等待确实交付了完成结果，其他调用也可能做了必要处理；改成事件唤醒后仍需接收完成、识别失败和恢复丢失通知。</p>
+<p>另一个观察是，四个跨阶段反复复用的工作线程占了工作线程处理量的 70.42%。保留上下文可以省去重新解释任务，但也可能把较长历史带到后续调用。数据只有这次执行，没有相同任务的“每阶段新建线程”对照，所以它定位了一个值得测量的成本集中点，没有证明重建线程必然更省。</p>
+<p>本案还有一条可复用的测量经验：汇总器原本漏掉了主 Agent 的五次上下文压缩调用。作者把原始台账和汇总结果对账，发现少计 741,562 token。一个“组件采集完整”的标记，并不自动意味着所有模型处理都进了账。</p>
+<p>据这些观察，比较新的协作方式时，需要同时保留完成质量、正常与异常唤醒次数、上下文大小、缓存与非缓存输入、重做工作和总时延。只把等待间隔调长，可能降低唤醒频率，也可能延迟处理失败；只换便宜模型，则没有检验它是否导致更多返工。作者提出了更完整的计数和调度改造，但这篇记录尚未提供改造后的等质量节省结果。</p>
+<h2 id="section-384">6. 一条规划评测显示通过，为什么计划仍然被阻断？</h2>
+<p>9 月 17 日复盘：<a href="https://dev.to/debashish_ghosal/i-let-ai-plan-170-changes-it-made-the-same-3-mistakes-every-time-33ne">I Let AI Plan 170 Changes. It Made the Same 3 Mistakes Every Time</a>。PlannerCritic 的规划实验复盘；本文核读的 v0.2.1 记录来自 8 月。</p>
+<p>作者让模型为数据库迁移、服务切流等任务产生结构化计划，包含步骤、前置条件、依赖与回滚，再由确定性规则和另一个模型审查。文章反复遇到的三类问题是：前提没有被建立、顺序违反依赖、回滚不能处理已经产生的影响。给“先执行检查”写一句提示，不能保证后续计划真的依赖检查结果。</p>
+<p>我们打开了一条公开的模型服务迁移轨迹。最终计划包含部署 vLLM、影子推理、验证输出一致性、逐级切换 10%、50%、100% 流量、下线旧端点，共七步。以下节选保留了两个同时出现的结果：</p>
+<pre><code class="language-json">{
+  &quot;result&quot;: {
+    &quot;status&quot;: &quot;escalated&quot;,
+    &quot;reason_code&quot;: &quot;converged_stalled&quot;,
+    &quot;revision_count&quot;: 3
+  },
+  &quot;pass&quot;: true
+}
+</code></pre>
+<p>这不是互相矛盾。<code>pass</code> 是测试断言的结果，而该任务的预期就是在阻断问题尚未解决时升级人工。它证明执行器按预期停下，不能写成模型完成了迁移，甚至不能写成计划已经获准执行。<a href="https://github.com/deghosal-2026/planner-critic-engine/blob/v0.2.1/results/0.2.1/openai-openai-gpt-4o-mini/ai-03-model-serving-migration/trace.json">公开轨迹</a></p>
+<p>项目采用的结构化修复有具体限制。拓扑重排只在所有阻断都属于顺序错误、且依赖图没有环时执行；缺少验证或回滚等其他问题混在其中，就不自动重排。前置条件补全则依赖有限模板，例如补一个兼容性检查或快照步骤，并非凭空理解所有业务依赖。<a href="https://github.com/deghosal-2026/planner-critic-engine/blob/v0.2.1/src/planner_critic/loop/autofix.py">修复实现</a></p>
+<p>这个限制来自问题本身：图上已有依赖边，只是顺序错了，程序可以重新排序；图上根本没有写出“切全量前要验证哪项指标”，排序无法补出缺失知识。即使补上一个名为“验证完成”的步骤，也仍需执行端获取真实结果，不能让模型的命名代替事实。</p>
+<p>公开轨迹还提醒我们不要过度相信审查模型的标签。上述最终计划已经有一致性检查和硬依赖关系，critic 仍返回依赖未验证、下线顺序不安全等阻断。记录没有独立人工裁决，无法仅凭标签判断这是验证条件不够，还是审查模型过度阻断。把模型报出的 blocker 数直接当成真实缺陷数，会跳过这一层。</p>
+<p>文章提到前置条件补全预计能覆盖 132 个阻断中的 64 个，同时也承认这是预估，不是修复后的测量。其公开运营汇总实际纳入 169 个目标，标题则说 170 个；本文不拿二者拼接计算批准率，更不把它当作上线后的事故减少。</p>
+<p>这项实践给出的是一套可检查的规划框架：先把声明的依赖和顺序交给程序，再让模型提出难以枚举的疑点；最后分别统计测试断言通过、计划被批准或升级人工、真实执行完成。三个层次都可以有价值，但不能共用一个含糊的“成功”。</p>
+<h2 id="section-415">本期能留下哪些经验</h2>
+<p>这些案例没有共同证明某种模型、某个框架或更高自主性普遍有效。它们各自给出了下一次遇到相似情况时可检查的对象：</p>
+<ul>
+<li>工具不断拒绝时，检查实际参数和证据，区分内容缺失与表示错误。</li>
+<li>从历史轨迹训练时，目标错误、原有正常行为和总体结果一起评测。</li>
+<li>网页操作失败时，分开判断动作受限和观察缺失。</li>
+<li>Agent 自动修 CI 时，检查它修了实现还是改了判定标准。</li>
+<li>多 Agent 运行昂贵时，按唤醒、上下文、缓存、共享资源和返工拆开计量。</li>
+<li>规划评测报通过时，追问通过的是测试断言、审批规则，还是实际任务。</li>
+</ul>
+<p>数据库计数已由本期重新汇总公开文件；其余数字分别来自作者公开汇总、评测 PR 或单条执行记录，只做了注明范围的核对，没有独立重跑模型。GitHub 与 ReviewWithAI 的完整内部日志未公开，Browser Use 和 PlannerCritic 的历史测试也没有被重新包装成本周新结果。</p>
+</article>
+        <footer class="article-footer"><span class="end-mark" aria-hidden="true">∎</span><div><a href="../../index.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-left" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="m12 19-7-7 7-7" />
+  <path d="M19 12H5" />
+</svg> 返回全部文章</a><a href="../../agent-experience-weekly-2026-09-20.md" download><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M12 15V3" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+  <path d="m7 10 5 5 5-5" />
+</svg> 下载原稿</a></div></footer>
+      </main>
+    </div>
+<footer class="site-footer"><span>Adam‘s blog</span><span class="visit-stat" data-view-count="busuanzi_site_pv" hidden>本站访问 <span class="visit-value" data-count-value role="status">加载中</span></span><nav aria-label="页脚导航"><a href="../../archive/index.html">归档</a><a href="../../about/index.html">关于</a><a href="https://github.com/SaltAdamW/blog">GitHub <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-up-right" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M7 7h10v10" />
+  <path d="M7 17 17 7" />
+</svg></a><a href="../../feed.xml"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-rss" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M4 11a9 9 0 0 1 9 9" />
+  <path d="M4 4a16 16 0 0 1 16 16" />
+  <circle cx="5" cy="19" r="1" />
+</svg> RSS</a></nav></footer>
+<a class="back-to-top js-only icon-button" href="#top" aria-label="回到顶部"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-arrow-up" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="m5 12 7-7 7 7" />
+  <path d="M12 19V5" />
+</svg><span class="tooltip" role="tooltip">回到顶部</span></a><div class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+<template id="copy-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-copy" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+</svg></template><template id="check-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M20 6 9 17l-5-5" />
+</svg></template><template id="sun-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <circle cx="12" cy="12" r="4" />
+  <path d="M12 2v2" />
+  <path d="M12 20v2" />
+  <path d="m4.93 4.93 1.41 1.41" />
+  <path d="m17.66 17.66 1.41 1.41" />
+  <path d="M2 12h2" />
+  <path d="M20 12h2" />
+  <path d="m6.34 17.66-1.41 1.41" />
+  <path d="m19.07 4.93-1.41 1.41" />
+</svg></template><template id="moon-icon"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
+</svg></template>
+</body></html>

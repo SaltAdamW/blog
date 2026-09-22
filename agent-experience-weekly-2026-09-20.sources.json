@@ -1,0 +1,183 @@
+{
+  "kind": "weekly-scenario-experience-selection",
+  "window": {
+    "start": "2026-09-14",
+    "end": "2026-09-20"
+  },
+  "published_at": "2026-09-22",
+  "checked_at": "2026-09-22",
+  "article_sha256": "1a3e50b173b6ac13de561ad78fa10094a4623e760007cb4059d5cf53548a66c7",
+  "independent_replication": false,
+  "coverage": "六篇窗口内发表的一手研究与复盘，加上原始数据、历史评测 PR 和固定版本文件；场景实践选读，不声称穷尽当周材料。",
+  "date_policy": "以六篇主文的公开日期纳入；文中另列实验时期。8 月的评测 PR 与规划轨迹仅作补证，不作为本周新实验。",
+  "verification": "数据库部分复算公开运行摘要和逐条拒绝记录，并核对窗口内版本；其余部分核读作者报告，对汇总数字做算术检查，或检查单条公开轨迹及代码。没有独立重跑模型，没有取得 GitHub 或 ReviewWithAI 的完整内部日志。",
+  "hash_scope": "source_sha256 对应核读时保留的原文 Markdown 快照或公开文件，hash_format 说明格式；不是未修改源网页 HTML 的统一哈希。数据通过镜像取得并核对固定修订的 Git blob，不声称获得上游签名认证。",
+  "sources": [
+    {
+      "id": "database-paper",
+      "entry": 1,
+      "title": "What Stops a Small Language Model From Driving a Database Agent",
+      "url": "https://arxiv.org/html/2609.21341v1",
+      "published_at": "2026-09-18",
+      "version": "v1",
+      "source_sha256": "ec75695feca637b757574e686696da74667bf8387fe04bf308733c9cad676570",
+      "hash_format": "extracted_markdown",
+      "review_status": "primary_sections_read",
+      "reading_scope": "摘要、第 3 至 9 节与相关表格；参数错位、工具反馈、结果判定及整组修改的混杂限制。未复现干预收益。"
+    },
+    {
+      "id": "database-runs",
+      "entry": 1,
+      "title": "LibreDB database-agent-runs：窗口内数据修订",
+      "url": "https://huggingface.co/datasets/libredb/database-agent-runs/tree/7ba04ee98f7add65455d7e629a9fe41c6eccf89b",
+      "revision_date": "2026-09-18",
+      "revision": "7ba04ee98f7add65455d7e629a9fe41c6eccf89b",
+      "retrieval_note": "上游不可达，实际经 hf-mirror.com 获取；下载内容与该修订文件树的 Git blob 一致。",
+      "review_status": "public_records_recomputed",
+      "reading_scope": "runs.jsonl 的 8,199 条运行摘要、refusals.jsonl 的 14,008 条拒绝记录及作者 verify.py。检查运行归属、工具与原因分组一致性；未下载完整 events.jsonl，也未复现 sweep 干预表。",
+      "files": [
+        {
+          "path": "runs.jsonl",
+          "sha256": "49303b0d181652fcd96a67b488933827c36a30af2dd34a5aa0b4534959eefeaa",
+          "git_blob": "d1ea184a55ed203b7125b59d865e70daf942dbe6"
+        },
+        {
+          "path": "refusals.jsonl",
+          "sha256": "1438fbec5a26b82645a3bb392b070aaf30805b9f262a4ff1926da15547b78eb0",
+          "git_blob": "3b9abd5e51c3572d5bf004edb23e3758f133bdec"
+        }
+      ]
+    },
+    {
+      "id": "database-arguments",
+      "entry": 1,
+      "title": "LibreDB 被拒绝工具调用的参数捕获",
+      "url": "https://github.com/libredb/libredb-studio/blob/fa554877b3b58d1a3b3c306ef238fcd8aa2f5db8/research/database-agent-failures/anc/refused-call-arguments.jsonl",
+      "revision_date": "2026-09-18",
+      "revision": "fa554877b3b58d1a3b3c306ef238fcd8aa2f5db8",
+      "source_sha256": "88ed0d5dee0a118f005d16d42c9477b2f9c8355ab5260a644b20a8f89a33a402",
+      "hash_format": "git_file_bytes",
+      "review_status": "primary_records_read",
+      "reading_scope": "完整参数捕获及同目录补充记录；核对字段和值的错位。记录缺少运行编号与时序，不能推出模型收到反馈后删除了答案。"
+    },
+    {
+      "id": "scalably-memory",
+      "entry": 2,
+      "title": "Fast Memory, Slow Weights",
+      "url": "https://scalably.io/research/fast-memory-slow-weights",
+      "published_at": "2026-09-20",
+      "version": "v1.0",
+      "experiment_period": "2026-08",
+      "source_sha256": "8b9846d63d9d9c1601742d07c224a09b08a34f3b580b8e376fc985699cc73b0a",
+      "hash_format": "extracted_markdown",
+      "review_status": "primary_sections_and_arithmetic_checked",
+      "reading_scope": "正文、表 1、E6 至 E13，重点核对样本拆分、键集合指标、上线门槛和负结果；复算差值与作者汇总的配对检验。没有私有逐条评测数据，外部记忆收益尚未测量。"
+    },
+    {
+      "id": "browser-use-retrospective",
+      "entry": 3,
+      "title": "The Bitter Lesson of Browser Agents",
+      "url": "https://browser-use.com/posts/bitter-lesson-browser-agents",
+      "published_at": "2026-09-15",
+      "source_sha256": "74880b69cdc34becd0712448f71384bb60771f87581967f500e7af4cbf175190",
+      "hash_format": "extracted_markdown",
+      "review_status": "primary_article_read",
+      "reading_scope": "观察与动作接口的演进全文；不采用范围外的医疗示例。文中 Hermes 结果来自 8 月，不能独立归因于观察选择。"
+    },
+    {
+      "id": "hermes-browser-pr",
+      "entry": 3,
+      "title": "Hermes browser_exec 接入与评测 PR #81958",
+      "url": "https://github.com/NousResearch/hermes-agent/pull/81958",
+      "created_at": "2026-08-08",
+      "merged_at": "2026-08-10",
+      "merge_commit": "7e04718ec384d918885e66c3b1e5078524752c22",
+      "historical": true,
+      "source_sha256": "b766b816a38c2193294cb31af981e9a6e2a132e78dfadcb8ac0452dfc4cd0ee5",
+      "hash_format": "github_pr_json_snapshot",
+      "review_status": "primary_description_and_arithmetic_checked",
+      "reading_scope": "完整 PR 描述、六类任务各三次的两模型对照、较弱模型负结果、终端权限和浏览器回退。复算未使用 pinned digest 两行的 token 变化，未取得逐条评测数据或重跑。"
+    },
+    {
+      "id": "github-runtime-migration",
+      "entry": 4,
+      "title": "Migrating the GitHub Copilot runtime to Rust, using Copilot",
+      "url": "https://github.blog/ai-and-ml/generative-ai/migrating-the-github-copilot-runtime-to-rust-using-copilot/",
+      "published_at": "2026-09-16",
+      "experiment_period": "2026-05 至 2026-08；回归清点截至 2026-09-14",
+      "source_sha256": "fbfdce0f80a9bbcc1729c70ac7ab51592928c020dcbcc34296db9a3e0e3d39f3",
+      "hash_format": "extracted_markdown",
+      "review_status": "primary_sections_read",
+      "reading_scope": "原位迁移、会话数据、并行构建、代码评审、内循环自动化、回归与静态检查。未取得内部 PR 或完整运行日志，不计算净加速比。"
+    },
+    {
+      "id": "reviewwithai-refactor",
+      "entry": 5,
+      "title": "What a real product refactor revealed about AI coding agents",
+      "url": "https://dev.to/maxstravion/what-a-real-product-refactor-revealed-about-ai-coding-agents-2a9o",
+      "published_at": "2026-09-16",
+      "date_basis": "DEV API published_at 为 2026-09-16T09:21:18Z，edited_at 为 2026-09-16T09:25:23Z。",
+      "experiment_period": "2026-09-15 至 2026-09-16",
+      "source_sha256": "00873049c7ea960677bef82e954b4d980bb3a00e5870066550ac723ed440366d",
+      "hash_format": "extracted_markdown",
+      "review_status": "primary_article_and_arithmetic_checked",
+      "reading_scope": "全文及社区 API body_markdown，核对等待统计、缓存输入、漏计压缩调用、工作线程复用与限制。百分比为作者汇总的算术检查；底层日志未公开，不当作已测可节省费用。"
+    },
+    {
+      "id": "plannercritic-retrospective",
+      "entry": 6,
+      "title": "I Let AI Plan 170 Changes. It Made the Same 3 Mistakes Every Time",
+      "url": "https://dev.to/debashish_ghosal/i-let-ai-plan-170-changes-it-made-the-same-3-mistakes-every-time-33ne",
+      "published_at": "2026-09-17",
+      "date_basis": "DEV API published_at 为 2026-09-17T03:59:17Z。",
+      "experiment_period": "本文补证使用 2026-08 的 v0.2.1 记录",
+      "source_sha256": "48802a5232daf04a645715ab04df3613ccb4ceaae158ed94e94d7f695426f068",
+      "hash_format": "extracted_markdown",
+      "review_status": "primary_article_read",
+      "reading_scope": "全文；区分修复覆盖预估与测量，保留标题 170 与运营汇总 169 的分母差异，不计算批准率或事故减少。"
+    },
+    {
+      "id": "plannercritic-trace",
+      "entry": 6,
+      "title": "PlannerCritic v0.2.1：模型服务迁移单条执行记录",
+      "url": "https://github.com/deghosal-2026/planner-critic-engine/blob/v0.2.1/results/0.2.1/openai-openai-gpt-4o-mini/ai-03-model-serving-migration/trace.json",
+      "record_date": "2026-08-23",
+      "version": "v0.2.1",
+      "historical": true,
+      "git_tree": "57ee837434646c9477a15767abb22a620dded74a",
+      "git_blob": "25b170a09e17e49b1ada151faab7bb9fca276c75",
+      "source_sha256": "7bfe7129041c775a60d53c34da017607116ca72f2f849dfb6c750fad9232a873",
+      "hash_format": "git_file_bytes",
+      "review_status": "single_trace_checked",
+      "reading_scope": "完整单条轨迹：七步、三次修订、converged_stalled 升级人工但测试 pass。核对计划已有验证与硬依赖，不将 critic 标签当作独立人工确认的缺陷。"
+    },
+    {
+      "id": "plannercritic-autofix",
+      "entry": 6,
+      "title": "PlannerCritic v0.2.1：结构化修复实现",
+      "url": "https://github.com/deghosal-2026/planner-critic-engine/blob/v0.2.1/src/planner_critic/loop/autofix.py",
+      "version": "v0.2.1",
+      "historical": true,
+      "git_tree": "57ee837434646c9477a15767abb22a620dded74a",
+      "git_blob": "af4faa462ead69fb49bc912963172eb87c27f39e",
+      "source_sha256": "95d351f13db049cd08a3c4157d39bf9f379c641362f4f43b0d4de20a2bf7c89b",
+      "hash_format": "git_file_bytes",
+      "review_status": "implementation_read",
+      "reading_scope": "拓扑排序启用条件、环检测与有限模板补前置步骤；同时核读 gates/preconditions.py。未执行真实迁移，不能证明任意业务计划安全。"
+    },
+    {
+      "id": "plannercritic-operational-report",
+      "entry": 6,
+      "title": "PlannerCritic v0.2.1：运营汇总的统计口径",
+      "url": "https://github.com/deghosal-2026/planner-critic-engine/blob/v0.2.1/results/0.2.1/operational-report.json",
+      "version": "v0.2.1",
+      "historical": true,
+      "git_tree": "57ee837434646c9477a15767abb22a620dded74a",
+      "git_blob": "cac651131017bbd054a99c82bc49d49891d64638",
+      "source_sha256": "3303f475ad11869472083b2de562fc7d218cf865deb8985b5bbd171bf3fd8296",
+      "hash_format": "git_file_bytes",
+      "review_status": "public_summary_checked",
+      "reading_scope": "核对 goals=169 及不同批准、升级与时延样本集合；没有按 170 个目标重建整套语料，也没有将不同分母拼接为批准率。"
+    }
+  ]
+}

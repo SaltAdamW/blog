@@ -4,6 +4,12 @@
 
 ## 文章
 
+### 最新场景实践周报
+
+- [Agent 研究周报：六个具体场景里的尝试、失败与调整](https://saltadamw.github.io/blog/posts/weekly-agent-experience-2026-09-20/) · [Markdown 原稿](agent-experience-weekly-2026-09-20.md) · [原文来源与核对范围](agent-experience-weekly-2026-09-20.sources.json)
+
+2026 年 9 月 22 日发布，选读窗口为 9 月 14 日至 20 日。六条围绕数据库工具拒绝、历史轨迹训练、浏览器观察、代码迁移、协作等待与规划评测展开，包含四张数据表。数据库公开运行摘要与拒绝记录已重新汇总；其余数字按各自公开范围核对，未独立重跑模型。复盘发表日期与历史实验日期分别标明。这是同周期的场景实践版，原综合周报与五条历史经验选读保留。
+
 ### 技术长文
 
 - [Jev：解耦 LLM 的理解和生成](https://saltadamw.github.io/blog/posts/jev-understanding-and-generation/) · [Markdown 原稿](longform-jev-understanding-and-generation.md) · [原文来源](longform-jev-understanding-and-generation.sources.json)

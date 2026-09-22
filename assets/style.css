@@ -128,6 +128,10 @@ h1 .subtitle > span { display: inline-block; }
   .prose-table th, .prose-table td { padding: 10px 7px; }
   .prose-table th:first-child, .prose-table td:first-child { width: 48%; }
   .prose-table th:nth-child(2), .prose-table td:nth-child(2) { width: 32%; }
+  /* 四列以上不能沿用前两列占 80% 的窄屏比例。 */
+  .prose-table table:has(th:nth-child(4)) { min-width: 600px; }
+  .prose-table table:has(th:nth-child(4)) th:nth-child(n),
+  .prose-table table:has(th:nth-child(4)) td:nth-child(n) { width: auto; }
 }
 .entry-figure { margin: 32px 0; padding: 12px 0 16px; border-block: 1px solid var(--line); }
 .entry-figure .figure-open, .entry-figure picture { display: block; }
