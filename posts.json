@@ -183,5 +183,24 @@
     "source": "agent-research-weekly-2026-09-20.md",
     "source_manifest": "agent-research-weekly-2026-09-20.sources.json",
     "word_count": 4311
+  },
+  {
+    "slug": "agent-experience-five-lessons",
+    "title": "Agent 历史经验选读：五个具体问题",
+    "date": "2026-09-22",
+    "category": "实践选读",
+    "tags": [
+      "Agent 实践",
+      "客服路由",
+      "会话恢复",
+      "CI 重试",
+      "上下文管理",
+      "研究分工"
+    ],
+    "description": "从三篇一手复盘选取五个具体问题：客服多意图路由、工具异常后的会话状态、CI 重试上限、按范围加载规则，以及研究任务重复搜索。保留作者记录、可借鉴条件与未验证之处。",
+    "deck": "客服、编码与研究 Agent 的五条历史经验：出了什么问题，如何排查或调整，哪些条件不能照搬。",
+    "word_count": 1661,
+    "source": "agent-experience-five-lessons.md",
+    "source_manifest": "agent-experience-five-lessons.sources.json"
   }
 ]

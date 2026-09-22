@@ -1,0 +1,78 @@
+{
+  "kind": "historical-experience-selection",
+  "checked_at": "2026-09-22",
+  "independent_replication": false,
+  "coverage": "三篇一手复盘中的五条经验，不是五次独立实验。",
+  "verification": "核读各条经验所依据的原文段落与日期；经历和做法来自作者自述，未独立复现。文中的借鉴为编者分析，不代表经过验证的通用规则。",
+  "hash_scope": "source_sha256 对应核读时保存的原文快照；源站后续更新可能改变内容哈希。",
+  "sources": [
+    {
+      "id": "support",
+      "title": "Field notes from running customer support AI in production",
+      "author": "Robin Monnier",
+      "url": "https://robinmonnier.com/field-notes-from-running-customer-support-ai-in-production",
+      "source_date": "2026-06-29",
+      "date_basis": "页面标注 Updated June 29, 2026；HTML article:published_time 与 article:modified_time 同为当天。",
+      "source_sha256": "9b648e812ae86af9cfc4b4d7313948b4f3843aede52a2ffe60d53e3ceb3cb6be",
+      "basis": "author_report",
+      "review_status": "primary_sections_read",
+      "reading_scope": "第3节多意图请求与工作流路由；第4节工具异常与未配对的持久化工具调用。未独立复现。"
+    },
+    {
+      "id": "stripe",
+      "title": "Minions: Stripe's one-shot, end-to-end coding agents - Part 2",
+      "author": "Alistair Gray",
+      "url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2.md",
+      "source_date": "2026-02-19",
+      "date_basis": "作者站点 Markdown 的 date 字段。",
+      "source_sha256": "d25bfd4514e39f85fa242028b7ef473706500edd767ac2d63a41fae363f31b86",
+      "basis": "author_report",
+      "review_status": "primary_sections_read",
+      "reading_scope": "Context gathering: Rule files 与 … and iterate 两节，核对按范围加载规则、本地 lint 和有限 CI 重试。未独立复现。"
+    },
+    {
+      "id": "research",
+      "title": "How we built our multi-agent research system",
+      "author": "Anthropic engineering team",
+      "url": "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "source_date": "2025-06-13",
+      "date_basis": "页面标注 Published Jun 13, 2025。",
+      "source_sha256": "e0a1df082989773aecf0f4d9926f4ef58e42fb934ddfe521214c08bc6664858c",
+      "basis": "author_report",
+      "review_status": "primary_sections_read",
+      "reading_scope": "Teach the orchestrator how to delegate 一节及相关上下文，核对半导体研究重复搜索案例与委派要求。未独立复现。"
+    }
+  ],
+  "experiences": [
+    {
+      "id": "support-multiple-intents",
+      "source_id": "support",
+      "source_section": "第3节",
+      "outcome": "故障与原因分析有作者记录；未报告修正路由后的效果。"
+    },
+    {
+      "id": "support-unpaired-tool-call",
+      "source_id": "support",
+      "source_section": "第4节",
+      "outcome": "记录了后续对话持续失败及状态原因；未给出完整修复实现。"
+    },
+    {
+      "id": "coding-ci-retry-budget",
+      "source_id": "stripe",
+      "source_section": "… and iterate",
+      "outcome": "已采用本地 lint 与有限 CI 重试；没有不同上限的对照结果。"
+    },
+    {
+      "id": "coding-scoped-rules",
+      "source_id": "stripe",
+      "source_section": "Context gathering: Rule files",
+      "outcome": "已采用按目录或文件模式加载规则；未报告正确率对照。"
+    },
+    {
+      "id": "research-delegation-overlap",
+      "source_id": "research",
+      "source_section": "Teach the orchestrator how to delegate",
+      "outcome": "有半导体研究的重复搜索案例；未单独量化委派调整的效果。"
+    }
+  ]
+}
