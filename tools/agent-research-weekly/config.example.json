@@ -1,0 +1,55 @@
+{
+  "state_dir": "var",
+  "timezone": "Asia/Shanghai",
+  "schedule": "Mon *-*-* 09:00:00 Asia/Shanghai",
+  "questioning_review": {"run_seconds": 3600, "max_calls": 96},
+  "discovery": {
+    "min_rounds": 3,
+    "max_rounds": 5,
+    "stagnant_rounds": 2,
+    "experience_topics": [
+      "coding agent actual task failure attempts feedback retrospective",
+      "browser agent real task observation recovery lessons learned",
+      "Agent 数据分析 SQL 实际任务 失败 调整 复盘"
+    ]
+  },
+  "publication": {
+    "enabled": false,
+    "repository": "SaltAdamW/blog",
+    "checkout": "/path/to/blog",
+    "site_url": "https://saltadamw.github.io/blog/",
+    "branch": "main",
+    "python": "python3",
+    "deploy_timeout_seconds": 900
+  },
+  "topics": [
+    "agent harness coding browser computer use engineering release",
+    "agent training evaluation failure analysis negative results",
+    "context memory tools orchestration multi-agent runtime sandbox"
+  ],
+  "sources": [],
+  "anchors": [],
+  "fetch": {
+    "timeout_seconds": 15,
+    "attempts_per_route": 2,
+    "max_routes": 5,
+    "max_bytes": 16000000,
+    "retry_hours": 12,
+    "refresh_days": 7,
+    "allow_hf_mirror": true,
+    "allow_jina": false,
+    "ocr_pages": 4
+  },
+  "codex": {
+    "binary": "codex",
+    "model": null,
+    "timeout_seconds": 240,
+    "max_calls": 96,
+    "max_context_chars": 85000,
+    "max_output_bytes": 3000000,
+    "extra_read_rounds": 2,
+    "repair_rounds": 1,
+    "search": true
+  },
+  "limits": {"candidates": 24, "per_source": 20, "highlights": 24, "run_seconds": 7200}
+}
