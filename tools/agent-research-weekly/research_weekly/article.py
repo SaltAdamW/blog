@@ -299,6 +299,7 @@ class Article:
                                  for s in self.state["sources"].values()],
                        "rounds": [{k: r.get(k) for k in ("queries", "notes", "followups", "search_complete")} for r in history],
                        "followups": self.state["followups"], "read_materials": self.packet(),
+                       "quality_sites": [r.get("quality_sites", []) for r in history if r.get("quality_sites")],
                        "review_feedback": self.state["feedback"]}
             result = editor.discover_article(self.state["brief"], context, index)
             if not result.get("queries"):

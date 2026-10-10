@@ -7,6 +7,12 @@
     "min_rounds": 3,
     "max_rounds": 5,
     "stagnant_rounds": 2,
+    "quality_sites": {
+      "enabled": true,
+      "max_sites": 8,
+      "focused_queries": 4,
+      "low_signal_hosts": ["csdn.net", "51cto.com", "juejin.cn", "zhihu.com"]
+    },
     "experience_topics": [
       "coding agent actual task failure attempts feedback retrospective",
       "browser agent real task observation recovery lessons learned",

@@ -8,6 +8,7 @@ import re
 from .codex import Codex, EVIDENCE, SEARCH_SCHEMA, array, obj, text
 from .core import canonical_url
 from .discovery import external_search
+from .source_quality import rank_sites, site_queries
 
 
 REFERENCE = obj({"source_id": text(40), **EVIDENCE["properties"]})
@@ -79,14 +80,25 @@ class ArticleEditor(Codex):
                             brief["topic"] + " source implementation design constraints",
                             brief["topic"] + " firsthand experiment limitations alternatives"]
         external = external_search(config, None, brief["as_of"], index, context, self.run_dir, self.deadline, historical=True)
+        known_items = context.get("items", [])
+        quality_settings = config.get("discovery", {}).get("quality_sites", {})
+        quality_sites = rank_sites(known_items, limit=quality_settings.get("max_sites", 8),
+                                   low_signal_hosts=quality_settings.get("low_signal_hosts")) if quality_settings.get("enabled", True) else []
+        focused = site_queries(brief["topic"], quality_sites, brief["as_of"], quality_settings.get("focused_queries", 4))
+        if focused:
+            config["topics"] = [query for query, _ in focused]
+            focused_external = external_search(config, None, brief["as_of"], index + 100, context, self.run_dir,
+                                                self.deadline, historical=True)
+            external.extend(focused_external)
         external = [{**record, "text": record["text"][:12000],
                      "truncated": record.get("truncated", False) or len(record["text"]) > 12000} for record in external]
-        search_data = json.dumps({'context': context, 'external': external}, ensure_ascii=False)
+        search_data = json.dumps({'context': context, 'quality_sites': quality_sites, 'external': external}, ensure_ascii=False)
         if len(search_data) > self.options["max_context_chars"]:
             raise ValueError("跨轮检索上下文超出预算；请缩小主题，不静默遗忘前轮资料")
         prompt = f"""为一篇技术长文补充原始资料，只用 web search。主题与范围：{json.dumps(brief, ensure_ascii=False)}。
 不是周报：不限定当周，不排除经典材料。按指定的 as_of 核对版本，未知日期返回 null。
 本轮是第 {index + 1} 轮，执行4至8条查询后返回已有候选；不为凑数量重复搜索。
+先从已有候选提取高质量博客站点画像。站点评分只用于排序和定向检索，不是证据，也不能替代精读；优先使用非聚合、同站点有多篇、摘要含源码/实测/限制信号的站点，同时保留官方原文和独立实践的互补关系。
 官方发布、源码、设计记录与独立实践分别解决不同问题；转载不算独立证据，没有实测不影响解释已有机制。
 主动寻找与主问题相关的历史经验：原作者在具体任务条件下做过什么、反馈如何、如何调整、结果与限制是什么。
 原始任务轨迹和亲历的公开讨论可作原文；成功、失败、放弃均可。沿同一场景寻找不同做法，先核对条件差异再比较，不拼成无条件最佳实践。
@@ -125,6 +137,7 @@ class ArticleEditor(Codex):
             raise ValueError("没有可观察的查询记录")
         result["queries"] = list(dict.fromkeys(queries))
         result["external"] = [{k: v for k, v in r.items() if k != "text"} for r in external]
+        result["quality_sites"] = quality_sites
         for item in result["items"]:
             item["url"] = canonical_url(item["url"])
         for task in result["followups"]:

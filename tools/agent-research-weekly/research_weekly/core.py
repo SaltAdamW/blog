@@ -82,6 +82,18 @@ def load_config(path):
     if (not isinstance(experience_topics, list) or len(experience_topics) > 12
             or any(not isinstance(topic, str) or not topic.strip() for topic in experience_topics)):
         raise ValueError("discovery.experience_topics 必须为最多12条非空查询方向；空列表关闭历史经验检索")
+    quality = discovery.get("quality_sites", {})
+    if not isinstance(quality, dict) or set(quality) - {"enabled", "max_sites", "focused_queries", "low_signal_hosts"}:
+        raise ValueError("discovery.quality_sites 配置项非法")
+    if type(quality.get("enabled", True)) is not bool:
+        raise ValueError("discovery.quality_sites.enabled 必须为布尔值")
+    for key, minimum, maximum in (("max_sites", 1, 20), ("focused_queries", 1, 8)):
+        value = quality.get(key, {"max_sites": 8, "focused_queries": 4}[key])
+        if type(value) is not int or not minimum <= value <= maximum:
+            raise ValueError(f"discovery.quality_sites.{key} 超出范围")
+    hosts = quality.get("low_signal_hosts", [])
+    if not isinstance(hosts, list) or len(hosts) > 30 or any(not isinstance(host, str) or not host.strip() for host in hosts):
+        raise ValueError("discovery.quality_sites.low_signal_hosts 必须为最多30条非空域名")
     for section in ("fetch", "codex", "limits"):
         for key, value in config[section].items():
             if isinstance(value, (int, float)) and not isinstance(value, bool) and value <= 0:

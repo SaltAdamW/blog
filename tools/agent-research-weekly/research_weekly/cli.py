@@ -54,6 +54,7 @@ def parser():
     p = argparse.ArgumentParser(prog="agent-weekly", description="以 Codex 为编辑的 Agent 研究周报")
     p.add_argument("--config", default=str(ROOT / "config.json"))
     sub = p.add_subparsers(dest="action", required=True)
+    sub.add_parser("dev-layer", help="输出开发封层模板，不写文件、不调用模型、不发布")
     sub.add_parser("init", help="建立状态库并加入三份质量参照材料")
     add = sub.add_parser("add", help="加入候选；Codex/DSH/人工采集都用同一入口")
     add.add_argument("url")
@@ -102,6 +103,9 @@ def main(argv=None):
     os.umask(0o077)
     args = parser().parse_args(argv)
     try:
+        if args.action == "dev-layer":
+            print("开发封层\n- 目标：\n- 不做：\n- 层级：\n- 允许修改：\n- 禁止越界：\n- 验证：\n- 完成条件：")
+            return
         config = load_config(args.config)
         if args.action == "run":
             if args.limit is not None and args.limit <= 0:

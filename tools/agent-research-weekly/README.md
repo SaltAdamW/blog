@@ -1,5 +1,7 @@
 # Agent 研究周报
 
+开发入口见 [`DEVELOPMENT.md`](DEVELOPMENT.md)。任何开发变更必须先输出开发封层，明确目标、层级、允许修改范围、禁止越界和验证条件。
+
 普通动态汇总只告诉读者发生了什么，无法解释哪些研究足以改变 Agent 的设计、训练和验证方式。
 本工具多轮开放搜索并获取原文，让 Codex 选题、核读和单独复核事实，再生成中文周报、更新博客并验证线上内容。
 Codex 和 DSH 相关的研究都是候选信源，不调用 DSH 作为执行 worker，也不搭建递归多 Agent。
@@ -205,6 +207,8 @@ var/reports/latest.md              最近一次报告（重试可能是补充报
 var/reports/latest-weekly.md       最近一次执行发现流程的周报
 var/reports/latest-supplement.md   最近一次限定范围的补充报告
 ```
+
+研讨材料统一归档在 `drafts/workshops/`，入口为 `drafts/workshops/INDEX.md`。该目录保存从旧路径整理出的兼容副本；旧文件仍保留。周报自动审稿运行产生的 `questioning/<INPUT_SHA256>/` 仍是对应运行的冻结记录，不由归档副本替代。
 
 抓取失败不会被标记为低质量或删除；待补证记录至少冷却 `fetch.retry_hours` 后重试。
 重试保留上一轮失败或主编补证要求，用于定向检查；不会把这些模型意见当作原文证据。

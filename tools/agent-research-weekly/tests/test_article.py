@@ -15,6 +15,7 @@ from research_weekly.article_publish import add_post, export, publish
 from research_weekly.core import atomic_json, atomic_text, command, digest, run_lock
 from research_weekly.discovery import external_search
 from research_weekly.fetch import fetch_evidence
+from research_weekly.source_quality import rank_sites, score_site, site_queries
 from research_weekly.publish import git as local_git
 from test_weekly import config_at
 
@@ -535,6 +536,27 @@ class ArticleTests(unittest.TestCase):
 
 
 class ModelBoundaryTests(unittest.TestCase):
+    def test_quality_ranking_prefers_original_technical_blog_signals(self):
+        records = [
+            {"url": "https://weiziyang.wiki/posts/cp", "title": "Context Parallel 实现原理与性能实测",
+             "focus": "源码 benchmark limitations", "snippet": "5,117 words and reproducible benchmark"},
+            {"url": "https://weiziyang.wiki/posts/rl", "title": "Agentic RL Infra", "focus": "implementation tradeoffs",
+             "snippet": "source code and failure cases"},
+            {"url": "https://csdn.net/article", "title": "AI Infra 教程", "focus": "概念介绍", "snippet": "基础概念"},
+        ]
+        ranked = rank_sites(records)
+        self.assertEqual(ranked[0]["host"], "weiziyang.wiki")
+        self.assertGreater(ranked[0]["score"], ranked[-1]["score"])
+        self.assertIn("同站点有多篇候选", ranked[0]["signals"])
+
+    def test_site_queries_are_scoped_and_quality_is_not_evidence(self):
+        sites = [{"host": "weiziyang.wiki", "score": 80}, {"host": "quant67.com", "score": 60}]
+        queries = site_queries("context parallel", sites, "2026-10-10")
+        self.assertEqual(queries[0][1], "weiziyang.wiki")
+        self.assertIn("site:weiziyang.wiki", queries[0][0])
+        self.assertIn("limitations", queries[0][0])
+        self.assertEqual(score_site([])["score"], 0)
+
     def test_source_reading_keeps_evidence_without_unrelated_writing_examples(self):
         with tempfile.TemporaryDirectory() as temp:
             editor = ArticleEditor(config_at(temp), temp, time.monotonic() + 60, {

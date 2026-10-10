@@ -66,6 +66,15 @@ def fake_fetch(candidate, config, state):
 
 
 class URLTests(unittest.TestCase):
+    def test_dev_layer_outputs_template_without_state_change(self):
+        from io import StringIO
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            main(["dev-layer"])
+        text = output.getvalue()
+        self.assertIn("开发封层", text)
+        self.assertIn("禁止越界", text)
+        self.assertIn("完成条件", text)
+
     def test_canonical_tracking_and_fragment(self):
         self.assertEqual(canonical_url("https://EXAMPLE.com/a?utm_source=x&b=2#a"), "https://example.com/a?b=2")
 
