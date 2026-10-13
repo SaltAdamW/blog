@@ -83,7 +83,7 @@ def site_header(prefix, active, article=False):
 
 def site_footer(prefix, show_visits=True):
     visits = visit_counter('site_pv', '本站访问') if show_visits else ''
-    return f'''<footer class="site-footer"><span>{BRAND}</span>{visits}<nav aria-label="页脚导航"><a href="{prefix}archive/index.html">归档</a><a href="{prefix}about/index.html">关于</a><a href="https://github.com/SaltAdamW/blog">GitHub {icon('arrow-up-right')}</a><a href="{prefix}feed.xml">{icon('rss')} RSS</a></nav></footer>'''
+    return f'''<footer class="site-footer"><span>{BRAND}</span>{visits}<nav aria-label="页脚导航"><a href="{prefix}archive/index.html">归档</a><a href="{prefix}about/index.html">关于</a><a href="{prefix}admin/">编辑</a><a href="https://github.com/SaltAdamW/blog">GitHub {icon('arrow-up-right')}</a><a href="{prefix}feed.xml">{icon('rss')} RSS</a></nav></footer>'''
 
 
 def visit_counter(metric, text):

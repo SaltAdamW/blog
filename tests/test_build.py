@@ -65,6 +65,7 @@ class BlogBuildTest(unittest.TestCase):
             (self.root / name).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy(build.ROOT / name, self.root / name)
         shutil.copytree(build.ROOT / "assets", self.root / "assets")
+        shutil.copytree(build.ROOT / "admin", self.root / "admin")
         self.root_patch = patch.object(build, "ROOT", self.root)
         self.root_patch.start()
 
@@ -90,6 +91,8 @@ class BlogBuildTest(unittest.TestCase):
     def test_local_links_assets_and_fragments_resolve(self):
         self.build()
         for path in self.root.rglob("*.html"):
+            if path.parent == self.root / "admin":
+                continue
             doc = Document(path.read_text())
             self.assertEqual(doc.headings, 1, str(path))
             for link in doc.links:
@@ -115,6 +118,15 @@ class BlogBuildTest(unittest.TestCase):
         actual = Document(build.render_article(post)).article_text
         normalize = lambda chunks: " ".join("".join(chunks).split())
         self.assertEqual(normalize(actual), normalize(expected))
+
+    def test_editor_entrypoint_is_available_from_every_reading_page(self):
+        self.build()
+        for page in self.root.rglob("*.html"):
+            if page.parent == self.root / "admin":
+                continue
+            footer = page.read_text().split('<footer class="site-footer">', 1)[1]
+            prefix = "../../" if "posts" in page.parts else "../" if page.parent != self.root else ""
+            self.assertIn(f'href="{prefix}admin/">编辑</a>', footer)
 
     def test_markdown_tables_are_opt_in_and_keep_cell_content(self):
         post = dict(build.load_posts()[0], source="table-test.md", figures={})
@@ -199,11 +211,15 @@ class BlogBuildTest(unittest.TestCase):
         self.assertNotEqual(build.versioned_asset("assets/site.js"), old)
         self.build()
         for page in self.root.rglob("*.html"):
+            if page.parent == self.root / "admin":
+                continue
             self.assertIn(build.versioned_asset("assets/site.js"), page.read_text())
 
     def test_visit_counters_are_shared_and_hidden_without_javascript(self):
         self.build()
         for page in self.root.rglob("*.html"):
+            if page.parent == self.root / "admin":
+                continue
             text = page.read_text()
             self.assertEqual(text.count('data-view-count="busuanzi_site_pv" hidden'), 1)
             self.assertEqual(text.count(build.versioned_asset("assets/analytics.js")), 1)

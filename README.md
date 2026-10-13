@@ -57,9 +57,47 @@ python3 -m venv .venv
 .venv/bin/python build.py
 .venv/bin/python -m unittest discover -s tests -v
 node --test tests/test_analytics.cjs
+node --test tests/test_cms.cjs
 ```
 
 直接打开 `index.html` 即可预览全部页面。字体和脚本均为本地资源。正式站点会向第三方统计接口发送一次请求；本地预览不计数。禁用 JavaScript 后，文章列表、归档、正文、目录和来源链接仍可阅读；搜索、主题切换和访问统计需要 JavaScript。
+
+## 在线编辑
+
+`admin/` 接入 Sveltia CMS，直接编辑 `posts.json` 中登记的 Markdown 原稿。
+打开后台时读取当前文章清单，新发布的文章不需要另行登记到 CMS。
+第一版只开放现有文章的文字编辑和 Markdown 预览，不创建、删除文章或修改来源清单。
+正文保留原有引用定义、代码、HTML 与图表路径，不转换成另一种存储格式。
+预览使用 CMS 的 Markdown 渲染，不是博客最终排版；参考链接、配图和表格仍以博客构建检查为准。
+
+本地预览后台需要 HTTP 服务，不能直接打开 HTML 文件：
+
+```sh
+python3 -m http.server 8765 --bind 127.0.0.1
+```
+
+然后打开 `http://127.0.0.1:8765/admin/`。线上入口在部署本次变更后为
+`https://saltadamw.github.io/blog/admin/`。
+
+登录使用 GitHub fine-grained Personal Access Token，仅选择 `SaltAdamW/blog`
+仓库，授予 Contents 和 Pull requests 的读写权限并设置有效期。
+在 CMS 的 Access Token 登录框输入，不写入配置、仓库或 URL。
+Token 由 Sveltia CMS 在当前浏览器中保存；只在可信设备上使用，结束后退出登录。
+第一版未配置 OAuth 服务，因此不显示无法使用的 GitHub OAuth 登录按钮。
+后台从固定版本 CDN 下载 Sveltia CMS，并验证脚本完整性；语言包、图标及代码高亮
+可能另行访问上游 CDN。该后台不改变公开阅读页的本地脚本约定。
+
+保存会提交到 `cms/` 草稿分支并创建或更新 draft PR，**不会直接修改 `main` 或发布**。
+编辑权限由 GitHub 仓库权限和 Token 授权决定，不是独立账号系统；隐藏发布按钮也不是
+服务器权限控制，具有仓库写权限的人仍可通过 GitHub 操作。
+正文改动需要重新完成既有追问审稿，不能沿用原稿的审稿记录。审稿和构建检查通过后，
+由维护者在 GitHub 合入 PR。后台不会自动运行长文 Agent 或自动认定审稿通过。
+
+`.github/workflows/site.yml` 检查 PR，合入 `main` 后自动构建并提交阅读页，再请求现有
+GitHub Pages 分支构建，不改变 Pages 发布源。Actions 必须允许工作流写仓库和 Pages；
+分支保护若禁止 bot 推送，需要维护者调整发布方式，不应关闭审稿要求。
+构建失败保留源码和原线上版本；不要把保存草稿、合入源码、构建成功与线上更新混为一谈。
+原研究 Agent 已生成页面时，工作流不会创建重复的生成提交。
 
 ## 访问统计
 

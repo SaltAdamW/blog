@@ -1,0 +1,25 @@
+{
+  "backend": {
+    "name": "github",
+    "repo": "SaltAdamW/blog",
+    "branch": "main",
+    "auth_methods": ["token"]
+  },
+  "publish_mode": "editorial_workflow",
+  "app_title": "Adam's blog",
+  "site_url": "https://saltadamw.github.io/blog/",
+  "display_url": "https://saltadamw.github.io/blog/",
+  "logo": {
+    "src": "https://saltadamw.github.io/blog/assets/avatar.jpg"
+  },
+  "media_folder": "assets/uploads",
+  "public_folder": "/blog/assets/uploads",
+  "asset_collections": [
+    {
+      "name": "uploads",
+      "label": "图片",
+      "media_folder": "assets/uploads",
+      "readonly": true
+    }
+  ]
+}
