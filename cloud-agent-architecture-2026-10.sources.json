@@ -1,7 +1,7 @@
 {
   "title": "云端 Agent 的架构：谁在思考，谁在执行，状态留在哪里",
   "checkedAt": "2026-10-13",
-  "article_revision": 4,
+  "article_revision": 5,
   "verification": "原文核读、公开制品静态分析及有限本机受控实验；不是闭源云后台完整还原或生产安全验证。来源索引同时服务正文和图集；第三方报告分列，按每项reading_scope使用。",
   "sources": [
     {
@@ -1126,6 +1126,90 @@
       "review_status": "original-scoped-analysis",
       "fetched_on": "2026-10-12/13",
       "reading_scope": "公开原客户端选定函数/模块静态核对，含局部合成依赖回放，不认证后台部署、登录授权或恢复。 具体发布版本关联按图内限定，固定下载不代表当前全部部署。"
+    },
+    {
+      "id": "K16",
+      "title": "Kimi K2.5执行端社区归档",
+      "url": "https://github.com/dnnyngyen/kimi-agent-internals/tree/c3387edd79626ff7e180943bdb36f328159bf8a6",
+      "authority": "third-party-community-source-and-local-original-runtime",
+      "fetched_on": "2026-10-13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-03-29固定commit；原blob与摘要核对。未改kernel_server/Jupyter代码在分析者固定依赖及无外网namespace运行，HTTP管理→分析者Jupyter client执行。变量/interrupt/reset/单文件及退出观察仅限本机；非Moonshot认证制品、当前云部署或全部包装timeout验证。"
+    },
+    {
+      "id": "M08",
+      "title": "Manus社区模型重建项目",
+      "url": "https://github.com/whit3rabbit/manus-open/tree/9b619acaf2605a9de416944ccba838c277b1dfb9",
+      "authority": "third-party-reconstruction",
+      "fetched_on": "2026-10-13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2025-03-31固定commit；README承认借助模型从bytecode重建并修复，只核静态路由。不是原始厂商源码，不作为当前部署、原carrier等价或认证缺陷证明。"
+    },
+    {
+      "id": "M09",
+      "title": "Manus社区混淆归档",
+      "url": "https://github.com/larrykoo711/manus-sandbox-code/tree/2840a4bbff26b1fddc17e6a09453e9903829ec44",
+      "authority": "unverified-third-party-artifact",
+      "fetched_on": "2026-10-13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2025-03-10固定commit；选定carrier/blob摘要核一致，只静态AST，不解密/导入/执行PyArmor或native；未认证厂商归属，未证与重建代码等价。"
+    },
+    {
+      "id": "M10",
+      "title": "Manus Computer历史作者观察",
+      "url": "https://gist.github.com/Oanakiaja/f2cc8f52b6a4b75215b67302b0f0c1c1/319e2eb318f4423a32eb0ec5b21bde67eb127d8d",
+      "authority": "third-party-historical-report",
+      "fetched_on": "2026-10-13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-01-13作者报告；KVM/virtio仅guest虚拟化线索，不唯一证明Firecracker，不排除VM内容器；不承接complete自称，未独立运行或绑定当前控制面。"
+    },
+    {
+      "id": "W09",
+      "title": "CodeBuddy 2.164.0原发布包启动接线",
+      "url": "https://registry.npmjs.org/@tencent-ai%2fcodebuddy-code/2.164.0",
+      "authority": "public-artifact-and-local-original-runtime-with-synthetic-sidecar",
+      "fetched_on": "2026-10-13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "原headless固定SHA f9affe2aed036a3a3ee8486b82e77b176a2a4b21f7bed721074c1c1e4a312e65；静态bootstrap/ready/早门禁，并在无外网研究环境运行三种有限启动case。sidecar/key/控制/ID合成，无prompt/tool或真实云任务；fields ready非密文耐久、整文件保护或授权验证。"
+    },
+    {
+      "id": "W11",
+      "title": "腾讯更新接口与所见Desktop包",
+      "url": "https://copilot.tencent.com/v2/update?platform=workbuddy-linux-x64-deb",
+      "authority": "unverified-artifact-with-integrity-contradiction",
+      "fetched_on": "2026-10-13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "响应版本5.5.6.38337834；timestamp1789061034=2026-09-10T17:23:54Z。声明SHA03d756b259d7086c22098fa077589a032d60948d1de7313473360eefe11e240f与429302312字节实际SHA2ef1bca217d29d9c2ba988c82079aa6ea0077e9f1ff882c6ab5dd7998bddf721不符，原因未解释。ASAR内部摘要/CDN MD5只同源一致。静态daemon/sidecar/local/cloud客户端，未安装/执行；CLI custom2.137.1/top0.0.0不认证构建，非前轮2.164.0。"
+    },
+    {
+      "id": "W11-PACKAGE",
+      "title": "更新接口返回的WorkBuddy Desktop载体",
+      "url": "https://download.codebuddy.cn/workbuddy/saas/linux-x64-deb/WorkBuddy-linux-x64-deb-5.5.6.38337834-5f969292.deb",
+      "authority": "unverified-artifact-with-integrity-contradiction",
+      "fetched_on": "2026-10-13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "仅所见载体来源；下载SHA矛盾见W11。不建议读者据此安装，不随博客分发二进制或原模块。"
+    },
+    {
+      "id": "W12",
+      "title": "Linux下载入口指针",
+      "url": "https://github.com/ziyue67/workbuddy-linux/tree/4365aaaa7393caae3c619b7b7aadcdaf97922651",
+      "authority": "third-party-discovery-pointer",
+      "fetched_on": "2026-10-13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "固定commit仅核读install.sh用于发现公开update接口，不运行脚本，非腾讯发布身份、hash冲突解释或云后台证明。"
+    },
+    {
+      "id": "KP01",
+      "title": "Jupyter Client Kernel管理与通信协议",
+      "url": "https://jupyter-client.readthedocs.io/en/stable/api/jupyter_client.html",
+      "additional_urls": [
+        "https://jupyter-client.readthedocs.io/en/latest/messaging.html"
+      ],
+      "authority": "primary-documentation-reference",
+      "fetched_on": "2026-10-13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "KernelManager/client/channel及parent_header关联解释，不认证社区源码/生产部署；分析者本机依赖版本另固定，非Kimi原锁文件。"
     }
   ],
   "supplementary_sources": [
@@ -1184,6 +1268,39 @@
   "artifact_and_observation_families": [
     {
       "prefixes": [
+        "ART-WB-DESKTOP",
+        "REA-WB-DESKTOP"
+      ],
+      "original_sources": [
+        "W11",
+        "W11-PACKAGE",
+        "W12"
+      ],
+      "scope": "SHA矛盾未解释的Desktop载体静态-only，CLI custom2.137.1/top0.0.0未认证构建；未执行，不继承2.164.0运行结果。"
+    },
+    {
+      "prefixes": [
+        "ART-WB-SIDECAR",
+        "REA-WB-SIDECAR"
+      ],
+      "original_sources": [
+        "W09"
+      ],
+      "scope": "独立原CodeBuddy2.164.0静态boot与合成sidecar/key/控制三种有限启动case；无prompt/tool，非Desktop包或云部署。"
+    },
+    {
+      "prefixes": [
+        "ART-KIMI-KERNEL",
+        "REA-KIMI-KERNEL"
+      ],
+      "original_sources": [
+        "K16",
+        "KP01"
+      ],
+      "scope": "未认证社区固定原件，静态核读及分析者依赖/隔离的本机HTTP→Jupyter执行；非当前Kimi云部署，非原包装execute全部分支。"
+    },
+    {
+      "prefixes": [
         "ART-CLAUDE",
         "REA-CLAUDE"
       ],
@@ -1217,7 +1334,13 @@
         "W06",
         "W08"
       ],
-      "scope": "SDK0.3.8与CodeBuddy2.164.0原件；headless实测不等serving构建或云部署。"
+      "scope": "SDK0.3.8与CodeBuddy2.164.0原件；headless实测不等serving构建或云部署。 不包含下列显式单列的sidecar启动与Desktop静态家族，匹配时具体前缀优先。",
+      "excluded_prefixes": [
+        "ART-WB-DESKTOP",
+        "REA-WB-DESKTOP",
+        "ART-WB-SIDECAR",
+        "REA-WB-SIDECAR"
+      ]
     },
     {
       "prefixes": [
@@ -1262,7 +1385,11 @@
         "K13",
         "K14"
       ],
-      "scope": "client调用与协议、局部回放、另列历史作者及供应披露；不连接未知部署。"
+      "scope": "client调用与协议、局部回放、另列历史作者及供应披露；不连接未知部署。 K16社区kernel原件/本机运行另列，不继承消费端部署权威。",
+      "excluded_prefixes": [
+        "ART-KIMI-KERNEL",
+        "REA-KIMI-KERNEL"
+      ]
     },
     {
       "prefixes": [
@@ -1327,7 +1454,7 @@
       "scope": "固定DSH原包及局部方法fixture，非网页部署。"
     }
   ],
-  "index_scope": "正文与52页图集共同使用的来源索引；链接数量不是独立实验、供应商样本或全部正文核读。每项按reading_scope使用，不统计统一覆盖率。",
+  "index_scope": "正文与58页图集共同使用的来源索引；链接数量不是独立实验、供应商样本或全部正文核读。每项按reading_scope使用，不统计统一覆盖率。",
   "citation_policy": "按证据原范围引用：原件完整性不等发布主体；本机运行不等生产绑定；历史材料只按日期与产品场景使用，不因同厂商或协议相容拼接当前部署。缺少部署关联不否定原文机制。",
   "excluded_artifacts": [
     {
@@ -1339,5 +1466,7 @@
       "reading_scope": "0.0.0原wheel只空模块及metadata，没有官方发布归属；不当DSec SDK，不执行install/import。",
       "authority": "unattributed-placeholder-artifact"
     }
-  ]
+  ],
+  "revision_note": "2026-10-13用户要求收敛并发布新增研究：Kimi社区执行端本机实验、独立CodeBuddy启动接线及未认证WorkBuddy Desktop静态候选；不升级为生产后台复现。",
+  "family_match_policy": "具体前缀优先；宽泛家族的excluded_prefixes不得继承该条版本或运行权威。"
 }

@@ -1,6 +1,6 @@
 # 云端 Agent 逐图目录
 
-2026-10-13。29 页组件图、23 页生命周期图。官方契约、公开制品静态观察、本机有限受控结果、第三方作者报告、推论与未知分标；泳道不认证生产位置。
+2026-10-13。32 页组件图、26 页生命周期图。官方契约、公开制品静态观察、本机有限受控结果、第三方作者报告、推论与未知分标；泳道不认证生产位置。WorkBuddy桌面新增图为SHA矛盾未解释的静态候选，不继承独立CLI的运行验证。
 
 小字图建议打开 SVG 放大或下载 draw.io。
 
@@ -35,6 +35,9 @@
 | Codex 0.153.0：原exec-server的连接、进程与环境边界 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/codex-exec-server-boundaries.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/codex-exec-server-boundaries.drawio) |
 | Kimi历史代码沙箱：可见执行环境、挂载与未知后端 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/kimi-historical-storage-boundaries.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/kimi-historical-storage-boundaries.drawio) |
 | Kimi K2.6建站数据层：逻辑独立数据库，共享物理底座 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/kimi-build-database-disclosure.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/kimi-build-database-disclosure.drawio) |
+| Kimi K2.5社区Kernel源：管理API与执行通道不同 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/kimi-community-kernel-boundaries.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/kimi-community-kernel-boundaries.drawio) |
+| WorkBuddy sidecar启动接线：凭据保护门禁与端口回报 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/workbuddy-sidecar-bootstrap.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/workbuddy-sidecar-bootstrap.drawio) |
+| WorkBuddy桌面包：本机后台与云端连接分路（未认证） | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/workbuddy-desktop-control-data-untrusted.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/workbuddy-desktop-control-data-untrusted.drawio) |
 | Claude Managed Agents：Harness / Sandbox 独立失败与重建 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/decoupled-recovery.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/decoupled-recovery.drawio) |
 | Claude Code / Codex：会话执行环境与初始化缓存 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/session-workspace-lifecycle.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/session-workspace-lifecycle.drawio) |
 | WorkBuddy：Runtime复用 / ACP连接 / Session取消 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/runtime-session-lifecycle.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/runtime-session-lifecycle.drawio) |
@@ -58,3 +61,6 @@
 | CodeBuddy serving：入队、中断、关闭与恢复的不同边界 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/codebuddy-serving-settlement-boundaries.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/codebuddy-serving-settlement-boundaries.drawio) |
 | Kimi Claw：操作终态、票据、销毁与恢复的证据边界 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/kimi-claw-operation-ticket-boundaries.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/kimi-claw-operation-ticket-boundaries.drawio) |
 | Codex exec-server：同进程续接、到期、终止与输入去重 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/codex-exec-server-session-process-lifecycle.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/codex-exec-server-session-process-lifecycle.drawio) |
+| Kimi社区Kernel本机：管理B、变量/文件与退出观察 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/kimi-community-kernel-lifecycle.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/kimi-community-kernel-lifecycle.drawio) |
+| WorkBuddy原CLI：bootstrap受理、business加载和ready确认 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/workbuddy-sidecar-ready-sequence.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/workbuddy-sidecar-ready-sequence.drawio) |
+| WorkBuddy同包sidecar：pending就绪、端口promotion与异步回收 | [SVG](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/workbuddy-desktop-sidecar-lifecycle-untrusted.svg) | [draw.io](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/workbuddy-desktop-sidecar-lifecycle-untrusted.drawio) |

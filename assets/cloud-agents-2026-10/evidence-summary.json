@@ -1,7 +1,7 @@
 {
   "checked_on": "2026-10-13",
   "scope": "本机有限运行与静态观察，不是付费真实云任务或生产安全验收。原日志、模型内容、凭据和二进制不公开。",
-  "canonical_bundle_sha256": "985686217e2051ffc68aa06886d2723e3d6c425724d0373b83a7b671d79936a6",
+  "canonical_bundle_sha256": "8ef93ee62be1133a3b777b5a3274e7b240a1b2b910e6423eea314222f5896a33",
   "observations": [
     {
       "product": "Claude Code Runner",
@@ -82,6 +82,57 @@
         "shared deployment or FUSE-to-TiDB link",
         "current product recovery"
       ]
+    },
+    {
+      "product": "Kimi K2.5 community kernel source",
+      "authority": "unverified-community-original-source-local-runtime",
+      "version": "fixed commit c3387edd79626ff7e180943bdb36f328159bf8a6, 2026-03-29",
+      "observed": [
+        "HTTP config→analyst Jupyter client→real kernel",
+        "specific variable/file, interrupt and reset",
+        "two initial kernels in both runs; one run required analyst cleanup of non-API kernel after exit"
+      ],
+      "unverified": [
+        "Moonshot publisher/current deployment",
+        "original wrapper timeout/all cleanup branches",
+        "VM recovery/production authorization"
+      ],
+      "verification_limit": "研究环境和依赖由分析者提供。local01短退出窗口无残余、REA03仍有非API kernel再由分析者终止；两者保留，不选一代表全运行。"
+    },
+    {
+      "product": "CodeBuddy sidecar bootstrap and ready",
+      "version": "2.164.0 independent npm headless",
+      "authority": "local-original-runtime-with-synthetic-sidecar-and-key",
+      "observed": [
+        "valid fields bootstrap then ready ACK and reported-port health",
+        "wrong Session bootstrap rejected",
+        "wrong ready ACK ID causes original CLI exit; health not probed for this negative case"
+      ],
+      "unverified": [
+        "real cloud control/sidecar pairing",
+        "durable ciphertext/files protection",
+        "tenant authorization/child secret inheritance/full tool stop"
+      ],
+      "verification_limit": "无模型prompt/tool。早fixture健康检查与错误回执诊断判据失败保留；修研究判据后的有限case不认证生产。"
+    },
+    {
+      "product": "WorkBuddy Desktop daemon/sidecar and cloud clients",
+      "version": "desktop metadata5.5.6.38337834; bundled CLI custom2.137.1/top0.0.0",
+      "authority": "untrusted-static-only-integrity-contradiction",
+      "observed": [
+        "conditional local process spawn and local/cloud provider split in bytes",
+        "ready acceptance, separate host promotion, asynchronous kill control logic",
+        "REST/ACP/file client resource selection"
+      ],
+      "artifact_sha256": "2ef1bca217d29d9c2ba988c82079aa6ea0077e9f1ff882c6ab5dd7998bddf721",
+      "update_declared_sha256": "03d756b259d7086c22098fa077589a032d60948d1de7313473360eefe11e240f",
+      "unverified": [
+        "publisher authenticity and hash contradiction",
+        "any runtime of this package",
+        "AgentOS controller/worker pairing",
+        "process termination/cloud environment/business recovery"
+      ],
+      "verification_limit": "内部摘要一致不能解决外层SHA矛盾。未运行包或选段，不能继承独立2.164.0运行结果。 kill可无操作返回，ACK非信号送达或退出确认；后台fallback也不再核验死亡。"
     }
   ],
   "failed_or_limited_evidence": [
@@ -89,5 +140,7 @@
     "WorkBuddy early fixture passed label contradicted refusal; separately corrected, not counted as success",
     "method fixtures use synthetic services and do not imply cloud completion"
   ],
-  "index_scope": "只公开脱敏事实与未验证范围。REA包记录数/函数数不作覆盖率，也不将修订视作独立实验。"
+  "index_scope": "只公开脱敏事实与未验证范围。REA包记录数/函数数不作覆盖率，也不将修订视作独立实验。",
+  "canonical_record_count": 208,
+  "record_count_note": "累计观察记录，非独立云任务样本；完整bundle不公开。"
 }

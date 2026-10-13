@@ -234,8 +234,8 @@
       "REA"
     ],
     "description": "比较 Claude、Codex、Kimi、WorkBuddy、Manus、Muse、Grok Bot、Dots 与阿里、DeepSeek 的控制、执行、环境、凭据与恢复边界。",
-    "deck": "从一次任务的闭环出发，理解各家为什么拆分会话、执行框架与电脑。附公开来源、有限本机取证及 52 页可编辑图集。",
-    "word_count": 8954,
+    "deck": "从一次任务的闭环出发，理解各家为什么拆分会话、执行框架与电脑。附公开来源、有限本机取证及 58 页可编辑图集。",
+    "word_count": 9430,
     "source": "cloud-agent-architecture-2026-10.md",
     "source_manifest": "cloud-agent-architecture-2026-10.sources.json",
     "markdown_tables": true,

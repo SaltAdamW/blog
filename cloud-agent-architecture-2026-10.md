@@ -86,6 +86,16 @@ Runtime 是独立 Linux 沙箱，可以容纳多个 Session。Session 区分对�
 
 官方契约与固定版本本机机制分别成立，本轮未确认 WorkBuddy 云端采用这一版本和启动组合。这个实验不是 WorkBuddy 云部署复现：Runtime 描述是合成的，原进程的 SandboxPolicy 本例关闭，外层隔离是研究约束。Read 在取消前已经完成，不能用随后模型流的取消证明有副作用工具、子任务或远端计算全部停止。它补充证明了**这组固定版本在明确适配后接通原 ACP、Loop 与本地 Read 回路**，不只是看见接口名字；不能据此推出所有执行框架必须采用 ACP。
 
+### 补到启动链：本机 sidecar 与云后台仍是两件事
+
+接通 prompt 之后，还要回答谁启动执行器、何时能把入口交给客户端。同一 **CodeBuddy 2.164.0** 原 headless 中可见两条本地通道：一次性凭据 bootstrap 与运行入口 ready 上报。我们用合成 sidecar、控制信息和密钥运行原 CLI：有效 fields bootstrap 后上报的端口可通过 health；错误 Session bootstrap 触发原 CLI 门禁失败，错误 ready 回执 ID 使 CLI 异常退出，后者未探测 health。这验证了有限启动接线，没有发送模型 prompt 或工具任务；fields ready 也不等于实际密文持久化、整文件保护或用户授权已经验证。
+
+另从[腾讯公开更新接口](https://copilot.tencent.com/v2/update?platform=workbuddy-linux-x64-deb)取得标记 **5.5.6.38337834** 的 WorkBuddy Desktop 包，发现 daemon、SidecarManager、SidecarServer 与 local/cloud Conversation 分路代码。但下载字节的 SHA256 与更新接口声明不一致，原因未解释；内部 ASAR 摘要和 CDN MD5 只能说明同源一致性，不能解决矛盾。因此这份包**只静态解析，未安装、未运行，发布身份仍未认证**。
+
+所见代码的 local provider 经 hook 选择预热或冷启动；sidecar 按传入命令创建本地进程，而不是自身固定某一 CLI。云 provider 另读 `/console/as` 定位信息，再作为 ACP 与文件接口客户端访问远端。包内 CLI 顶层版本为 `0.0.0`、自定义发布字段为 `2.137.1`，不是前述独立 `2.164.0` 实测对象，不能继承其运行结果；也没有取得 `/console/as` 与 AgentOS `/v2/agentos` 属于同一部署的服务端证据。
+
+这个静态候选还有两处值得借鉴的边界：ready 字段接受、Session 写入实际端口、host health promotion 是不同完成点；`session.kill` 可能无操作返回；匹配目标时尝试终止，清理内存记录并返回控制 ACK，同时后台等待退出或尝试强杀，仍不保证死亡确认。因此“列表里没有了”并不证明进程树已退出。云端选择新的 ACP Session、重连消息流或读到文件，也不证明旧工具停止或同一 VM 已恢复。桌面代码补充了具体机制，不把闭源云控制器的未知填掉。
+
 ## Manus：临时任务电脑与常驻电脑各管一类工作
 
 Manus 的 [context engineering 文章](https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus)描述 action—observation 循环和文件外置上下文：模型采取动作，环境返回观察，下一轮继续判断；长材料可以留在文件中，需要时再读取。
@@ -141,6 +151,10 @@ App 授权与 ChatGPT、Work、Codex 的关系，以及 dot context、Memory、L
 [Kimi Agent](https://www.kimi.com/en/help/agent/agent-overview)支持云端后台执行，[Swarm](https://www.kimi.com/en/help/agent/agent-swarm)描述委派和独立上下文。前端原模块可读到 Goal 管理，ChatService 的流、续接与取消，以及 Build App、preview、database、storage 和 secret 的具体调用。
 
 这说明用户看到的不只有一条聊天流，还包括可以独立查询、编辑或发布的产物资源。`appId`、资源 ID、版本和文件引用各有职责：拿到预览 URL 不等于拿到了 task Sandbox 的完整身份，重新订阅聊天也不等于恢复工具进程。协议里有 `EnsureEnvironment(preset, chat_id, agent_id, ttl)` 与文件版本／etag，但本轮没有追到对应真实调用方和后台供给，不能把字段解释成已验证的环境基数、TTL 或恢复保证。
+
+另取得社区作者归档的 [Kimi K2.5 执行端代码](https://github.com/dnnyngyen/kimi-agent-internals/tree/c3387edd79626ff7e180943bdb36f328159bf8a6)，固定提交日期为 **2026 年 3 月 29 日**。其中 FastAPI 提供 kernel 管理和连接配置，代码执行另走 Jupyter 通道，并不是一个 HTTP execute 路由。我们在无外网的研究环境中运行未改社区原件：HTTP 取得配置后，由分析者 Jupyter client 执行代码；指定变量在同 kernel 保留，interrupt 返回关联的中断结果，reset 后变量消失而指定工作文件仍可读。
+
+退出清理暴露了比“reset 成功”更具体的边界：两次本机运行都观察到两份初始 kernel、API 管理其中一份；其中一次由分析者发送 TERM、服务退出后的短观察窗口仍有另一份 kernel 存活，再由分析者另行终止。它说明本例中管理对象与进程清理要分别核验，不证明生产环境也有同样基数或缺陷。社区来源没有独立认证为 Moonshot 发布物，本机依赖和隔离由分析者提供，执行通路也没有测试原包装方法的全部超时分支；这些结果不能接成当前 Kimi 云后台或整机恢复保证。
 
 另两组材料能补充存储，却必须分别看。
 
@@ -210,7 +224,7 @@ App 授权与 ChatGPT、Work、Codex 的关系，以及 dot context、Memory、L
 
 随后我们取得公开 JS、SDK 和原生制品，用 REA 分析选定原函数／模块，配合独立字段解码和有界本机实验。**“下载过 → 解析过 → 原函数运行过 → 云任务运行过”是不同阶段。** 这轮没有使用用户真实凭据、付费云任务或登录绕过，也没有通过公开客户端推造后台队列。
 
-读者可下载 [29 页组件图集](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/all-graphs.drawio) 与 [23 页生命周期图集](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/all-graphs.drawio)，或下载 [逐图目录](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/atlas.md)，选择各产品的 SVG 和独立 draw.io。图中的官方契约、客户端静态观察、本机受控结果、第三方历史报告与未知使用不同标注；图的泳道归类是分析整理，不是生产拓扑认证。正文三张简图用于讲解，完整图集保留更多连接与限制，适合放大查看。
+读者可下载 [32 页组件图集](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/components/all-graphs.drawio) 与 [26 页生命周期图集](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/lifecycles/all-graphs.drawio)，或下载 [逐图目录](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/atlas.md)，选择各产品的 SVG 和独立 draw.io。图中的官方契约、客户端静态观察、本机受控结果、第三方历史报告与未知使用不同标注；图的泳道归类是分析整理，不是生产拓扑认证。正文三张简图用于讲解，完整图集保留更多连接与限制，适合放大查看。
 
 [公开来源与阅读范围](https://saltadamw.github.io/blog/cloud-agent-architecture-2026-10.sources.json)保存原作链接、版本、日期和证据等级；[有限实验摘要](https://saltadamw.github.io/blog/assets/cloud-agents-2026-10/evidence-summary.json)记录实际运行范围与未完成项。原二进制、运行日志、模型请求和凭据不随稿公开。
 
