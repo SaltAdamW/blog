@@ -1,0 +1,1343 @@
+{
+  "title": "云端 Agent 的架构：谁在思考，谁在执行，状态留在哪里",
+  "checkedAt": "2026-10-13",
+  "article_revision": 4,
+  "verification": "原文核读、公开制品静态分析及有限本机受控实验；不是闭源云后台完整还原或生产安全验证。来源索引同时服务正文和图集；第三方报告分列，按每项reading_scope使用。",
+  "sources": [
+    {
+      "id": "REA-01",
+      "title": "官方仓库",
+      "url": "https://github.com/morluto/rea",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "本次读取 GitHub contents/tree；官方 showcase 有 Aegis、CTF、DX-Ball、Notion、TH04。未在该索引及目标组合检索中取得指定云 Agent 的 REA 架构报告，不等于全网不存在。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "REA-02",
+      "title": "Notion 剪贴板案例",
+      "url": "https://rea.tools/showcase/notion/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Notion Desktop 7.6.1；文中用 REA 4.1.0 定位 page API→preload→IPC→main clipboard。这是可参考的应用边界追踪样例，不是 Notion 云后台还原。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "REA-03",
+      "title": "DX-Ball",
+      "url": "https://rea.tools/showcase/dx-ball/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "原生算法重建与原程序对照；证明该方法可在选定函数上复核，不证明能访问闭源云服务内部。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "REA-03-2",
+      "title": "TH04",
+      "url": "https://rea.tools/showcase/th04/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "原生算法重建与原程序对照；证明该方法可在选定函数上复核，不证明能访问闭源云服务内部。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "REA-04",
+      "title": "Kimi 接入 PR",
+      "url": "https://github.com/morluto/rea/pull/1804",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "集成客户端调用 REA 与逆向该客户端是两件事；计划中的示例不是已发表报告。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "REA-04-2",
+      "title": "示例跟踪 issue",
+      "url": "https://github.com/morluto/rea/issues/778",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "集成客户端调用 REA 与逆向该客户端是两件事；计划中的示例不是已发表报告。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "REA-05",
+      "title": "Ghidra 12.1.4官方release",
+      "url": "https://github.com/NationalSecurityAgency/ghidra/releases/tag/Ghidra_12.1.4_build",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13在仓库外研究目录补齐REA6.4.0所需原生工具，官方metadata摘要匹配；Ghidra限定doctor通过，全局其他注册仍不健康。只通过研究子进程环境使用，不改系统Java/REA注册。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "REA-05-2",
+      "title": "Temurin21发布包",
+      "url": "https://github.com/adoptium/temurin21-binaries/releases/tag/jdk-21.0.12.1%2B1",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13在仓库外研究目录补齐REA6.4.0所需原生工具，官方metadata摘要匹配；Ghidra限定doctor通过，全局其他注册仍不健康。只通过研究子进程环境使用，不改系统Java/REA注册。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "C01",
+      "title": "Use Claude Code in the cloud",
+      "url": "https://code.claude.com/docs/en/claude-code-on-the-web",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Claude Code cloud sessions 产品；客户端与远端执行分开，不混同 Remote Control 本机执行。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "C02",
+      "title": "Configure cloud environments",
+      "url": "https://code.claude.com/docs/en/cloud-environments",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Session VM及缓存/暂停；network secret限Pro/Max的Anthropic托管环境，按host注入，不适用setup/GitHub/API/公共registry/telemetry；GitHub独立proxy API限Session附属repo、拒分支删除/non-branch push，不限制更新具体branch；官方契约非本机动态验。",
+      "authority": "primary-publication-or-artifact",
+      "current_markdown_sha256": "8a249b9094768984a50cd4d13bdac75ddf96bc719ad43f3f2cb02a2b44cb1a7d",
+      "rechecked_on": "2026-10-13"
+    },
+    {
+      "id": "C03",
+      "title": "Self-hosted environments",
+      "url": "https://code.claude.com/docs/en/self-hosted-environments",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Anthropic 控制面保留队列/会话历史，组织 Runner 出站领取租约并启动子进程；owner锁定、轮询续租及失联重排队。本次取得正文。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "C04",
+      "title": "Scaling Managed Agents: Decoupling the brain from the hands",
+      "url": "https://www.anthropic.com/engineering/managed-agents",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-04-08 Managed Agents：Session日志/Harness/Sandbox可替换，Harness在工具容器外；Git资源绑定clone/remote与MCP专用proxy+外置Vault是不同路径，不代Claude Code。",
+      "authority": "primary-publication-or-artifact",
+      "published_on": "2026-04-08",
+      "live_html_sha256": "3f31d52524b5254500615cbcb1aec703fcbd2cf0986fbd4d499b82e2f7be4dbe",
+      "rechecked_on": "2026-10-13"
+    },
+    {
+      "id": "C05",
+      "title": "Claude Cowork architecture overview",
+      "url": "https://support.claude.com/en/articles/14479288-claude-cowork-architecture-overview",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "独立云端 Cowork 路线；子任务取得材料，主报告只作产品辨析，不据此代填 C01/C04 拓扑。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "C06",
+      "title": "Self-hosted quickstart",
+      "url": "https://code.claude.com/docs/en/self-hosted-environments-quickstart",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13回读官方markdown：自托管命令最低2.1.224、capacity1/drain0配新容器/VM、fixed-fleet secret文件可被Session读取、daemon进程停止边界及7秒post-turn settle等契约。首轮错误的嵌套quickstart/reference URL返回未找到，改用实际索引平级路径。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "C06-2",
+      "title": "Reference",
+      "url": "https://code.claude.com/docs/en/self-hosted-environments-reference",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13回读官方markdown：自托管命令最低2.1.224、capacity1/drain0配新容器/VM、fixed-fleet secret文件可被Session读取、daemon进程停止边界及7秒post-turn settle等契约。首轮错误的嵌套quickstart/reference URL返回未找到，改用实际索引平级路径。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "C06-3",
+      "title": "Deploy",
+      "url": "https://code.claude.com/docs/en/self-hosted-environments-deploy",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13回读官方markdown：自托管命令最低2.1.224、capacity1/drain0配新容器/VM、fixed-fleet secret文件可被Session读取、daemon进程停止边界及7秒post-turn settle等契约。首轮错误的嵌套quickstart/reference URL返回未找到，改用实际索引平级路径。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "C07",
+      "title": "官方npm registry固定版本",
+      "url": "https://registry.npmjs.org/@anthropic-ai%2Fclaude-code-linux-x64/2.1.296",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13核验latest2.1.296，原包SHA512 integrity通过；只读提取Bun原始模块。ART-CLAUDE-SELF-HOSTED/REA-CLAUDE-SELF-HOSTED是新版本自托管Runner，不借旧Remote Control bridge代填。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "O01",
+      "title": "Cloud environments",
+      "url": "https://developers.openai.com/codex/cloud/environments/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Codex任务容器、setup/agent两阶段、秘密与网络范围、环境缓存；通过 Exa 回读官方正文，直接HTTP受阻。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "O01-2",
+      "title": "Agent approvals & security",
+      "url": "https://developers.openai.com/codex/agent-approvals-security.md",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Codex任务容器、setup/agent两阶段、秘密与网络范围、环境缓存；通过 Exa 回读官方正文，直接HTTP受阻。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "O02",
+      "title": "Using Codex Cloud",
+      "url": "https://help.openai.com/en/articles/20001545-using-codex-cloud",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "发布环境复用；每任务独立工作区；客户端关闭后云任务继续。本次回读官方正文。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "O03",
+      "title": "openai/codex",
+      "url": "https://github.com/openai/codex",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "`cloud-tasks-client/src/http.rs`、`cloud-tasks/src/env_detect.rs`、`backend-client/src/client.rs` 的 task/environment/turn/attempt客户端接口；这是开源客户端静态证据，不是云控制服务源码。部分文件从当时main读取，尚未逐文件核验与该提交对应，不能作为精确版本锁定或安装二进制的源码对应证明。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "O04",
+      "title": "固定0.153.0源码提交",
+      "url": "https://github.com/openai/codex/tree/41e22fee981a63b3698df7ed36bad393cda24715",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13取得tag对象→commit、固定commit源码archive，逐字节核对15个选定Rust文件。云任务client/backend、session turn/tasks、工具调度、sandboxing和unified exec分别读取；不以源码存在证明当前云部署复用同实现。GitHub latest稳定版当时0.162.1（2026-10-09发布），本轮选择0.153.0对应本机，不称最新源码。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "O04-2",
+      "title": "同版本release",
+      "url": "https://github.com/openai/codex/releases/tag/rust-v0.153.0",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13取得tag对象→commit、固定commit源码archive，逐字节核对15个选定Rust文件。云任务client/backend、session turn/tasks、工具调度、sandboxing和unified exec分别读取；不以源码存在证明当前云部署复用同实现。GitHub latest稳定版当时0.162.1（2026-10-09发布），本轮选择0.153.0对应本机，不称最新源码。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "O05",
+      "title": "npm固定原生包",
+      "url": "https://registry.npmjs.org/@openai%2Fcodex/0.153.0-linux-x64",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "npm SHA512 integrity通过；本机binary与npm member、GitHub同版本release member的SHA256一致。解码SLSA声明的package摘要及gitCommit与本次材料吻合，但未独立验证签名/透明日志，也不是可复现构建或生产部署证明。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "O05-2",
+      "title": "npm发布证明",
+      "url": "https://registry.npmjs.org/-/npm/v1/attestations/@openai%2fcodex@0.153.0-linux-x64",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "npm SHA512 integrity通过；本机binary与npm member、GitHub同版本release member的SHA256一致。解码SLSA声明的package摘要及gitCommit与本次材料吻合，但未独立验证签名/透明日志，也不是可复现构建或生产部署证明。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "O06",
+      "title": "官方同版本符号包",
+      "url": "https://github.com/openai/codex/releases/tag/rust-v0.153.0",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "发布包及debug-symbol archive SHA256均匹配release metadata；debuglink CRC与codex.debug吻合，5个函数符号/DWARF行位置可对应固定源码。ART-CODEX-NATIVE是补充字节/指令解析，REA-CODEX-CARRIER只分析人为载体layout，不是原binary反编译或运行验证。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "D01",
+      "title": "Introducing dots",
+      "url": "https://openai.com/index/introducing-dots/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "dots常驻Agent身份；官方周更新也确认持续目标和委派，不是Desktop别名。主读取DevDay和周更新；本次名称复核又经Exa回读launch正文，直连launch返回403，不以challenge页作为产品证据。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "D01-2",
+      "title": "DevDay 2026",
+      "url": "https://openai.com/index/devday-2026-recap/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "dots常驻Agent身份；官方周更新也确认持续目标和委派，不是Desktop别名。主读取DevDay和周更新；本次名称复核又经Exa回读launch正文，直连launch返回403，不以challenge页作为产品证据。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "D02",
+      "title": "Connect computers and apps to your dot",
+      "url": "https://learn.chatgpt.com/docs/dots/computers-and-apps",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "dot云电脑、独立浏览器、本机连接、cloud threads、Codex委派与接管；本次完整读取。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "D03",
+      "title": "Dots privacy, security, and safety FAQs",
+      "url": "https://help.openai.com/en/articles/20001529-dots-privacy-security-and-safety-faqs",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "主动研究只读；动作规则、Auto-review、安全登录与记忆/文件留存区分；本次完整读取。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "D04",
+      "title": "工作区治理",
+      "url": "https://help.openai.com/en/articles/20001554-manage-dots-in-chatgpt-workspaces",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "子任务核对官方治理与安全评估；不能当作 hypervisor 或生产恢复协议证据。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "D04-2",
+      "title": "system card dots附录",
+      "url": "https://deploymentsafety.openai.com/gpt-6-astra/sec:appendix-dots-2",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "子任务核对官方治理与安全评估；不能当作 hypervisor 或生产恢复协议证据。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "D05",
+      "title": "Getting started with your dot",
+      "url": "https://help.openai.com/en/articles/20001530-getting-started-with-your-dot",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "实际经公开文本抓取回读：Dots在ChatGPT桌面/web创建，本机连接可选，独立Work/Codex任务。不是桌面labels到生产部署的对应验证；直接HTTP challenge不作代码输入。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "D05-2",
+      "title": "ChatGPT下载",
+      "url": "https://openai.com/chatgpt/download/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "实际经公开文本抓取回读：Dots在ChatGPT桌面/web创建，本机连接可选，独立Work/Codex任务。不是桌面labels到生产部署的对应验证；直接HTTP challenge不作代码输入。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "D06",
+      "title": "公开x64更新源",
+      "url": "https://persistent.oaistatic.com/codex-app-prod/appcast-x64.xml",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "更新源首项时间2026-10-10/CFBundleVersion20156；实际取得ZIP/ASAR。下载定位来自社区Homebrew，原CDN更新源独立回读；ZIP摘要与社区cask匹配，ASAR header/selected entry一致，同包公钥验证update签名一致，但未独立认证publisher签名身份或线上启用。",
+      "authority": "public-update-artifact-publisher-unverified"
+    },
+    {
+      "id": "D06-2",
+      "title": "ChatGPT26.1007.30912包",
+      "url": "https://persistent.oaistatic.com/codex-app-prod/ChatGPT-darwin-x64-26.1007.30912.zip",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "更新源首项时间2026-10-10/CFBundleVersion20156；实际取得ZIP/ASAR。下载定位来自社区Homebrew，原CDN更新源独立回读；ZIP摘要与社区cask匹配，ASAR header/selected entry一致，同包公钥验证update签名一致，但未独立认证publisher签名身份或线上启用。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "W01",
+      "title": "WorkBuddy Managed Agents SDK",
+      "url": "https://www.codebuddy.cn/apiDocs/cloud-agent-sdk-api-Node%20SDK.md",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "当前页面说明版本0.3.4；明确REST控制面/ACP数据面及Agent在沙箱内调用模型；实际npm包本次读取0.3.8，不能混成同版本验收。",
+      "authority": "primary-publication-or-artifact",
+      "live_html_sha256": "3b2e5e404e31c6d98a9aad7e67bcc3d8e776f82c18b3f924a1084864e51bc142",
+      "rechecked_on": "2026-10-13"
+    },
+    {
+      "id": "W02",
+      "title": "AgentOS OpenAPI",
+      "url": "https://www.codebuddy.cn/apiDocs/agentos-api.yaml",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Runtime/Session/Checkpoint/Version/Scheduler；E2B/CVM/CS/AGS类型；调度复用Runtime，超时不强杀Agent；主实际读取。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "W03",
+      "title": "企业智能体",
+      "url": "https://www.workbuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/CloudAgent",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "独立Linux Runtime含多个Session；会话上下文不等于文件硬隔离；休眠/唤醒和版本能力。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "W04",
+      "title": "官方npm包",
+      "url": "https://www.npmjs.com/package/@tencent-ai/cloud-agent-sdk",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "本次从npm官方registry取得0.3.8 tarball，校验SHA512；REA分析原始发布`index.mjs`，未执行真实API任务。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "W05",
+      "title": "CodeBuddy CLI ACP",
+      "url": "https://www.codebuddy.cn/docs/cli/acp",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13原文取得，原生ACP服务端与可选客户端fs／terminal工具委派；stdio／HTTP与企业Agent云部署分开。sidebar2.162.0不是registry2.164.0的版本证明。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "W05-2",
+      "title": "CLI参考",
+      "url": "https://www.codebuddy.cn/docs/cli/cli-reference",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13原文取得，原生ACP服务端与可选客户端fs／terminal工具委派；stdio／HTTP与企业Agent云部署分开。sidebar2.162.0不是registry2.164.0的版本证明。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "W06",
+      "title": "CodeBuddy固定发布包",
+      "url": "https://registry.npmjs.org/@tencent-ai%2fcodebuddy-code/2.164.0",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "原tar58,402,277 bytes，SHA512 integrity匹配；headless原ACP Agent／View／StreamManager／ConnectionGuard，33JS窄REA与六组方法fixture分别计数，未证明WorkBuddy云镜像使用同版。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "W07",
+      "title": "企业智能体凭据说明",
+      "url": "https://www.workbuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/CloudAgent",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "同官方页面补读secrets运行注入、不落文件，另有MCP／Skill／外部API代理凭据管理；两秘密对象不混同，不证明SDK模型key不进入执行进程或child不可读。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "M01",
+      "title": "Context Engineering for AI Agents",
+      "url": "https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "action/observation循环、KV缓存与外置文件上下文；VM工具环境，不给出Loop物理共置结论。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "M02",
+      "title": "Task Lifecycle v2",
+      "url": "https://open.manus.ai/docs/v2/task-lifecycle.md",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "异步Task、状态与背景作业；stopped须另查背景作业，不把主Agent状态当全部终态。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "M02-2",
+      "title": "task.stop",
+      "url": "https://open.manus.ai/docs/v2/task.stop.md",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "异步Task、状态与背景作业；stopped须另查背景作业，不把主Agent状态当全部终态。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "M03",
+      "title": "Sandbox issue/reset",
+      "url": "https://help.manus.im/en/articles/11711144-what-can-i-do-if-i-encounter-a-sandbox-issue-in-the-task",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "重建可能丢沙箱文件而历史仍在；2026-02-04更新由子任务核对；TTL不当作永久数据保证。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "M04",
+      "title": "Cloud Computer",
+      "url": "https://help.manus.im/en/articles/15392111-what-is-the-cloud-computer",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "常驻Ubuntu电脑与默认临时Task Sandbox不同；跨任务文件/软件能力。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "M04-2",
+      "title": "产品页",
+      "url": "https://manus.im/features/cloud-computer",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "常驻Ubuntu电脑与默认临时Task Sandbox不同；跨任务文件/软件能力。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "M05",
+      "title": "Introducing Wide Research",
+      "url": "https://manus.im/blog/introducing-wide-research",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "官方称系统级并行与Agent协作协议、通用Manus子实例；每Session VM的当时描述，当前子Agent基数仍需验证。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "M06",
+      "title": "Cloud Browser",
+      "url": "https://manus.im/docs/features/cloud-browser.md",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "云浏览器、本地浏览器和本机工具执行是不同资源；子任务核对，不合并登录与网络边界。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "M06-2",
+      "title": "Browser Operator",
+      "url": "https://manus.im/docs/features/browser-operator.md",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "云浏览器、本地浏览器和本机工具执行是不同资源；子任务核对，不合并登录与网络边界。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "M06-3",
+      "title": "Desktop",
+      "url": "https://manus.im/docs/features/desktop.md",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "云浏览器、本地浏览器和本机工具执行是不同资源；子任务核对，不合并登录与网络边界。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "M07",
+      "title": "E2B Manus客户案例",
+      "url": "https://e2b.dev/blog/how-manus-uses-e2b-to-provide-agents-with-virtual-computers",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "供应商官方历史客户材料描述自托管E2B/Firecracker；不是当前Manus全部环境的验证。",
+      "authority": "supplier-historical-disclosure"
+    },
+    {
+      "id": "MU01",
+      "title": "How We Built Safety Into Muse",
+      "url": "https://research.meta.ai/blog/security-and-safety-for-ai-agents-our-approach-with-muse",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "用户VM、Hatch/systemd-nspawn、host安全服务、Postgres、Sentinel/authd/privsep/CDP broker；主完整读取。",
+      "authority": "primary-publication-or-artifact",
+      "published_on": "2026-09-08",
+      "retained_text_sha256": "7826180c7051a3f82e03370d49e47110096d9de691d8475ea6f189898b2afb15"
+    },
+    {
+      "id": "MU02",
+      "title": "Introducing Muse",
+      "url": "https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Meta个人Agent身份与前端；名称复核取得官方发布页HTTP200与HTML，页面直接链接muse.ai及设计/安全站。muse.ai个别访问路径的同名或跳转问题，不覆盖官方发布页身份依据。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "MU02-2",
+      "title": "How We Designed Muse",
+      "url": "https://introducing.muse.ai/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Meta个人Agent身份与前端；名称复核取得官方发布页HTTP200与HTML，页面直接链接muse.ai及设计/安全站。muse.ai个别访问路径的同名或跳转问题，不覆盖官方发布页身份依据。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "G01",
+      "title": "Teams and enterprises",
+      "url": "https://docs.x.ai/grok-bot/teams-and-enterprises",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Cursor Servers、每用户Firecracker microVM、Bots共享、外部模型/连接器；主回读官方正文。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "G01-2",
+      "title": "Security FAQ",
+      "url": "https://docs.x.ai/grok-bot/security-faq",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Cursor Servers、每用户Firecracker microVM、Bots共享、外部模型/连接器；主回读官方正文。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "G02",
+      "title": "Computer and apps",
+      "url": "https://docs.x.ai/grok-bot/computer-and-apps",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "账号级共享工作区/浏览器、屏幕不是安全域、snapshot/reset与本机资源分开。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "G03",
+      "title": "Grok Bot overview",
+      "url": "https://docs.x.ai/grok-bot/overview",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "产品正式名称Grok Bot、独立review、治理条件。未确认“grok dots”为正式别名。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "G03-2",
+      "title": "Security",
+      "url": "https://docs.x.ai/grok-bot/security",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "产品正式名称Grok Bot、独立review、治理条件。未确认“grok dots”为正式别名。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "G04",
+      "title": "Grok Bot Get started",
+      "url": "https://docs.x.ai/grok-bot/get-started",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "名称核验时取得入门页HTTP200及下载入口正文，但x.ai/bot直接采集受限；当时未取得安装包。后续从G05取得实际包，旧失败不覆盖新增结果。文档站JS不当作核心客户端逆向对象。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "G04-2",
+      "title": "官方下载入口",
+      "url": "https://x.ai/bot",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "名称核验时取得入门页HTTP200及下载入口正文，但x.ai/bot直接采集受限；当时未取得安装包。后续从G05取得实际包，旧失败不覆盖新增结果。文档站JS不当作核心客户端逆向对象。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "G05",
+      "title": "Cursor官方下载页",
+      "url": "https://cursor.com/download/bot",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13实际取得下载页HTTP200和其声明的包，Debian及ASAR元数据均为Grok Bot0.70.2。只提取文本/资源，不安装、不启动；原包摘要及ASAR内部entry摘要可追溯，但未独立验证publisher签名或外部校验和。",
+      "authority": "public-download-artifact-signature-unverified"
+    },
+    {
+      "id": "G05-2",
+      "title": "Linux0.70.2包",
+      "url": "https://downloads.cursor.com/grokbot/stable/52da656f56d317510ca65ad6af3d69a2cde461e0/linux/x64/grok-bot_0.70.2_amd64.deb",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13实际取得下载页HTTP200和其声明的包，Debian及ASAR元数据均为Grok Bot0.70.2。只提取文本/资源，不安装、不启动；原包摘要及ASAR内部entry摘要可追溯，但未独立验证publisher签名或外部校验和。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K01",
+      "title": "Kimi Agent overview",
+      "url": "https://www.kimi.com/en/help/agent/agent-overview",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "云端Agent与后台执行；与本地Work分别记录。",
+      "authority": "primary-publication-or-artifact",
+      "live_html_sha256": "1beb2f019161de0beb860bb6e97415fb9ad2501904f5e1737e0ac35127c19b6b",
+      "rechecked_on": "2026-10-13"
+    },
+    {
+      "id": "K02",
+      "title": "Agent Swarm",
+      "url": "https://www.kimi.com/en/help/agent/agent-swarm",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "当前K3 Swarm、动态委派、context sharding；不按性能宣传推导部署拓扑。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K03",
+      "title": "Agent features and limits",
+      "url": "https://www.kimi.com/en/help/agent/agent-features-and-limits",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Build沙箱预览/数据库/版本导出能力；不能推成全部Sandbox文件与内存持久化。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K04",
+      "title": "Kimi Work",
+      "url": "https://www.kimi.com/en/help/kimi-work/overview",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "明确本地Agent产品，不能把桌面Work Goal内核作为云端服务实现。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K04-2",
+      "title": "Goal mode",
+      "url": "https://www.kimi.com/en/help/kimi-work/goal-mode",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "明确本地Agent产品，不能把桌面Work Goal内核作为云端服务实现。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K05",
+      "title": "Swarm服务原模块",
+      "url": "https://statics.moonshot.cn/kimi-web-seo/assets/service_pb-Wsw2RsB1.js",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "沿已取16e397d8官方入口literal import补取，配合request中的OKC协议及Index的Swarm/产物调用。固定构建，不声称当前部署；独立descriptor解码与REA语义范围分开，环境供给仍未追通。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K05-2",
+      "title": "产物/部署面板原模块",
+      "url": "https://statics.moonshot.cn/kimi-web-seo/assets/kimi.eleme-YnYvC9Vs.js",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "沿已取16e397d8官方入口literal import补取，配合request中的OKC协议及Index的Swarm/产物调用。固定构建，不声称当前部署；独立descriptor解码与REA语义范围分开，环境供给仍未追通。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K06",
+      "title": "同构建App资源原模块",
+      "url": "https://statics.moonshot.cn/kimi-web-seo/assets/kimi.eleme-YnYvC9Vs.js",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13按原imports补取，PreviewApp/chat→app、storage resource／presigned URL、database、secret mask实际client调用；原23选段REA与六组方法回放分开。appId/resourceId不当Sandbox ID，未知server供给/版本/恢复。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K06-2",
+      "title": "对象存储模块",
+      "url": "https://statics.moonshot.cn/kimi-web-seo/assets/website-storage-D-7PTGgT.js",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13按原imports补取，PreviewApp/chat→app、storage resource／presigned URL、database、secret mask实际client调用；原23选段REA与六组方法回放分开。appId/resourceId不当Sandbox ID，未知server供给/版本/恢复。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "Q01",
+      "title": "千问官网",
+      "url": "https://www.qianwen.com/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "产品身份、4.9.6资源加载清单；主实际抓取匿名HTML。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "Q02",
+      "title": "4.9.6任务chunk 4180.js",
+      "url": "https://g.alicdn.com/code/npm/@ali/qianwen-web/4.9.6/web/js/async/4180.js",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "实际任务列表/查询/更新、取消请求与客户端状态；主下载/AST提取后REA分析。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "Q03",
+      "title": "4.9.6研究chunk 7146.js",
+      "url": "https://g.alicdn.com/code/npm/@ali/qianwen-web/4.9.6/web/js/async/7146.js",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "DeepResearchAgent展示模块；不是服务端Loop源码。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "Q04",
+      "title": "4.9.6入口业务chunk 6182.js",
+      "url": "https://g.alicdn.com/code/npm/@ali/qianwen-web/4.9.6/web/js/async/6182.js",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "实际取得API adapter及注入任务功能的代码；与Q02合取16选段进入REA，并做6项合成回放。ART-QW-CONTROL/REA-QW-CONTROL-REPLAY只支持客户端控制观察；后续ART-QW-TRANSPORT已接HTTP/RMB客户端链，后台权威状态未知，不代填AgentRun部署。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "Q05",
+      "title": "4.9.6 pre.js",
+      "url": "https://g.alicdn.com/code/npm/@ali/qianwen-web/4.9.6/web/js/pre.js",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "保留原pre中的host表、request service和auth helper；AGENT_API默认目的地、credentials和请求重试层分开，不证明物理部署或真实登录。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "Q06",
+      "title": "公开RMB worker 0.0.7",
+      "url": "https://www.qianwen.com/static/rmb.worker_0.0.7.js?v=1.0.1",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13实际公开下载，HTTP200、31,299 bytes；独立REA及loopback。Last-Modified2026-08-20，不证明与4.9.6发布绑定；worker/simple补拉策略不同，云执行/恢复未知。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "Q07",
+      "title": "4.9.6 core-libs",
+      "url": "https://g.alicdn.com/code/npm/@ali/qianwen-web/4.9.6/web/js/core-libs.3446f08d.js",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "保留原RxJS factories用于fixture，而非另下载版本替身；整体core对象REA语义heap exhausted留存，窄transport分析明确排除它。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "A01",
+      "title": "千问AI Managed Agents",
+      "url": "https://platform.qianwenai.com/docs/agent-infra/managed-agents/introduction",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "平台Agent/Environment/Session/Event托管，不证明消费端千问使用该平台。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "A02",
+      "title": "千问AI Sandbox",
+      "url": "https://platform.qianwenai.com/docs/agent-infra/sandbox",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "独立Sandbox实例、暂停恢复与释放契约；与A01接口分开。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "A03",
+      "title": "AgentRun",
+      "url": "https://help.aliyun.com/zh/agentrun/what-is-agentrun",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "AgentRuntime/FC/MicroVM/存储/网络与治理；另一平台产品，不代填Q01内部。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "DS01",
+      "title": "DeepSeek Tool Calls",
+      "url": "https://api-docs.deepseek.com/guides/tool_calls/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "模型返回调用意图，由调用方执行函数；官方API不因此提供云Sandbox。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "DS02",
+      "title": "DeepSeek Harness",
+      "url": "https://github.com/deepseek-ai/deepseek-harness",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "开源本机dsh，不能当作消费端云部署；本机已有相关项目。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "DS03",
+      "title": "Process Sandbox",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/sandbox.md",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "本机OS进程限制，不等于用户专属云VM。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "DS04",
+      "title": "DSec",
+      "url": "https://arxiv.org/abs/2609.22978",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "DeepSeek团队训练/评测执行基础设施；不证明网页消费部署。",
+      "authority": "primary-publication-or-artifact",
+      "published_on": "2026-09-19"
+    },
+    {
+      "id": "DS05",
+      "title": "DeepSeek历史CDN",
+      "url": "https://cdn.deepseek.com/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "取得历史官方main脚本，Last-Modified2025-01/版本20241129.1；该次chat入口Request Blocked（2026-10-13新匿名请求为429）。只保留历史身份，不作为当前云Agent架构结论。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "DS05-2",
+      "title": "版本",
+      "url": "https://cdn.deepseek.com/version.txt",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "取得历史官方main脚本，Last-Modified2025-01/版本20241129.1；该次chat入口Request Blocked（2026-10-13新匿名请求为429）。只保留历史身份，不作为当前云Agent架构结论。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "DS06",
+      "title": "DeepSeek官网",
+      "url": "https://www.deepseek.com/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13匿名读取成功，网页版／桌面Harness／模型API不同入口；聊天入口此次HTTP429，未获得当前聊天JS，不能反推无云工具能力。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "DS06-2",
+      "title": "Harness官网",
+      "url": "https://www.deepseek.com/harness/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "2026-10-13匿名读取成功，网页版／桌面Harness／模型API不同入口；聊天入口此次HTTP429，未获得当前聊天JS，不能反推无云工具能力。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "DS07",
+      "title": "DSec完整PDF",
+      "url": "https://arxiv.org/pdf/2609.22978",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "v1／2026-09-19，31页，原PDF／page-index及6／18页图实际核对；§3控制／节点运行时，§5 storage，§6抢占暂停／恢复。官方训练平台披露，不是REA或分析者生产复验；§8不评测§6框架集成。",
+      "authority": "primary-publication-or-artifact",
+      "published_on": "2026-09-19",
+      "retained_text_sha256": "005ccbd268a5f5d4ea2f88525126825bb31767291c030d11197bd0f79f0b93d3"
+    },
+    {
+      "id": "DS08",
+      "title": "固定Harness源码",
+      "url": "https://github.com/deepseek-ai/deepseek-harness/tree/d743267388641bc76f17c45ce8b4c231aed1d32c",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "本次查询master固定commit，README／sandbox docs实际取得；与npm0.2.0-rc.2未证明一一对应，不从当前本机fork代填官方实现。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "DS09",
+      "title": "官方dsh0.2.0-rc.2",
+      "url": "https://registry.npmjs.org/@deepseek-ai%2fdsh/0.2.0-rc.2",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "CLI及8个固定同版官方scope包，npm SHA512 integrity匹配，只提取原文本。14 JS窄REA与40选项/27加载/6组回放分别口径，未安装／执行桌面或云Agent。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "DS10",
+      "title": "论文引用的OverlayBD",
+      "url": "https://github.com/kvcache-ai/AgentENV/tree/49684233698d40dd800c1d0edba15ab30a745eeb/storage/overlaybd",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "官方论文引用共享storage组件；该repo原README自称Kimi K3训练，不能以其整个runtime／snapshot实现当DSec源码，更不证明网页消费端。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "AENV01",
+      "title": "固定AgentENV公开源",
+      "url": "https://github.com/kvcache-ai/AgentENV/tree/49684233698d40dd800c1d0edba15ab30a745eeb",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "原README称Kimi K3训练环境；gateway／scheduler／node runtime／snapshot source分别检查，不证明Kimi消费端或DSec整平台部署。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "AENV02",
+      "title": "v0.2.3 release",
+      "url": "https://github.com/kvcache-ai/AgentENV/releases/tag/v0.2.3",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "原archive／SHA256SUMS与metadata一致；tag到另一commit6cccaa7，未独立签名或重编关联，不用固定源test验native。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "AENV03",
+      "title": "Firecracker依赖发布",
+      "url": "https://github.com/kvcache-ai/firecracker/releases/tag/aenv-deps",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "AgentENV原manifest引用1.15.1-patch-v1，包内原Firecracker静态REA；首轮地址偏移返回错误function保留，未运行VM。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "DS11-2",
+      "title": "PyPI dsec",
+      "url": "https://pypi.org/pypi/dsec/json",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "0.0.0原wheel只空模块及metadata，没有官方发布归属；不当DSec SDK，不执行install/import。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "AR01",
+      "title": "高层npm0.0.5",
+      "url": "https://registry.npmjs.org/@agentrun%2Fsdk/0.0.5",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "npm原制品／integrity与固定README核对；后者不当package build commit或server源。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "AR01-2",
+      "title": "Serverless-Devs SDK",
+      "url": "https://github.com/Serverless-Devs/agentrun-sdk-nodejs/tree/b05323725d3289a60694754290207dec400ff875",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "npm原制品／integrity与固定README核对；后者不当package build commit或server源。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "AR02",
+      "title": "生成式管理SDK5.9.4",
+      "url": "https://registry.npmjs.org/@alicloud%2Fagentrun20250910/5.9.4",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "原Create/Get/Stop/Delete/Pause/Resume/GetAccessToken ROA请求；和高层版本分列，不证生产依赖配对。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "W08",
+      "title": "固定CodeBuddy2.164.0发布包",
+      "url": "https://registry.npmjs.org/@tencent-ai%2fcodebuddy-code/2.164.0",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "区别于headless ACP；cloud-native in-process契约、原query/runDefault接线、Scope及Store接口。d.ts引用的内部设计文档没有取得；原bundle和宿主云版本未绑定。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K08",
+      "title": "Claw产品介绍",
+      "url": "https://www.kimi.com/en/help/kimi-claw/overview",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "原帮助cloud专属OpenClaw／连接既有、自带Kimi model与Search；default说明按本次正文记录，不代普通Swarm部署。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K09",
+      "title": "Memory与context",
+      "url": "https://www.kimi.com/en/help/kimi-claw/memory-loss",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "workspace Memory与会话reset、到期保留、reset需重配渠道；memory backup开发中与原workspace backup接口保留范围差别，不补造上线状态。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K09-2",
+      "title": "升级注意",
+      "url": "https://www.kimi.com/en/help/kimi-claw/upgrade-notice",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "workspace Memory与会话reset、到期保留、reset需重配渠道；memory backup开发中与原workspace backup接口保留范围差别，不补造上线状态。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K10",
+      "title": "文件传输",
+      "url": "https://www.kimi.com/en/help/kimi-claw/file-transfer",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Workspace／chat／渠道文件能力，非快照或当前云Provider证明。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "O08",
+      "title": "固定exec-server源",
+      "url": "https://github.com/openai/codex/tree/41e22fee981a63b3698df7ed36bad393cda24715/codex-rs/exec-server",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "原register/connect/validate/Noise profile候选，三文件另核archive；未运行真实remote/auth/Cloud registry，和本机WS路径不同。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K14",
+      "title": "PingCAP: The Agent Database Behind Kimi K2.6",
+      "url": "https://www.pingcap.com/blog/agent-database-kimi-k2-6/",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "Ed Huang发表于2026-05-14，供给方披露K2.6建站TiDB Cloud逻辑DB／shared KV及object substrate；原文核读，不当实测成本／SLO或FUSE共同部署证据。",
+      "authority": "supplier-historical-disclosure",
+      "source_sha256": "9c62458dbdb9cddd0ad0586080e9c149247ae9628df79cfa592a65a6789b7ec0",
+      "published_on": "2026-05-14"
+    },
+    {
+      "id": "K15",
+      "title": "Linux FUSE文档",
+      "url": "https://docs.kernel.org/filesystems/fuse/fuse.html",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "原参考核读：user_id/group_id为mount owner，master标当前slave；时延不证明云同步/异步或close提交。参考释义不能验厂商实现。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K15-2",
+      "title": "mount namespaces",
+      "url": "https://man7.org/linux/man-pages/man7/mount_namespaces.7.html",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "原参考核读：user_id/group_id为mount owner，master标当前slave；时延不证明云同步/异步或close提交。参考释义不能验厂商实现。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K15-3",
+      "title": "mountinfo",
+      "url": "https://man7.org/linux/man-pages/man5/proc_pid_mountinfo.5.html",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "原参考核读：user_id/group_id为mount owner，master标当前slave；时延不证明云同步/异步或close提交。参考释义不能验厂商实现。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K15-4",
+      "title": "fsync",
+      "url": "https://man7.org/linux/man-pages/man2/fsync.2.html",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "原参考核读：user_id/group_id为mount owner，master标当前slave；时延不证明云同步/异步或close提交。参考释义不能验厂商实现。",
+      "authority": "primary-publication-or-artifact"
+    },
+    {
+      "id": "K-CDN-1",
+      "title": "request模块",
+      "url": "https://statics.moonshot.cn/kimi-web-seo/assets/request-DQF-vTuT.js",
+      "authority": "public-client-artifact",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "scoped-original-client-analysis",
+      "reading_scope": "公开原客户端模块，协议／具体消费调用／传输分别读取；不能确认后台部署或云恢复。 具体发布版本关联按图内限定，固定下载不代表当前全部部署。"
+    },
+    {
+      "id": "K-CDN-2",
+      "title": "chat模块",
+      "url": "https://statics.moonshot.cn/kimi-web-seo/assets/chat-DeaJ3hyg.js",
+      "authority": "public-client-artifact",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "scoped-original-client-analysis",
+      "reading_scope": "公开原客户端模块，协议／具体消费调用／传输分别读取；不能确认后台部署或云恢复。 具体发布版本关联按图内限定，固定下载不代表当前全部部署。"
+    },
+    {
+      "id": "K-CDN-3",
+      "title": "service_pb-Dj_bo2sV.js",
+      "url": "https://statics.moonshot.cn/kimi-web-seo/assets/service_pb-Dj_bo2sV.js",
+      "authority": "public-client-artifact",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "scoped-original-client-analysis",
+      "reading_scope": "公开原客户端模块，协议／具体消费调用／传输分别读取；不能确认后台部署或云恢复。 具体发布版本关联按图内限定，固定下载不代表当前全部部署。"
+    },
+    {
+      "id": "K-CDN-4",
+      "title": "kimi.chatMessages-Hv6w3_V_.js",
+      "url": "https://statics.moonshot.cn/kimi-web-seo/assets/kimi.chatMessages-Hv6w3_V_.js",
+      "authority": "public-client-artifact",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "scoped-original-client-analysis",
+      "reading_scope": "公开原客户端模块，协议／具体消费调用／传输分别读取；不能确认后台部署或云恢复。 具体发布版本关联按图内限定，固定下载不代表当前全部部署。"
+    },
+    {
+      "id": "CLIENT-EXTRA-1",
+      "title": "20w42m6csunox.js",
+      "url": "https://files.manuscdn.com/webapp/_next/static/chunks/20w42m6csunox.js",
+      "authority": "public-client-artifact",
+      "review_status": "original-scoped-analysis",
+      "fetched_on": "2026-10-12/13",
+      "reading_scope": "公开原客户端选定函数/模块静态核对，含局部合成依赖回放，不认证后台部署、登录授权或恢复。 具体发布版本关联按图内限定，固定下载不代表当前全部部署。"
+    },
+    {
+      "id": "CLIENT-EXTRA-2",
+      "title": "01kte_0_ng0vz.js",
+      "url": "https://files.manuscdn.com/webapp/_next/static/chunks/01kte_0_ng0vz.js",
+      "authority": "public-client-artifact",
+      "review_status": "original-scoped-analysis",
+      "fetched_on": "2026-10-12/13",
+      "reading_scope": "公开原客户端选定函数/模块静态核对，含局部合成依赖回放，不认证后台部署、登录授权或恢复。 具体发布版本关联按图内限定，固定下载不代表当前全部部署。"
+    },
+    {
+      "id": "CLIENT-EXTRA-3",
+      "title": "0i7-y-rz0hr8f.js",
+      "url": "https://files.manuscdn.com/webapp/_next/static/chunks/0i7-y-rz0hr8f.js",
+      "authority": "public-client-artifact",
+      "review_status": "original-scoped-analysis",
+      "fetched_on": "2026-10-12/13",
+      "reading_scope": "公开原客户端选定函数/模块静态核对，含局部合成依赖回放，不认证后台部署、登录授权或恢复。 具体发布版本关联按图内限定，固定下载不代表当前全部部署。"
+    }
+  ],
+  "supplementary_sources": [
+    {
+      "id": "MU03",
+      "title": "Muse Architecture Tour",
+      "url": "https://gist.github.com/juleskuehn/480139a0ea9509e9b085459a045e03dd",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "第三方接口/进程/挂载观察长文，405,664 bytes；不是REA报告。Observed是作者报告，不是本机或独立认证结果；子Agent放置和native workflow wiring被作者明确列为未知。",
+      "authority": "third-party-report"
+    },
+    {
+      "id": "MU04",
+      "title": "MuseAI-Skills固定社区提交",
+      "url": "https://github.com/win4r/MuseAI-Skills/tree/38bbb45a2c5a0f70de975f6387385770b9ad8aac",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "不仅Skills：部分文件系统快照、runtime-cell脚本与LFS二进制。README明确非官方发布、来源未独立认证。已取得Hatch/execd并核对LFS摘要；摘要只能认证这份快照的字节一致性，不能认证Meta发布主体或当前部署。",
+      "authority": "third-party-report"
+    },
+    {
+      "id": "REA-06",
+      "title": "dsh-rea桥接插件",
+      "url": "https://github.com/JeremyWangCY/dsh-rea",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "实际读取master原README：独立DSH的REA过滤MCP桥，不是逆向DeepSeek云架构报告。README schema／token数字未独立核验，不复用为成本依据。",
+      "authority": "third-party-report"
+    },
+    {
+      "id": "K13",
+      "title": "第三方Kimi沙箱综合报告",
+      "url": "https://github.com/agent-infra-foundation/agent-infra-book/blob/ecf3037b1bd70039be8ec36a48440a855b054f26/sandbox/kimi/Kimi%E6%B2%99%E7%AE%B1%E7%BB%BC%E5%90%88%E6%8A%80%E6%9C%AF%E6%8A%A5%E5%91%8A.md",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "固定commit／Git blob原件已核。作者自述2026-08-11/12代码沙箱观察，现场执行者／实例数量未提供；合并／译稿同源。不称REA报告、本机复测、当前所有Kimi部署或安全认证。",
+      "authority": "third-party-report",
+      "source_sha256": "ddd2e3fedb667b92cbefe350a9ccb49b46e6e86304fdfdb8005d67f4c67364e2",
+      "observed_on": "2026-08-11/12",
+      "commit": "ecf3037b1bd70039be8ec36a48440a855b054f26",
+      "sample_count": null
+    },
+    {
+      "id": "K13-2",
+      "title": "FUSE专项",
+      "url": "https://github.com/agent-infra-foundation/agent-infra-book/blob/ecf3037b1bd70039be8ec36a48440a855b054f26/sandbox/kimi/Kimi%E6%B2%99%E7%AE%B1FUSE%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%B7%B1%E5%BA%A6%E6%8A%A5%E5%91%8A.md",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "read_scoped_material",
+      "reading_scope": "固定commit／Git blob原件已核。作者自述2026-08-11/12代码沙箱观察，现场执行者／实例数量未提供；合并／译稿同源。不称REA报告、本机复测、当前所有Kimi部署或安全认证。",
+      "authority": "third-party-report",
+      "source_sha256": "9e98c4d59c0a0bbca415fa874e1f44fd08f30cd24cd27e6177e50fcdf70ce178",
+      "observed_on": "2026-08-11/12"
+    }
+  ],
+  "artifact_and_observation_families": [
+    {
+      "prefixes": [
+        "ART-CLAUDE",
+        "REA-CLAUDE"
+      ],
+      "original_sources": [
+        "C07"
+      ],
+      "scope": "原2.1.296模块与本机Runner有限运行，模型／cloud lease未跑。"
+    },
+    {
+      "prefixes": [
+        "ART-CODEX",
+        "REA-CODEX"
+      ],
+      "original_sources": [
+        "O04",
+        "O05",
+        "O06",
+        "O08"
+      ],
+      "scope": "0.153.0源码／原bytes／受限native／原本机exec-server，非Cloud worker。"
+    },
+    {
+      "prefixes": [
+        "ART-WB",
+        "ART-CBC",
+        "REA-WB",
+        "REA-CBC"
+      ],
+      "original_sources": [
+        "W04",
+        "W06",
+        "W08"
+      ],
+      "scope": "SDK0.3.8与CodeBuddy2.164.0原件；headless实测不等serving构建或云部署。"
+    },
+    {
+      "prefixes": [
+        "ART-GROK",
+        "REA-GROK"
+      ],
+      "original_sources": [
+        "G05"
+      ],
+      "scope": "0.70.2公开桌面client及局部合成回放。"
+    },
+    {
+      "prefixes": [
+        "ART-DOTS",
+        "REA-DOTS"
+      ],
+      "original_sources": [
+        "D06"
+      ],
+      "scope": "26.1007.30912公开包的client控制/transport与合成依赖，不认证线上启用。"
+    },
+    {
+      "prefixes": [
+        "ART-MUSE",
+        "REA-MUSE"
+      ],
+      "original_sources": [
+        "MU04",
+        "MU01"
+      ],
+      "scope": "社区快照原生／workflow受限观察非主体认证；MU01官方安全域不由快照认证。"
+    },
+    {
+      "prefixes": [
+        "ART-KIMI",
+        "REA-KIMI"
+      ],
+      "original_sources": [
+        "K05",
+        "K06",
+        "K05",
+        "K13",
+        "K14"
+      ],
+      "scope": "client调用与协议、局部回放、另列历史作者及供应披露；不连接未知部署。"
+    },
+    {
+      "prefixes": [
+        "ART-MANUS",
+        "REA-MANUS"
+      ],
+      "original_sources": [
+        "M01",
+        "M02",
+        "M06",
+        "CLIENT-EXTRA-1",
+        "CLIENT-EXTRA-2",
+        "CLIENT-EXTRA-3"
+      ],
+      "scope": "原公开client Sandbox/Socket.IO/auth/config，局部依赖回放非云恢复。"
+    },
+    {
+      "prefixes": [
+        "ART-QW",
+        "REA-QW"
+      ],
+      "original_sources": [
+        "Q02",
+        "Q04",
+        "Q05",
+        "Q06"
+      ],
+      "scope": "4.9.6任务与RMB通知loopback，不认证worker生产配对。"
+    },
+    {
+      "prefixes": [
+        "ART-AR",
+        "REA-AR"
+      ],
+      "original_sources": [
+        "AR01",
+        "AR02",
+        "AR01"
+      ],
+      "scope": "原SDK资源/应用接线及合成callback回放非cloud Loop。"
+    },
+    {
+      "prefixes": [
+        "ART-AENV",
+        "REA-AENV"
+      ],
+      "original_sources": [
+        "AENV01",
+        "AENV02",
+        "AENV03"
+      ],
+      "scope": "固定源/原release依赖/Go局部测试，不当Kimi消费端。"
+    },
+    {
+      "prefixes": [
+        "ART-DSH",
+        "REA-DSH"
+      ],
+      "original_sources": [
+        "DS09"
+      ],
+      "scope": "固定DSH原包及局部方法fixture，非网页部署。"
+    }
+  ],
+  "index_scope": "正文与52页图集共同使用的来源索引；链接数量不是独立实验、供应商样本或全部正文核读。每项按reading_scope使用，不统计统一覆盖率。",
+  "citation_policy": "按证据原范围引用：原件完整性不等发布主体；本机运行不等生产绑定；历史材料只按日期与产品场景使用，不因同厂商或协议相容拼接当前部署。缺少部署关联不否定原文机制。",
+  "excluded_artifacts": [
+    {
+      "id": "DS11",
+      "title": "PyPI libdsec",
+      "url": "https://pypi.org/pypi/libdsec/json",
+      "fetched_on": "2026-10-12/13",
+      "review_status": "inspected-and-rejected-as-product-evidence",
+      "reading_scope": "0.0.0原wheel只空模块及metadata，没有官方发布归属；不当DSec SDK，不执行install/import。",
+      "authority": "unattributed-placeholder-artifact"
+    }
+  ]
+}

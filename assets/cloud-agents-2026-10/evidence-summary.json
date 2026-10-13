@@ -1,0 +1,93 @@
+{
+  "checked_on": "2026-10-13",
+  "scope": "本机有限运行与静态观察，不是付费真实云任务或生产安全验收。原日志、模型内容、凭据和二进制不公开。",
+  "canonical_bundle_sha256": "985686217e2051ffc68aa06886d2723e3d6c425724d0373b83a7b671d79936a6",
+  "observations": [
+    {
+      "product": "Claude Code Runner",
+      "version": "2.1.296",
+      "authority": "local-original-runtime-with-synthetic-control-and-child",
+      "observed": [
+        "register/poll/worker epoch/FD3/spawn",
+        "deassign/startup timeout/drain/epoch refusal",
+        "two synthetic parent env secrets absent in child; synthetic same-user file readable"
+      ],
+      "unverified": [
+        "real Claude Loop",
+        "production lease recovery",
+        "product Sandbox",
+        "real credentials and side effects"
+      ]
+    },
+    {
+      "product": "Codex exec-server",
+      "version": "0.153.0",
+      "artifact_sha256": "fce635028842bfe9257140e8b7d53162732945e2f356fc35225be0702b4974be",
+      "authority": "local-original-exec-server",
+      "observed": [
+        "single attachment and alive-server rejoin",
+        "terminate reply plus process exit observation",
+        "bounded detached TTL and write-ID duplicate behavior"
+      ],
+      "unverified": [
+        "core UnifiedExecProcess entry",
+        "OS product Sandbox",
+        "Cloud Worker",
+        "crash and business recovery"
+      ]
+    },
+    {
+      "product": "WorkBuddy SDK / CodeBuddy headless ACP",
+      "version": "0.3.8 / 2.164.0",
+      "authority": "local-original-sdk-and-loop-with-synthetic-model-and-runtime-description",
+      "observed": [
+        "custom marker needed for original local endpoint",
+        "Read result returned to model with original tool call",
+        "subsequent model-only stream cancel closed observed transport"
+      ],
+      "unverified": [
+        "cloud image and owner authorization",
+        "tool side effects cancel",
+        "remote compute stop",
+        "all negative validator paths"
+      ],
+      "verification_limit": "同Session/conversation/tool_call_id闭环由原日志与请求人工交叉核对；当前自动断言未完整锁定关联，topic-only/wrong-call/late-error负例未跑。早期fixture拒绝却标passed已另作纠正，不当成功样本。"
+    },
+    {
+      "product": "Kimi / Manus / Qianwen / Dots / Grok / AgentRun / DSH",
+      "authority": "original-scoped-static-analysis-and-synthetic-method-replay",
+      "unverified": [
+        "production service topology",
+        "real cloud task",
+        "full authorization and recovery"
+      ]
+    },
+    {
+      "product": "Muse execd",
+      "authority": "third-party-snapshot-scoped-native-static",
+      "unverified": [
+        "publisher authenticity",
+        "kernel operation",
+        "production deployment and isolation"
+      ]
+    },
+    {
+      "product": "Kimi historical files / K2.6 database",
+      "authority": "third-party-historical-report / supplier-disclosure",
+      "observed": [
+        "materials read and ABI interpretation corrected"
+      ],
+      "unverified": [
+        "independent cloud rerun",
+        "shared deployment or FUSE-to-TiDB link",
+        "current product recovery"
+      ]
+    }
+  ],
+  "failed_or_limited_evidence": [
+    "Codex default whole-native analysis timeout retained; scoped analysis has extent/no-return assumptions",
+    "WorkBuddy early fixture passed label contradicted refusal; separately corrected, not counted as success",
+    "method fixtures use synthetic services and do not imply cloud completion"
+  ],
+  "index_scope": "只公开脱敏事实与未验证范围。REA包记录数/函数数不作覆盖率，也不将修订视作独立实验。"
+}

@@ -220,5 +220,53 @@
     "source": "agent-experience-weekly-2026-09-20.md",
     "source_manifest": "agent-experience-weekly-2026-09-20.sources.json",
     "markdown_tables": true
+  },
+  {
+    "slug": "cloud-agent-architecture-2026-10",
+    "title": "云端 Agent 的架构：谁在思考，谁在执行，状态留在哪里",
+    "date": "2026-10-13",
+    "category": "技术长文",
+    "tags": [
+      "云端 Agent",
+      "Sandbox",
+      "执行框架",
+      "架构比较",
+      "REA"
+    ],
+    "description": "比较 Claude、Codex、Kimi、WorkBuddy、Manus、Muse、Grok Bot、Dots 与阿里、DeepSeek 的控制、执行、环境、凭据与恢复边界。",
+    "deck": "从一次任务的闭环出发，理解各家为什么拆分会话、执行框架与电脑。附公开来源、有限本机取证及 52 页可编辑图集。",
+    "word_count": 8954,
+    "source": "cloud-agent-architecture-2026-10.md",
+    "source_manifest": "cloud-agent-architecture-2026-10.sources.json",
+    "markdown_tables": true,
+    "figures": {
+      "assets/cloud-agents-2026-10/work-model.png": {
+        "width": 1200,
+        "height": 660,
+        "mobile": "assets/cloud-agents-2026-10/work-model-mobile.png",
+        "mobile_width": 420,
+        "mobile_height": 1120,
+        "diagram": "assets/cloud-agents-2026-10/work-model.drawio",
+        "caption": "共同工作模型：模型产生意图，执行框架形成闭环，环境提供操作能力；各产品不必共置这些角色。"
+      },
+      "assets/cloud-agents-2026-10/execution-models.png": {
+        "width": 1200,
+        "height": 730,
+        "mobile": "assets/cloud-agents-2026-10/execution-models-mobile.png",
+        "mobile_width": 420,
+        "mobile_height": 1220,
+        "diagram": "assets/cloud-agents-2026-10/execution-models.drawio",
+        "caption": "两种模式的主要差异是 Loop 与工具环境的边界；此简图未填造底层队列、VM 栈或恢复协议。 两个案例，不是互斥或穷尽的选型。"
+      },
+      "assets/cloud-agents-2026-10/persistent-computers.png": {
+        "width": 1200,
+        "height": 650,
+        "mobile": "assets/cloud-agents-2026-10/persistent-computers-mobile.png",
+        "mobile_width": 420,
+        "mobile_height": 1480,
+        "diagram": "assets/cloud-agents-2026-10/persistent-computers.drawio",
+        "caption": "常驻电脑的共享单位不同：Muse 分用户及 cell 安全域；Grok Bot 同用户 Bots 共享；Dots 可委派独立工作区。 Muse 披露具体请求授权后替换 surrogate；代理保密与动作授权分别理解，本轮未验证端到端权限绑定。"
+      }
+    }
   }
 ]

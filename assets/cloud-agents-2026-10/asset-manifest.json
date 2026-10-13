@@ -1,0 +1,636 @@
+{
+  "checked_on": "2026-10-13",
+  "scope": "public figure/atlas source bytes; not vendor identity/cloud verification",
+  "files": [
+    {
+      "path": "assets/cloud-agents-2026-10/atlas.md",
+      "bytes": 15568,
+      "sha256": "f306afef62d9bb20c39d8a237edfc97372c7eda808e1a53adb9ea24fc050fc5b"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/agentrun-app-execution-wiring.drawio",
+      "bytes": 59265,
+      "sha256": "4627af6eb5837206a48484a4f0b58d3006b60647766e6f260691a68d7352adfc"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/agentrun-app-execution-wiring.svg",
+      "bytes": 27263,
+      "sha256": "46af4f166e034160b490c8950ab5c78c9db6974a90c9cbc330fcf6aad9ca3ba7"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/agentrun-sdk-resource-boundaries.drawio",
+      "bytes": 70928,
+      "sha256": "d6bf793ab25ba2c78f65eae02785a6b369598466d774662f57422b352bbf27e0"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/agentrun-sdk-resource-boundaries.svg",
+      "bytes": 30579,
+      "sha256": "8a36d32f7cd8790c50a47df27632d175099fc5a28aeb5ee59f659e630e029930"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/ali-managed-infra.drawio",
+      "bytes": 33721,
+      "sha256": "44e043e1afaf91c0a1f9def061317ed9d743a57d74055c45fe45ae10e0fd681c"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/ali-managed-infra.svg",
+      "bytes": 14327,
+      "sha256": "0331849f7ba113b6779ded59cd71ef888f521149c86cf1df67492fe59f778c8e"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/all-graphs.drawio",
+      "bytes": 2005312,
+      "sha256": "02c5ef5ba1b5fc483c4c7db4d476bb0c8352f7d170e694e21193e152ac71fcf6"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/claude-code-cloud.drawio",
+      "bytes": 118020,
+      "sha256": "0c976cf4c0ee49057e5167f80c473123f213f6ccd62d2078df51349bc2eba0f8"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/claude-code-cloud.svg",
+      "bytes": 39257,
+      "sha256": "bc1329271d387d309930e9e0228da2605f75777ae0793195acb885b23a153aae"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/claude-managed-agents.drawio",
+      "bytes": 59018,
+      "sha256": "171354c148e59dcb5eb8f23630e30d62b2887e297edb46195a02d30e76014b72"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/claude-managed-agents.svg",
+      "bytes": 19737,
+      "sha256": "87f30ce7735f6a294427909522f0d2d3af42d840fc8d118d9d678f30c27f7a53"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/codebuddy-execution-endpoint.drawio",
+      "bytes": 88660,
+      "sha256": "d0c5a6dc108ade11cabd8e2fadcb5fac15100b1a9d75dd21b63aa884dd9110a9"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/codebuddy-execution-endpoint.svg",
+      "bytes": 34508,
+      "sha256": "fb4ac7b95cdc07bc4f8d799420eaee3ee2970cb12a5f22dd8ef0ee3a0f644f78"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/codebuddy-inprocess-serving.drawio",
+      "bytes": 74622,
+      "sha256": "40c1f93f8d3ca123317d69f77c346d31716e69c754986722591c8d322b45d894"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/codebuddy-inprocess-serving.svg",
+      "bytes": 27401,
+      "sha256": "8477957c44e66973ff6972d865d4db3fa64f3fc3f31622caf52a97fdd4803d17"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/codex-client-engine.drawio",
+      "bytes": 46580,
+      "sha256": "48afd4ed3e4fa925b24c9f69ed3526571ecbc7cc281b6a639dcb7962467967a0"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/codex-client-engine.svg",
+      "bytes": 21481,
+      "sha256": "69311634a5e0a0b57a46c0f9cf45b076acded05987e84ae8259f8f861c08985c"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/codex-cloud.drawio",
+      "bytes": 59531,
+      "sha256": "67d0ba28d35dd60c51787a25d45c704190b8d447a74b244f300bd5bb3cb9021a"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/codex-cloud.svg",
+      "bytes": 21039,
+      "sha256": "684468c24d6a3e470f154c6b0a1ad90feb2986d1674ddb75ce0d7ec5236baeed"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/codex-exec-server-boundaries.drawio",
+      "bytes": 70735,
+      "sha256": "ee878184e6c2b0d7f55b8a53905cbba96ca4fbe19aa2385b51fd5671b62625a8"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/codex-exec-server-boundaries.svg",
+      "bytes": 25742,
+      "sha256": "173802ccc1a3c3f5bc79d0c7f3ef2b35d96f66bcdad571fae91088f59c6001c1"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/deepseek-boundaries.drawio",
+      "bytes": 34127,
+      "sha256": "b6bd2dfdba9e221fa14c9df040107e3cf8ed5da5a97650004d350663fb54abe6"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/deepseek-boundaries.svg",
+      "bytes": 13964,
+      "sha256": "56a7d39f27b1ab6e52b052699aadc43d4bb0e496d9c662d296ac8ddbbcac72c0"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/deepseek-dsec-platform.drawio",
+      "bytes": 108494,
+      "sha256": "43e8e628c352e9cc399c6e71401baccb5d085c98765a04cee4f8fe571217ae0b"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/deepseek-dsec-platform.svg",
+      "bytes": 38786,
+      "sha256": "6266afe4e6c17fb2f0de119830465aa17acfaf923ac39c9c2f20b0314257e225"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/deepseek-dsh-runtime.drawio",
+      "bytes": 52428,
+      "sha256": "4b2d15c17d13cb6714e7dba09352bc88dfb4fc2cfb575674516122b93ca7ad5c"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/deepseek-dsh-runtime.svg",
+      "bytes": 24645,
+      "sha256": "cdb94a7ed520de437aa9f651f1662e87181188c874920bc45514f1d7ef03b80e"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/dots-client-control.drawio",
+      "bytes": 66659,
+      "sha256": "1c103e24addff306d14b41b2f428812225202610474b00d125deb0f3bb1ff0f4"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/dots-client-control.svg",
+      "bytes": 30042,
+      "sha256": "8ab18273b07ad176b496de1c50e7d5088fcbc20f18125e95c17a335fd994906d"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/grok-bot.drawio",
+      "bytes": 85194,
+      "sha256": "3bf70eee3395c921b53d64565fc4437ed698c95fd384114310860ed2687d66d1"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/grok-bot.svg",
+      "bytes": 28857,
+      "sha256": "4c632c6095dcffbfbd443076b47da3297e6ab0b57b6d70ff19c87c4eafe1789f"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/grok-desktop-boundaries.drawio",
+      "bytes": 50691,
+      "sha256": "3d0f5dbcb39eec1a6dfa3765f42af3d59aaedc450b3b59a4cceed29ab73c75f4"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/grok-desktop-boundaries.svg",
+      "bytes": 23221,
+      "sha256": "14defb4370f516b35135736b2836368f6cd46756b3c59b2ed1d9e6b2f597d31d"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/kimi-agentenv-platform.drawio",
+      "bytes": 84703,
+      "sha256": "eb0d66bd3ef5040976d5ef9e6f72f9129c0d830ebb10fb13f5268a974dbcd480"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/kimi-agentenv-platform.svg",
+      "bytes": 31363,
+      "sha256": "66c1f66aedaf978f91eded85b5b07705d089a4352c691f07d3e2230fc96cff89"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/kimi-app-resources.drawio",
+      "bytes": 83445,
+      "sha256": "b92a7f4f817429a802e85de40d87830189975748478dba97e19c77ec9ce58729"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/kimi-app-resources.svg",
+      "bytes": 32452,
+      "sha256": "8b1b12ca009e48af91d93e860dbd096b56453617e9f8d56730568f3540b262f1"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/kimi-build-database-disclosure.drawio",
+      "bytes": 35435,
+      "sha256": "8a9ebd1618b770298afb9bfe3c48573fffcb7fef4f2b154558263325b2ec33d8"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/kimi-build-database-disclosure.svg",
+      "bytes": 18501,
+      "sha256": "7691ff29316d9d7d3a87feb8f68bd30657e711921d547fe3e05d166073946951"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/kimi-claw-client-environment.drawio",
+      "bytes": 97604,
+      "sha256": "6d8ef671697274a6429d9a220ae2c95981f38148390074a40995356613164c0f"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/kimi-claw-client-environment.svg",
+      "bytes": 30579,
+      "sha256": "5845527e463ef28824906017a2108728a7c63cb48acbe0eccc29726889c52c0e"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/kimi-cloud.drawio",
+      "bytes": 167230,
+      "sha256": "a650070db3ede8f5a570d979e2a53840a74c73bf32c7dcd07589eb38b172b460"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/kimi-cloud.svg",
+      "bytes": 45496,
+      "sha256": "cc9a378182ec8ba7145e4c8a52d3ad20ccb29bd2e8505f05960b91cde5d4c58e"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/kimi-historical-storage-boundaries.drawio",
+      "bytes": 42349,
+      "sha256": "11aa9c4d6f13c72e0380ac6276a5d786703cea1264c4e8e5dfb82dca0fb0fa09"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/kimi-historical-storage-boundaries.svg",
+      "bytes": 21956,
+      "sha256": "6ac721c67d48908ccf0e11c93ca8cb9ede5f39ec6a4930a038bfeacc97e38fd6"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/manus-cloud.drawio",
+      "bytes": 99266,
+      "sha256": "e5282328e1e39d3a6b5530c430da295d0e992c2bc5fc9f50fa51d83a361052c9"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/manus-cloud.svg",
+      "bytes": 39911,
+      "sha256": "abc327dc9699f341e07529280309a26f31ddd87dd5aa9c688551fd9d9e29594f"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/meta-muse.drawio",
+      "bytes": 50878,
+      "sha256": "efc1f84d1102b1cfa4337068b7fe479c5e77b2e734b05f30e646559509714824"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/meta-muse.svg",
+      "bytes": 20001,
+      "sha256": "d9548f2888215f989bba33a09f4a7f77a5fa15127813be0df45a2471685fd6d3"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/muse-native-namespace.drawio",
+      "bytes": 35378,
+      "sha256": "75a1e3499062f97bb71c73718664114d2bc6bc516663909987252845e7d2d058"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/muse-native-namespace.svg",
+      "bytes": 17007,
+      "sha256": "8f48b7669ad1a3fd1427f0bdeb0d3a74011f3f4126d2ea62b928259a848b333e"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/muse-snapshot-runtime.drawio",
+      "bytes": 31953,
+      "sha256": "a6724ac981670597c85e9127dcdcc63ee2258466ede03f74e060baea66ab89ea"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/muse-snapshot-runtime.svg",
+      "bytes": 17229,
+      "sha256": "1228035d63106875521eda46dd7630fbc626974612e9f280e83a82d705f5bbb2"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/openai-dots.drawio",
+      "bytes": 57899,
+      "sha256": "80bac918b3800624fbeb9e213a5c51f2cd97270bda0153f0368a7cd8b0a79d07"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/openai-dots.svg",
+      "bytes": 20568,
+      "sha256": "df805254bcc74302958ba0e70559518d8f6d3ad4139868841a5d975d25c2a3a0"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/qianwen-consumer.drawio",
+      "bytes": 77898,
+      "sha256": "381dc49f6ccfe05d689c13ce3761fea52a7a61cb339cd10f817e159fe8ab02c8"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/qianwen-consumer.svg",
+      "bytes": 31316,
+      "sha256": "8467fcb064375456ce993ca1c4e6e31b6666eb2875d613131f573aef353bcfa0"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/workbuddy-cloud.drawio",
+      "bytes": 67053,
+      "sha256": "b0475cba5df35af2b655ca11b0cc017cfb9c42c6e6fe4fc0b73ebd94595ea62e"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/components/workbuddy-cloud.svg",
+      "bytes": 25043,
+      "sha256": "fa667fa8dc7fb2ee75c9e4a272dc4128c47831594be32d6448483efee256a802"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/evidence-summary.json",
+      "bytes": 3753,
+      "sha256": "587463c0454aa14473609a26e44274f960a8452a6e965f33a2174e1d3687bdba"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/execution-models-mobile.drawio",
+      "bytes": 6642,
+      "sha256": "26413227847e3b76383946fed35b30e8992f81acbabebc9311d2088846556fbf"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/execution-models-mobile.png",
+      "bytes": 193921,
+      "sha256": "113245ab7cbdf2286e729d37219e1082dca24e54e42b38fc1d2b2e7ed7038e99"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/execution-models-mobile.svg",
+      "bytes": 6632,
+      "sha256": "2d8f0f2bb1d0a3b60f29400a125a4b91f63e5db1969970d54dd1289077b7ea21"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/execution-models.drawio",
+      "bytes": 7049,
+      "sha256": "e11afb73ae8c37d9b3ba7a5da461de8226971733b5d369b4b574ea71321a9349"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/execution-models.png",
+      "bytes": 211871,
+      "sha256": "49f27be05be89cbc9f2f61230a4b86b28ef4f970fc69b42e6c8ec26395e58b23"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/execution-models.svg",
+      "bytes": 6993,
+      "sha256": "30a4670686741e333a34d647427c6f5ea1211f0d9e4384fdf42349ac21d1d74a"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/agentenv-binding-snapshot-boundaries.drawio",
+      "bytes": 62314,
+      "sha256": "6d8060c2eef834f0b5b49529e6dd988c4d1cacef05393af53a392efdcd234104"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/agentenv-binding-snapshot-boundaries.svg",
+      "bytes": 25629,
+      "sha256": "5dc6a7a4e9099bba40d2ed82ed022da426bb431b8cdb8c974d61163fdb562835"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/agentrun-abort-recreate-boundaries.drawio",
+      "bytes": 63771,
+      "sha256": "ab1535e7457762d495e69bf6e9f31d8cf5bccc79d7eddd2bfccde8aadacdcc08"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/agentrun-abort-recreate-boundaries.svg",
+      "bytes": 26149,
+      "sha256": "054213cbc8bd861b28073940116e709426b08dc73fdedd1b6723c4562774052d"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/agentrun-client-auth-readiness.drawio",
+      "bytes": 59643,
+      "sha256": "8451c6514f1cae9a9ce99f37f33ca04ca506e6a7f1c409d837221934a60bb0bd"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/agentrun-client-auth-readiness.svg",
+      "bytes": 26173,
+      "sha256": "42b764984e03026f53c637e0397c3dfff3f3e306f956451e82de689b4a4eac6b"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/all-graphs.drawio",
+      "bytes": 1177272,
+      "sha256": "f1c43a5ab9da3a3a78b9089c4257f9803b5cdfdbce867c47cb72f05e2a8f4d88"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/claude-self-hosted-release.drawio",
+      "bytes": 72037,
+      "sha256": "52de80a1fe1e0a162d0e436d90bbcb0ebd20ef0dfac5337f835fc7dce969adcd"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/claude-self-hosted-release.svg",
+      "bytes": 25723,
+      "sha256": "0a7970637c235255ff1dbd236656fac37e195e862ee9e1198cd02c7bff08d9bf"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/codebuddy-cancel-boundaries.drawio",
+      "bytes": 31559,
+      "sha256": "e4aeb01539d75130aaa3b1e1e60dfa0336c5de9577b2c1729f62ac7a8e3c3fe6"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/codebuddy-cancel-boundaries.svg",
+      "bytes": 20097,
+      "sha256": "b94a72cc613ea8b2faf89613962ab04ed72058ce2bc87c9160c6baa25319b250"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/codebuddy-serving-settlement-boundaries.drawio",
+      "bytes": 69879,
+      "sha256": "58c981bf4d8f773a297e1d5190a94f849b4ca7b743f28f6124962c9a92724654"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/codebuddy-serving-settlement-boundaries.svg",
+      "bytes": 30649,
+      "sha256": "daaa14f757a060ef7d4e2c5658a3bd6b77c2b87c3d2f5ca097ab77a59ead6c9f"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/codex-client-interruption.drawio",
+      "bytes": 61361,
+      "sha256": "f4716d7caafe127aec70a97f1d015f4b8cf23d30c574e57a252eaaea998ae41e"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/codex-client-interruption.svg",
+      "bytes": 20682,
+      "sha256": "8a9e0e37bd7c2236b9f9838ee15ebb409cfddfa532d9777a4e51de97bbccf0f6"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/codex-exec-server-session-process-lifecycle.drawio",
+      "bytes": 52423,
+      "sha256": "ac15d4fad92d1e0096d2e2be2649422ca129e73b3f9d41e0d43567372da1c37d"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/codex-exec-server-session-process-lifecycle.svg",
+      "bytes": 24304,
+      "sha256": "ef2e136ecb6d3a8a73fc9b5507ff76169f146603c72bd4995e8662006c13447c"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/decoupled-recovery.drawio",
+      "bytes": 36802,
+      "sha256": "cd381e4862ac1a5774c71b0cbfd2620e8bcb603eb68fce3b053cf5b65129c25c"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/decoupled-recovery.svg",
+      "bytes": 14116,
+      "sha256": "7cfbbb7b22a293b4d82fb3d18b53cfe7ff863fc74d84c40e073baf6fbbc348cb"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/deepseek-dsec-preemption.drawio",
+      "bytes": 66058,
+      "sha256": "90185d721abb5a185e2c9095fb824bd3f3c07dfb29e9634bd7efe37013e23e40"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/deepseek-dsec-preemption.svg",
+      "bytes": 22508,
+      "sha256": "7c0f366f56504ecaa725a299af41c6832ee400b41c0b6582f57ee21997da9f95"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/deepseek-dsh-checkpoint.drawio",
+      "bytes": 35469,
+      "sha256": "4f8aefcbecf7db58738f76bc0fb1478f203528bbc23845e131ede2dc35d082dc"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/deepseek-dsh-checkpoint.svg",
+      "bytes": 18672,
+      "sha256": "9f8c6efb1dce49f17490a949d1d3c70b831c5ebd95c6151955bfe0e858afd355"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/dots-client-confirmation.drawio",
+      "bytes": 115210,
+      "sha256": "6d3afc249175bd63acc5cfdf04d9d456611d4312703cb0abc71ad23a30e1f608"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/dots-client-confirmation.svg",
+      "bytes": 29212,
+      "sha256": "2a8f4726f221789188610eccde9b323beadfb2c622511524c773a6a64f402e50"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/grok-client-control-results.drawio",
+      "bytes": 38750,
+      "sha256": "0027c0db013cc3e1f1fe066948608531b8b923d9995e983e00b5bbd4c2ae8779"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/grok-client-control-results.svg",
+      "bytes": 14951,
+      "sha256": "3094918ba391cd16f83e3dc9034e662559be3c418b15ed0b09d7294ef086c071"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/kimi-app-preview-boundaries.drawio",
+      "bytes": 37666,
+      "sha256": "8f7e6ebc24f4c047d410a5a720e5a394371fb3f236ec50bb1b0a73bf87b628c7"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/kimi-app-preview-boundaries.svg",
+      "bytes": 19278,
+      "sha256": "87964a2701cc62ebb89553e4cd6e3cc18216024bc954e36926b45f080916019a"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/kimi-claw-operation-ticket-boundaries.drawio",
+      "bytes": 67859,
+      "sha256": "514a39b7645660f3a97a7e18442553b7255c5aa5175dd3bfe66a4f0112ecdedd"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/kimi-claw-operation-ticket-boundaries.svg",
+      "bytes": 23185,
+      "sha256": "ca1f6cc8fd62f3879d941dbd97cc8f4096e317293156baad02273e1c547b510e"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/kimi-client-stream-handoff.drawio",
+      "bytes": 42197,
+      "sha256": "6d008181b46e4cf0471b9a9b0baf96b189b774f686ef16d516287a75254f705c"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/kimi-client-stream-handoff.svg",
+      "bytes": 20049,
+      "sha256": "bfa5b4b88c79c65a1bcd2a8a29809875869fc64d954451decd6cfc55c36912d2"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/manus-client-rejoin.drawio",
+      "bytes": 46258,
+      "sha256": "cfb98c368da3f12652cdd69ee76bcd3d68bfdc330003ceee3ac137a254629375"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/manus-client-rejoin.svg",
+      "bytes": 20477,
+      "sha256": "b5a57e531ae6ab24ed5266c80e6bfc05e2066e6a26b005cd95662c9b54993b25"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/muse-workflow-helper.drawio",
+      "bytes": 41838,
+      "sha256": "c00a0fc44a3a1b333efba287b110d44b8b90caf5c328ac54f7137a07d4030e62"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/muse-workflow-helper.svg",
+      "bytes": 17173,
+      "sha256": "88241babc73117b6384449c435e03e62c4cec4767483e73509ff1f138101fdfd"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/persistent-computer-boundaries.drawio",
+      "bytes": 25793,
+      "sha256": "1b0c3b1b031cd3fdea3cee8e195d5d2c8a9f28c0b8b06327f1370784f027f549"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/persistent-computer-boundaries.svg",
+      "bytes": 14643,
+      "sha256": "75467d83620fe120e16054dd209eddaa146f75af72e4edffcb456634aabc47a1"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/qianwen-client-cancel-rollback.drawio",
+      "bytes": 35224,
+      "sha256": "10bb39797c46c49653f9b3eb377f2953bdcb950357ede61017335696df06e900"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/qianwen-client-cancel-rollback.svg",
+      "bytes": 15331,
+      "sha256": "f02af5c514fda234b76e66d82f2b3aa9c5b91650b86d855f388b5c9d24c4b58b"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/qianwen-client-notification.drawio",
+      "bytes": 40710,
+      "sha256": "20d57d9a7925cfc683c6e27a31f6d7428e1e47b66ecac3521df1183920c439e5"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/qianwen-client-notification.svg",
+      "bytes": 21165,
+      "sha256": "c3945f1fd0a266f1d35bbb1683d6d6a880cbed2e377690c8e0a5a4c58150babc"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/runtime-session-lifecycle.drawio",
+      "bytes": 34109,
+      "sha256": "8f780a69653c6f87fb046ea30b9e0baf7bbaa1fdcdc64355b2124d7adea99399"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/runtime-session-lifecycle.svg",
+      "bytes": 15878,
+      "sha256": "48b002bcde3911295bd6756c90bec7ccb7654dbe0b7450aaf989225c17677e5a"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/session-workspace-lifecycle.drawio",
+      "bytes": 43840,
+      "sha256": "c81f6c569749c05542528ab9bebe750101e758b4ca721e8da2e46f48a93f2ce6"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/lifecycles/session-workspace-lifecycle.svg",
+      "bytes": 16514,
+      "sha256": "b7b3b91bbf3b79d020724962b1ddf2d15579ce35341e8aae721d303ec01d2780"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/persistent-computers-mobile.drawio",
+      "bytes": 6604,
+      "sha256": "480fe1bbea29330a63b68cb734b19b4fa849537a7d999c477a3b83cf7efdf2eb"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/persistent-computers-mobile.png",
+      "bytes": 244727,
+      "sha256": "52912137419c9608662d6a86bdb8c92461add202dea749bdb299b98eb746cbc9"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/persistent-computers-mobile.svg",
+      "bytes": 6960,
+      "sha256": "034d07afb14c55dc5e94c6d8f89f0f26ed83c45da709c2e8fb01b5a543989548"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/persistent-computers.drawio",
+      "bytes": 6246,
+      "sha256": "3d7e2cbe9bbd1979508ea0a76c1c52c44f69cd964e3674878462b7d184aae74b"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/persistent-computers.png",
+      "bytes": 223087,
+      "sha256": "42fafa2f312008ad66b3ed2fc4d06a56b764ba2e7f1464b2d5a23af114284e0d"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/persistent-computers.svg",
+      "bytes": 6650,
+      "sha256": "bf0180bd5c0e8fcae313c7f8bf0385488e03f5a5e1f53dd71da01d14190e0a40"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/work-model-mobile.drawio",
+      "bytes": 6433,
+      "sha256": "e940a766dbf79a68700b8f2bc08af667901aa58051e8609af6dc5027f3375b10"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/work-model-mobile.png",
+      "bytes": 183330,
+      "sha256": "7129ee9227279b2c7a088c302e85e4d5f5bc1d67f99a1fba9a6b9ddc92943367"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/work-model-mobile.svg",
+      "bytes": 6768,
+      "sha256": "8cdc87c79e7236c64eaaf34b0465e04f8cec4f9cd7c0859dfa682e7f54c2d52f"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/work-model.drawio",
+      "bytes": 6254,
+      "sha256": "bd371ce2a4edc5c22a654bbdb9b35e4ddb6310f8bdc434ed207df9041587fd2e"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/work-model.png",
+      "bytes": 194557,
+      "sha256": "bca3e236b630fffcca922b4ef6ac9f3d6bff91e3937c5fcc772f94025d03cac0"
+    },
+    {
+      "path": "assets/cloud-agents-2026-10/work-model.svg",
+      "bytes": 6658,
+      "sha256": "5eadd7c46b04b033162b84d02c695e2f49d4cf8013651408cce377c0d42932b8"
+    }
+  ]
+}
